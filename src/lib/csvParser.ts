@@ -52,7 +52,15 @@ function parseCSVLine(line: string): string[] {
 
 export async function parseCSV<T>(filePath: string): Promise<T[]> {
   try {
-    const response = await fetch(filePath);
+    // Add timestamp to force fresh fetch and bypass cache
+    const cacheBuster = `?t=${Date.now()}`;
+    const response = await fetch(filePath + cacheBuster, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache'
+      }
+    });
     const buffer = await response.arrayBuffer();
     const decoder = new TextDecoder('windows-1252');
     const text = decoder.decode(buffer);
