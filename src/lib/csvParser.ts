@@ -58,7 +58,15 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
     
     if (lines.length === 0) return [];
     
-    const headers = parseCSVLine(lines[0]).map(h => h.trim());
+    // Parse headers and normalize them
+    const rawHeaders = parseCSVLine(lines[0]).map(h => h.trim());
+    const headers = rawHeaders.map(h => {
+      // Normalize common CSV header variations
+      if (h.includes('Opportunit')) return 'Opportunité';
+      if (h.includes('opportunit')) return "Description de l'opportunité";
+      return h;
+    });
+    
     const data: T[] = [];
     
     for (let i = 1; i < lines.length; i++) {
@@ -66,7 +74,7 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
       const obj: any = {};
       
       headers.forEach((header, index) => {
-        obj[header] = values[index] || '';
+        obj[header] = values[index] ? values[index].trim() : '';
       });
       
       data.push(obj as T);
