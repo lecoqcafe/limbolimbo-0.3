@@ -21,6 +21,28 @@ export interface OpportunityCategory {
   cat_ID: string;
 }
 
+function parseCSVLine(line: string): string[] {
+  const result: string[] = [];
+  let current = '';
+  let inQuotes = false;
+  
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    
+    if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === ',' && !inQuotes) {
+      result.push(current.trim());
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+  
+  result.push(current.trim());
+  return result;
+}
+
 export async function parseCSV<T>(filePath: string): Promise<T[]> {
   try {
     const response = await fetch(filePath);
@@ -29,11 +51,11 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
     
     if (lines.length === 0) return [];
     
-    const headers = lines[0].split(',').map(h => h.trim());
+    const headers = parseCSVLine(lines[0]).map(h => h.trim());
     const data: T[] = [];
     
     for (let i = 1; i < lines.length; i++) {
-      const values = lines[i].split(',').map(v => v.trim());
+      const values = parseCSVLine(lines[i]);
       const obj: any = {};
       
       headers.forEach((header, index) => {
