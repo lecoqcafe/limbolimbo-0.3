@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { OpportunityCard } from "@/components/OpportunityCard";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import { ArrowLeft } from "lucide-react";
 
 const Opportunites = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const categoryId = searchParams.get("cat") || "";
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [category, setCategory] = useState<Category | null>(null);
@@ -30,7 +31,7 @@ const Opportunites = () => {
       
       if (categoryId) {
         const filteredOpps = getOpportunitiesByCategory(opps, oppCats, categoryId);
-        setOpportunities(filteredOpps);
+        setOpportunities(filteredOpps.slice(0, 10)); // Max 10 opportunités
       }
     };
     fetchData();
@@ -60,9 +61,13 @@ const Opportunites = () => {
           </div>
 
           {opportunities.length > 0 ? (
-            <div className="grid gap-6">
+            <div className="space-y-3">
               {opportunities.map((opportunity) => (
-                <OpportunityCard key={opportunity.opp_ID} opportunity={opportunity} />
+                <OpportunityCard 
+                  key={opportunity.opp_ID} 
+                  opportunity={opportunity}
+                  onClick={() => navigate(`/opportunite?id=${opportunity.opp_ID}`)}
+                />
               ))}
             </div>
           ) : (

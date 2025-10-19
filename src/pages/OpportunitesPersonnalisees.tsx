@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { OpportunityCard } from "@/components/OpportunityCard";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { ArrowLeft, Sparkles } from "lucide-react";
 
 const OpportunitesPersonnalisees = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const searchTerm = searchParams.get("q") || "";
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [filteredOpportunities, setFilteredOpportunities] = useState<Opportunity[]>([]);
@@ -19,7 +20,7 @@ const OpportunitesPersonnalisees = () => {
       
       if (searchTerm) {
         const filtered = searchOpportunities(opps, searchTerm);
-        setFilteredOpportunities(filtered.slice(0, 3)); // Max 3 opportunités
+        setFilteredOpportunities(filtered.slice(0, 10)); // Max 10 opportunités
       }
     };
     fetchData();
@@ -50,9 +51,13 @@ const OpportunitesPersonnalisees = () => {
           </div>
 
           {filteredOpportunities.length > 0 ? (
-            <div className="grid gap-6">
+            <div className="space-y-3">
               {filteredOpportunities.map((opportunity) => (
-                <OpportunityCard key={opportunity.opp_ID} opportunity={opportunity} />
+                <OpportunityCard 
+                  key={opportunity.opp_ID} 
+                  opportunity={opportunity}
+                  onClick={() => navigate(`/opportunite?id=${opportunity.opp_ID}`)}
+                />
               ))}
             </div>
           ) : (
