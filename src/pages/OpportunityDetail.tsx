@@ -53,15 +53,35 @@ const OpportunityDetail = () => {
           </div>
 
           <Card className="bg-gradient-card shadow-card p-8 border-border/50">
-            <div className="space-y-6">
+            <div className="space-y-8">
+              {opportunity.Image && (
+                <div className="w-full aspect-video rounded-lg overflow-hidden bg-muted">
+                  <img 
+                    src={opportunity.Image} 
+                    alt={opportunity.Opportunité}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+
               <div>
-                <h2 className="text-xl font-semibold text-foreground mb-3">
+                <h2 className="text-2xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <span className="text-primary">📋</span>
                   Description
                 </h2>
-                <p className="text-muted-foreground leading-relaxed text-lg">
-                  {opportunity["Description de l'opportunité"]}
+                <p className="text-muted-foreground leading-relaxed text-lg whitespace-pre-wrap">
+                  {opportunity["Description de l'opportunité"] || "Description non disponible"}
                 </p>
               </div>
+
+              {opportunity.opp_ID && (
+                <div className="text-sm text-muted-foreground border-t border-border/50 pt-4">
+                  <span className="font-mono">ID: {opportunity.opp_ID}</span>
+                </div>
+              )}
 
               <div className="pt-4">
                 <Button 
@@ -70,7 +90,7 @@ const OpportunityDetail = () => {
                   className="w-full bg-gradient-primary hover:opacity-90 transition-opacity text-lg py-6"
                 >
                   <a 
-                    href={opportunity["Lien d'affiliation"]} 
+                    href={opportunity["Lien d'affiliation"] || "#"} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2"
