@@ -12,17 +12,17 @@ export const OpportunityCard = ({ opportunity }: OpportunityCardProps) => {
     <Card className="bg-gradient-card shadow-card hover:shadow-hover transition-all duration-300 p-6 border-border/50">
       <div className="space-y-4">
         <h3 className="text-xl font-semibold text-foreground">
-          {opportunity.opportunite}
+          {opportunity.Opportunité}
         </h3>
         <p className="text-muted-foreground leading-relaxed">
-          {opportunity.description}
+          {opportunity["Description de l'opportunité"]}
         </p>
         <Button 
           asChild
           className="w-full bg-gradient-primary hover:opacity-90 transition-opacity"
         >
           <a 
-            href={opportunity.lien} 
+            href={opportunity["Lien d'affiliation"]} 
             target="_blank" 
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2"

@@ -16,10 +16,10 @@ export const CategoryCard = ({ category, onClick }: CategoryCardProps) => {
       <div className="flex items-center justify-between">
         <div className="space-y-2">
           <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-            {category.categorie}
+            {category.Catégorie}
           </h3>
           <p className="text-sm text-muted-foreground">
-            {category.description}
+            {category['Description de la catégorie']}
           </p>
         </div>
         <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />

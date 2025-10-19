@@ -49,11 +49,11 @@ const Opportunites = () => {
             </Link>
             <div>
               <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                {category?.categorie || "Opportunités"}
+                {category?.Catégorie || "Opportunités"}
               </h2>
-              {category?.description && (
+              {category?.['Description de la catégorie'] && (
                 <p className="text-muted-foreground mt-1">
-                  {category.description}
+                  {category['Description de la catégorie']}
                 </p>
               )}
             </div>

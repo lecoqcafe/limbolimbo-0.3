@@ -1,23 +1,23 @@
 export interface Opportunity {
   opp_ID: string;
-  opportunite: string;
-  image: string;
-  description: string;
-  lien: string;
+  Opportunité: string;
+  Image: string;
+  "Description de l'opportunité": string;
+  "Lien d'affiliation": string;
 }
 
 export interface Category {
   cat_ID: string;
-  categorie: string;
-  icone: string;
-  description: string;
+  Catégorie: string;
+  Icone: string;
+  'Description de la catégorie': string;
 }
 
 export interface OpportunityCategory {
   opp_cat_ID: string;
-  opportunites: string;
+  Opportunités: string;
   opp_ID: string;
-  categorie: string;
+  Catégorie: string;
   cat_ID: string;
 }
 
@@ -80,7 +80,7 @@ export function searchOpportunities(
 ): Opportunity[] {
   const term = searchTerm.toLowerCase();
   return opportunities.filter(opp => 
-    opp.opportunite.toLowerCase().includes(term) ||
-    opp.description.toLowerCase().includes(term)
+    opp.Opportunité.toLowerCase().includes(term) ||
+    opp["Description de l'opportunité"].toLowerCase().includes(term)
   );
 }
