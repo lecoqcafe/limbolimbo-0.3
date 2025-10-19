@@ -54,7 +54,7 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
   try {
     const response = await fetch(filePath);
     const buffer = await response.arrayBuffer();
-    const decoder = new TextDecoder('utf-8');
+    const decoder = new TextDecoder('windows-1252');
     const text = decoder.decode(buffer);
     const lines = text.split('\n').filter(line => line.trim());
     
