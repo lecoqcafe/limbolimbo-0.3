@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       const cats = await loadCategories();
-      console.log('Categories loaded:', cats);
+      console.log("Categories loaded:", cats);
       setCategories(cats);
     };
     fetchData();
@@ -35,8 +35,11 @@ const Home = () => {
           </p>
         </div>
 
-        {/* Densité au milieu des deux captures: 2 → 3 → 4 colonnes, gaps légèrement augmentés */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 max-w-7xl mx-auto">
+        {/* 5.5.b — Densité plus visible sur mobile: 2 → 3 (md) → 4 (lg) */}
+        <div
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 max-w-7xl mx-auto"
+          data-grid-version="v0.2.101-5.5b"
+        >
           {categories.map((category) => (
             <CategoryCard
               key={category.cat_ID}
