@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { CategoryCard } from "@/components/CategoryCard";
 import { loadCategories, type Category } from "@/lib/csvParser";
-import { Sparkles } from "lucide-react";
+import PiggyLogo from "@/assets/Piggy.png";
 
 const Home = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -27,7 +27,7 @@ const Home = () => {
       <main className="container mx-auto px-2 sm:px-4 py-8 sm:py-12">
         <div className="text-center mb-8 sm:mb-12 space-y-3 sm:space-y-4">
           <div className="flex items-center justify-center gap-2">
-            <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-primary animate-pulse" />
+            <img src={PiggyLogo} alt="Logo" className="h-6 w-6 sm:h-8 sm:w-8" />
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">
               Découvrez vos opportunités
             </h2>
