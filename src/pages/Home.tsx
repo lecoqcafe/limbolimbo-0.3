@@ -11,6 +11,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       const cats = await loadCategories();
+      console.log('Categories loaded:', cats);
       setCategories(cats);
     };
     fetchData();
