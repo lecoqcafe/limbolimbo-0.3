@@ -1,26 +1,36 @@
-opp_cat_ID,OpportunitÃ©s,opp_ID,CatÃ©gorie,cat_ID
-10115,EarnApp,101,Internet,15
+opp_cat_ID,Opportunités,opp_ID,Catégorie,cat_ID
+10115,EarnApp,101,Partage,15
 10111,EarnApp,101,Jeux,11
 10112,EarnApp,101,Sondages,12
-10215,Traff Monetizer,102,Internet,15
-10315,HoneyGain,103,Internet,15
-10415,PawnsApp,104,Internet,15
+10215,Traff Monetizer,102,Partage,15
+10315,HoneyGain,103,Partage,15
+10415,PawnsApp,104,Partage,15
 10411,PawnsApp,104,Jeux,11
 10412,PawnsApp,104,Sondages,12
-10515,Grass,105,Internet,15
-10614,CoinApp,106,DÃ©placements,14
+10515,Grass,105,Partage,15
+10614,CoinApp,106,Déplacements,14
 10611,CoinApp,106,Jeux,11
 10612,CoinApp,106,Sondages,12
-10714,WinWalk,107,DÃ©placements,14
+10714,WinWalk,107,Déplacements,14
 10811,Tip Nano,108,Jeux,11
 10911,LTC Giveaway,109,Jeux,11
 11011,BCH Giveaway,110,Jeux,11
-11116,Receipt Hog,111,RÃ©compenses,16
-11216,Receipt Jar,112,RÃ©compenses,16
-11316,Rakuten,113,RÃ©compenses,16
-11416,Caddle,114,RÃ©compenses,16
-11516,CheckOut 51,115,RÃ©compenses,16
-11616,TopCashBack,116,RÃ©compenses,16
-11716,Coin Miles,117,RÃ©compenses,16
-11816,Dosh,118,RÃ©compenses,16
-11916,KOHO,119,RÃ©compenses,16
+11116,Receipt Hog,111,Récompenses,16
+11216,Receipt Jar,112,Récompenses,16
+11316,Rakuten,113,Récompenses,16
+11416,Caddle,114,Récompenses,16
+11516,CheckOut 51,115,Récompenses,16
+11616,TopCashBack,116,Récompenses,16
+11716,Coin Miles,117,Récompenses,16
+11811,SwagBucks,118,Jeux,11
+11812,SwagBucks,118,Sondages,12
+11813,SwagBucks,118,Tâches,13
+11911,FreeCash,119,Jeux,11
+11912,FreeCash,119,Sondages,12
+11913,FreeCash,119,Tâches,13
+12011,Cointiply,120,Jeux,11
+12012,Cointiply,120,Sondages,12
+12013,Cointiply,120,Tâches,13
+12113,Prolific,121,Tâches,13
+12213,Pine Cone,122,Tâches,13
+12313,Click Worker,123,Tâches,13
