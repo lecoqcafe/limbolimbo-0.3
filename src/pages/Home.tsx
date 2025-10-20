@@ -24,6 +24,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       <Header />
+
       <main className="container mx-auto px-2 sm:px-4 py-8 sm:py-12">
         <div className="text-center mb-8 sm:mb-12 space-y-3 sm:space-y-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">
@@ -34,7 +35,8 @@ const Home = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 max-w-7xl mx-auto">
+        {/* Densité au milieu des deux captures: 2 → 3 → 4 colonnes, gaps légèrement augmentés */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 max-w-7xl mx-auto">
           {categories.map((category) => (
             <CategoryCard
               key={category.cat_ID}
