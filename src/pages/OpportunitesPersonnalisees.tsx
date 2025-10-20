@@ -3,7 +3,7 @@ import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { OpportunityCard } from "@/components/OpportunityCard";
 import { Button } from "@/components/ui/button";
-import { loadOpportunities, searchOpportunities, type Opportunity } from "@/lib/csvParser";
+import { loadOpportunities, loadCategories, loadOpportunityCategories, searchOpportunities, type Opportunity, type Category } from "@/lib/csvParser";
 import { ArrowLeft, Sparkles } from "lucide-react";
 
 const OpportunitesPersonnalisees = () => {
@@ -12,11 +12,18 @@ const OpportunitesPersonnalisees = () => {
   const searchTerm = searchParams.get("q") || "";
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [filteredOpportunities, setFilteredOpportunities] = useState<Opportunity[]>([]);
+  const [oppCats, setOppCats] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const opps = await loadOpportunities();
+      const cats = await loadCategories();
+      const oppCatsData = await loadOpportunityCategories();
+      
       setOpportunities(opps);
+      setCategories(cats);
+      setOppCats(oppCatsData);
       
       if (searchTerm) {
         const filtered = searchOpportunities(opps, searchTerm);
@@ -25,6 +32,15 @@ const OpportunitesPersonnalisees = () => {
     };
     fetchData();
   }, [searchTerm]);
+
+  const getCategoryIconForOpportunity = (oppId: string): string | undefined => {
+    const oppCat = oppCats.find(oc => oc.opp_ID === oppId);
+    if (oppCat) {
+      const cat = categories.find(c => c.cat_ID === oppCat.cat_ID);
+      return cat?.Icone;
+    }
+    return undefined;
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -51,11 +67,12 @@ const OpportunitesPersonnalisees = () => {
           </div>
 
           {filteredOpportunities.length > 0 ? (
-            <div className="space-y-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
               {filteredOpportunities.map((opportunity) => (
                 <OpportunityCard 
                   key={opportunity.opp_ID} 
                   opportunity={opportunity}
+                  categoryIcon={getCategoryIconForOpportunity(opportunity.opp_ID)}
                   onClick={() => navigate(`/opportunite?id=${opportunity.opp_ID}`)}
                 />
               ))}

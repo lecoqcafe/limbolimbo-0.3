@@ -19,23 +19,37 @@ const Opportunites = () => {
   const categoryId = searchParams.get("cat") || "";
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [category, setCategory] = useState<Category | null>(null);
+  const [oppCats, setOppCats] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const opps = await loadOpportunities();
       const cats = await loadCategories();
-      const oppCats = await loadOpportunityCategories();
+      const oppCatsData = await loadOpportunityCategories();
+      
+      setCategories(cats);
+      setOppCats(oppCatsData);
       
       const currentCategory = cats.find(c => c.cat_ID === categoryId);
       setCategory(currentCategory || null);
       
       if (categoryId) {
-        const filteredOpps = getOpportunitiesByCategory(opps, oppCats, categoryId);
+        const filteredOpps = getOpportunitiesByCategory(opps, oppCatsData, categoryId);
         setOpportunities(filteredOpps.slice(0, 10)); // Max 10 opportunités
       }
     };
     fetchData();
   }, [categoryId]);
+
+  const getCategoryIconForOpportunity = (oppId: string): string | undefined => {
+    const oppCat = oppCats.find(oc => oc.opp_ID === oppId);
+    if (oppCat) {
+      const cat = categories.find(c => c.cat_ID === oppCat.cat_ID);
+      return cat?.Icone;
+    }
+    return undefined;
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -61,11 +75,12 @@ const Opportunites = () => {
           </div>
 
           {opportunities.length > 0 ? (
-            <div className="space-y-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
               {opportunities.map((opportunity) => (
                 <OpportunityCard 
                   key={opportunity.opp_ID} 
                   opportunity={opportunity}
+                  categoryIcon={getCategoryIconForOpportunity(opportunity.opp_ID)}
                   onClick={() => navigate(`/opportunite?id=${opportunity.opp_ID}`)}
                 />
               ))}
