@@ -1,9 +1,9 @@
 opp_ID,Opportunité,Image,Description de l'opportunité,Lien d'affiliation
 101,EarnApp,,"Plateforme de rémunération passive en partageant sa bande passante. Des offres de jeux et de sondages sont aussi disponibles.",https://earnapp.com/i/7nwzsfXT
 102,Traff Monetizer,,"Application sécurisée permettant de gagner de l'argent en partageant légalement votre trafic internet inutilisé. Il suffit de la télécharger, la sécurité étant leur priorité principale.",https://traffmonetizer.com/?aff=1584636
-103,HoneyGain,,"Première application permettant de gagner de l'argent en partageant votre connexion internet inutilisée. Il suffit de la télécharger sur votre appareil et elle fonctionne silencieusement en arrière-plan pendant que vous gagnez de l'argent.",
-104,PawnsApp,,"Application de partage de bande passante internet pour gagner de l'argent. Compatible avec ordinateurs et mobiles. Paiements rapides et sécurisés via PayPal.",
-105,Grass,,"Application offrant des récompenses passives, avec un tableau de bord permettant de suivre facilement vos gains, votre temps de connexion et vos parrainages.",
+103,HoneyGain,,"Première application permettant de gagner de l'argent en partageant votre connexion internet inutilisée. Il suffit de la télécharger sur votre appareil et elle fonctionne silencieusement en arrière-plan pendant que vous gagnez de l'argent.",https://join.honeygain.com/XRSCR5890E
+104,PawnsApp,,"Application de partage de bande passante internet pour gagner de l'argent. Compatible avec ordinateurs et mobiles. Paiements rapides et sécurisés via PayPal.",https://pawns.app/?r=1808419
+105,Grass,,"Application offrant des récompenses passives, avec un tableau de bord permettant de suivre facilement vos gains, votre temps de connexion et vos parrainages.",https://app.grass.io/register?referralCode=uec2tGDHKOFPs4A
 106,CoinApp,,"Application mobile pour gagner des cryptomonnaies simplement en se déplaçant. Utilise la géolocalisation pour récompenser vos déplacements physiques et explorer la ville.",
 107,WinWalk,,"Application de podomètre récompensant la marche. Convertis vos pas en points échangeables contre des cadeaux ou de l'argent. Idéal pour les piétons et joggers.",
 108,Tip Nano,,"Plateforme de cryptomonnaie permettant de récupérer gratuitement des nano. Les utilisateurs peuvent réclamer de petites quantités de nano via des captcha.",
@@ -11,14 +11,15 @@ opp_ID,Opportunité,Image,Description de l'opportunité,Lien d'affiliation
 110,BCH Giveaway,,"Plateforme distribuant gratuitement de petites quantités de Bitcoin Cash. Nécessite juste une adresse BCH valide pour participer aux distributions.",
 111,Receipt Hog,,"Application récompensant les utilisateurs pour la numérisation de tickets de caisse. Les reçus sont convertis en points échangeables contre de l'argent ou des cartes-cadeaux.",
 112,Receipt Jar,,"Appli qui paie pour la numérisation des tickets de caisse. Accumulez des points en scannant vos reçus, puis échangez-les contre des récompenses monétaires.",
-113,Rakuten,,"Application d'achats en ligne offrant des remises en argent. Vous cumulez des pourcentages de remise sur vos achats auprès de centaines de marchands partenaires.",
-114,Caddle,,"Application de récompenses pour les achats en magasin. Offre des remises en argent en répondant à des sondages, en scannant des tickets et en regardant des pubs.",
+113,Rakuten,,"Application d'achats en ligne offrant des remises en argent. Vous cumulez des pourcentages de remise sur vos achats auprès de centaines de marchands partenaires.",https://www.rakuten.ca/r/lecoqcafe?src=Link
+114,Caddle,,"Application de récompenses pour les achats en magasin. Offre des remises en argent en répondant à des sondages, en scannant des reçus et en regardant des publicités.",http://ssqt.co/mQHOeQd
 115,CheckOut 51,,"Application de remises sur les achats au détail. Récupérez des remises en argent sur vos courses en soumettant des tickets de caisse éligibles chaque semaine.",
-116,TopCashBack,,"Plateforme de remboursement en cashback sur les achats en ligne. Offre des pourcentages de remise chez des milliers de détaillants partout dans le monde.",
+116,TopCashBack,,"Plateforme de remboursement en cashback sur les achats en ligne. Offre des pourcentages de remise chez des milliers de détaillants partout dans le monde.",https://www.topcashback.com/ref/lecoqcafe
 117,Coin Miles,,"Application transformant vos pas en récompenses. Utilise la géolocalisation pour suivre vos déplacements et les convertir en miles échangeables.",
-118,SwagBucks,,"Plateforme de récompenses pour les activités en ligne. Gagnez des points en regardant des vidéos, répondant à des sondages ou en faisant des achats.",
+118,SwagBucks,,"Plateforme de récompenses pour les activités en ligne. Gagnez des points en regardant des vidéos, répondant à des sondages ou en faisant des achats.",https://www.swagbucks.com/profile/lecoqcafe?rp=1
 119,FreeCash,,"Application mobile pour gagner de l'argent en ligne. Offre des récompenses pour des tâches simples comme tester des apps ou regarder des vidéos.",
-120,Cointiply,,"Plateforme de gain de cryptomonnaie via des activités en ligne. Accumulez des pièces en jouant à des jeux, répondant à des sondages ou en visionnant des pubs.",
-121,Prolific,,"Plateforme de rémunération pour les études universitaires. Recevez de l'argent pour participer à des recherches scientifiques en répondant à des questionnaires.",
+120,Cointiply,,"Plateforme de gain de cryptomonnaie via des activités en ligne. Accumulez des pièces en jouant à des jeux, répondant à des sondages ou en visionnant des publicités.",https://cointiply.com/r/gJkroD
+121,Prolific,,"Plateforme de rémunération intéressante. Recevez de l'argent pour participer à des recherches en répondant à des questionnaires.",
 122,Pine Cone,,"Communauté de consommateurs rémunérés pour tester des produits. Recevez des produits gratuits et des paiements en échange de vos opinions honnêtes.",
 123,Click Worker,,"Plateforme de micro-tâches rémunérées en ligne. Complétez de petits travaux de saisie de données ou de modération de contenu pour gagner de l'argent.",
+124,Recours du pain,,"Site internet où vous pouvez suivre les étapes de l'action collective sur le pain emballé au Québec.",https://www.reglementpainquebec.ca/fr
