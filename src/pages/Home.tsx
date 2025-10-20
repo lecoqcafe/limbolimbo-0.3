@@ -22,22 +22,22 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Header />
-      <main className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12 space-y-4">
+      <main className="container mx-auto px-4 py-8 sm:py-12">
+        <div className="text-center mb-8 sm:mb-12 space-y-3 sm:space-y-4">
           <div className="flex items-center justify-center gap-2">
-            <Sparkles className="h-8 w-8 text-primary animate-pulse" />
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-primary animate-pulse" />
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">
               Découvrez vos opportunités
             </h2>
           </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             Explorez nos catégories et trouvez les meilleures opportunités pour gagner de l'argent
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-7xl mx-auto">
           {categories.map((category) => (
             <CategoryCard
               key={category.cat_ID}
