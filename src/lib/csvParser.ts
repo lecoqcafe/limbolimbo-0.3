@@ -62,7 +62,7 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
       }
     });
     const buffer = await response.arrayBuffer();
-    const decoder = new TextDecoder('windows-1252');
+    const decoder = new TextDecoder('iso-8859-1');
     const text = decoder.decode(buffer);
     const lines = text.split('\n').filter(line => line.trim());
     
