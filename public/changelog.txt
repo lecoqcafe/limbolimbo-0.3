@@ -1,0 +1,52 @@
+# Changelog
+Format: Keep a Changelog. Versioning: SemVer.
+
+## [0.2.101] - 2025-10-20
+
+### Added
+- Page « À propos » (/a-propos) avec icône Lucide Info et contenu validé.
+- Source centrale de version: /version.json (champs: name, version, build).
+- Fallback SPA pour le routage (public/.htaccess) afin d’ouvrir directement les URLs internes.
+
+### Changed
+- index.html: `lang="fr"`, balise canonical et `og:url` vers le domaine de production; images OG/Twitter en URL absolue.
+- Accueil (Home): grille plus lisible — `grid-cols-2 md:grid-cols-3 lg:grid-cols-4` et gaps progressifs.
+- En-tête (Header): ajout du lien « À propos »; accessibilité renforcée (`aria-current`, labels).
+- Parser CSV: préférence UTF‑8 (fatal) + repli CP‑1252, suppression du BOM, normalisation des fins de ligne, anti‑cache au chargement.
+- Données: `public/data/opp_id.csv` — descriptions uniformément entre guillemets, encodage UTF‑8.
+- Styles: `src/App.css` neutralisé (suppression des règles globales) pour laisser Tailwind comme seule source.
+
+### Fixed
+- 404 serveur (LiteSpeed) sur les liens profonds (/a-propos, /opportunite, etc.) — résolu par le fallback SPA.
+- Affichage des accents (é, è, à) stabilisé grâce à l’UTF‑8 et au retrait du BOM.
+- Cohérence des listes: recherche et filtrage par catégories robustes malgré les virgules/guillemets dans les descriptions.
+- Restauration des libellés de catégories (données nettoyées + parsing corrigé).
+
+### Notes
+- Fichiers concernés (principaux): index.html, src/lib/csvParser.ts, public/data/opp_id.csv, src/App.css, src/pages/Home.tsx,
+  src/components/Header.tsx, src/pages/APropos.tsx, public/.htaccess, public/version.json.
+- Vérification rapide: 
+  • /version.json affiche la version et le build, 
+  • /a-propos s’ouvre directement sans 404, 
+  • recherche « cashback / parrainages / nano » renvoie au moins un résultat.
+
+## [0.1.102] - 2025-10-20 (hérité)
+### Fixed
+- Tous les CSV encodés uniformément en UTF‑8 pour l’affichage correct des caractères français.
+- Problèmes d’encodage corrigés dans opp_id.csv et opp_cat.csv.
+- Page NotFound: utilisation des tokens du design system; texte en français.
+
+### Changed
+- Parser CSV simplifié pour n’utiliser que l’UTF‑8.
+- Catégorie « Partage » renommée en « Internet » avec icône Wifi.
+- Icône de « Récompenses » changée pour DollarSign.
+- Uniformisation: texte de l’application entièrement en français.
+
+## [0.1.101] - 2025-10-19 (hérité)
+### Added
+- Système d’anti‑cache pour les CSV: `cache: no-store`, en‑têtes anti‑cache, timestamp de requête.
+
+### Fixed
+- Encodage des caractères français (é, è, à, etc.).
+- Normalisation des en‑têtes CSV pour gérer les variations d’encodage.
+- Problèmes de cache navigateur empêchant les mises à jour CSV d’apparaître immédiatement.
