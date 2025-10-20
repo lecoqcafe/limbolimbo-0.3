@@ -79,7 +79,7 @@ const APropos = () => {
             </section>
 
             <section className="pt-2 space-y-1 text-sm md:text-base">
-              <p className="text-foreground">© 2024–2025 
+              <p className="text-foreground">© 2024–2025  
                 <a
             href="https://lecoq.cafe"
             target="_blank"
