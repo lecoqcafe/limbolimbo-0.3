@@ -18,7 +18,7 @@ const APropos = () => {
         setVersion(json.version);
         setBuild(json.build);
       } catch {
-        // silencieux: la page doit s'afficher même sans version.json
+        // La page doit s'afficher même sans version.json
       }
     };
     loadVersion();
@@ -78,16 +78,21 @@ const APropos = () => {
               </p>
             </section>
 
-            <section className="pt-2 space-y-1 text-sm md:text-base">
-              <p className="text-foreground">© 2024–2025 <a
-            href="https://lecoq.cafe"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline hover:text-primary"
-          > - LeCOQ.Café
-          </a></p>
+            <section className="pt-2 space-y-2 text-sm md:text-base">
+              <p className="text-foreground">© 2024–2025 LeCOQ.Café</p>
               <p className="text-muted-foreground">
                 Version {version ?? "—"}{build ? ` — build ${build}` : ""}
+              </p>
+              {/* Lien vers le journal des versions */}
+              <p>
+                <a
+                  href="/changelog.txt"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  Voir le journal des versions (Changelog)
+                </a>
               </p>
             </section>
           </Card>
