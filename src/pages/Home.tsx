@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { CategoryCard } from "@/components/CategoryCard";
 import { loadCategories, type Category } from "@/lib/csvParser";
-import PiggyLogo from "@/assets/Piggy.png";
 
 const Home = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -26,12 +25,9 @@ const Home = () => {
       <Header />
       <main className="container mx-auto px-2 sm:px-4 py-8 sm:py-12">
         <div className="text-center mb-8 sm:mb-12 space-y-3 sm:space-y-4">
-          <div className="flex items-center justify-center gap-3 sm:gap-4">
-            <img src={PiggyLogo} alt="Logo" className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24" />
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">
-              Découvrez vos opportunités
-            </h2>
-          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">
+            Découvrez vos opportunités
+          </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             Explorez nos catégories et trouvez les meilleures opportunités pour gagner de l'argent
           </p>
