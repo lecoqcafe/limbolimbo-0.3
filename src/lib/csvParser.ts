@@ -62,23 +62,14 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
       }
     });
     const buffer = await response.arrayBuffer();
-    const decoder = new TextDecoder('iso-8859-1');
+    const decoder = new TextDecoder('windows-1252');
     const text = decoder.decode(buffer);
     const lines = text.split('\n').filter(line => line.trim());
     
     if (lines.length === 0) return [];
     
-    // Parse headers and normalize them
-    const rawHeaders = parseCSVLine(lines[0]).map(h => h.trim());
-    const headers = rawHeaders.map(h => {
-      // Normalize common CSV header variations caused by encoding issues
-      if (h.includes('Opportunit') && h.length < 15) return 'Opportunité';
-      if (h.includes('Description') && h.includes('opportunit')) return "Description de l'opportunité";
-      if (h.includes('affiliation')) return "Lien d'affiliation";
-      if (h.includes('cat') && h.includes('gorie') && h.length < 15) return 'Catégorie';
-      if (h.includes('Description') && h.includes('cat')) return 'Description de la catégorie';
-      return h;
-    });
+    // Parse headers - NO normalization, use them as-is from the CSV
+    const headers = parseCSVLine(lines[0]).map(h => h.trim());
     
     const data: T[] = [];
     

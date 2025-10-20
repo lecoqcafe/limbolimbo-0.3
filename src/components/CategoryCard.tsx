@@ -24,7 +24,7 @@ export const CategoryCard = ({ category, onClick }: CategoryCardProps) => {
           <IconComponent className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-primary" />
         </div>
         <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-foreground group-hover:text-primary transition-colors break-words">
-          {category["Catégorie"]}
+          {category.Catégorie}
         </h3>
       </div>
     </Card>
