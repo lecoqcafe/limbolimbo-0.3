@@ -1,6 +1,13 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.2.102] - 2025-10-20
+### Sécurité
+- Mise à jour de l’outil de build: Vite → 7.1.11 afin d’éliminer l’avertissement npm lié à esbuild (GHSA-67mh-4wv8-2f99).
+
+### Changé
+- Chaîne de build uniquement. Aucun changement fonctionnel prévu (React/TypeScript/Tailwind inchangés).
+
 ## [0.2.101] - 2025-10-20
 
 ### Added
