@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card";
-import { ChevronRight } from "lucide-react";
 import type { Opportunity } from "@/lib/csvParser";
 
 interface OpportunityCardProps {
@@ -10,19 +9,23 @@ interface OpportunityCardProps {
 export const OpportunityCard = ({ opportunity, onClick }: OpportunityCardProps) => {
   return (
     <Card 
-      className="bg-gradient-card shadow-card hover:shadow-hover transition-all duration-300 p-4 border-border/50 cursor-pointer group"
+      className="bg-card shadow-card hover:shadow-hover transition-all duration-300 p-4 sm:p-6 cursor-pointer border border-border/30 group overflow-hidden relative"
       onClick={onClick}
     >
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors truncate">
-            {opportunity.Opportunité}
-          </h3>
-          <p className="text-sm text-muted-foreground truncate">
-            {opportunity["Description de l'opportunité"]}
-          </p>
-        </div>
-        <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="relative flex flex-col items-center justify-center gap-3 text-center">
+        {opportunity.Image && (
+          <div className="w-full aspect-square rounded-xl overflow-hidden bg-muted">
+            <img 
+              src={opportunity.Image} 
+              alt={opportunity.Opportunité}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+          </div>
+        )}
+        <h3 className="text-sm sm:text-base font-semibold text-foreground group-hover:text-primary transition-colors">
+          {opportunity.Opportunité}
+        </h3>
       </div>
     </Card>
   );
