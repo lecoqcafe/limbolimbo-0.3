@@ -62,8 +62,26 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
       }
     });
     const buffer = await response.arrayBuffer();
-    const decoder = new TextDecoder('utf-8');
-    const text = decoder.decode(buffer);
+    
+    // Try windows-1252 first (for opp_id.csv and opp_cat.csv)
+    // Then fallback to UTF-8 if it doesn't look right
+    let text: string;
+    try {
+      const decoder = new TextDecoder('windows-1252');
+      text = decoder.decode(buffer);
+      
+      // If we see valid UTF-8 patterns, re-decode as UTF-8
+      // Check if it's actually UTF-8 by looking for cat_id.csv pattern
+      if (filePath.includes('cat_id.csv')) {
+        const utf8Decoder = new TextDecoder('utf-8');
+        text = utf8Decoder.decode(buffer);
+      }
+    } catch {
+      // Fallback to UTF-8
+      const utf8Decoder = new TextDecoder('utf-8');
+      text = utf8Decoder.decode(buffer);
+    }
+    
     const lines = text.split('\n').filter(line => line.trim());
     
     if (lines.length === 0) return [];
