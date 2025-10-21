@@ -1,6 +1,17 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.2.104] - 2025-10-21
+### Changed
+- index.html: meta charset « utf-8 » en tout début du head (unique; casse normalisée).
+- Standard d'encodage: tous les CSV en UTF‑8 sans BOM; fins de ligne normalisées en LF.
+### Fixed
+- Artefacts d'encodage éliminés (Ã©, â€™, Â…) via cohérence UTF‑8 et gestion du BOM côté parseur.
+### Docs
+- README: ajout de la section « Encodage & CSV » (standard, tests, bonnes pratiques).
+### Tech
+- Parseur CSV: décodage UTF‑8 strict (sans repli CP‑1252), gestion du BOM (U+FEFF) ignorée proprement, avertissement “mojibake” non bloquant.
+
 ## [0.2.103] - 2025-10-20
 ### Changé
 - Mise à jour des bases de données.
