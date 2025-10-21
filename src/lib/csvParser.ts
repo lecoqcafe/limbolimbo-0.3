@@ -45,24 +45,20 @@ function parseCSVLine(line: string): string[] {
       current += char;
     }
   }
-
   result.push(current.trim());
   return result;
 }
 
-// Préférence UTF‑8 avec repli CP‑1252 si nécessaire + nettoyage BOM
-function decodePreferUtf8(buffer: ArrayBuffer): string {
-  try {
-    const utf8 = new TextDecoder("utf-8", { fatal: true });
-    let text = utf8.decode(buffer);
-    if (text.charCodeAt(0) === 0xfeff) text = text.slice(1); // retire BOM
-    return text;
-  } catch {
-    const cp1252 = new TextDecoder("windows-1252");
-    let text = cp1252.decode(buffer);
-    if (text.charCodeAt(0) === 0xfeff) text = text.slice(1);
-    return text;
-  }
+// Décodage UTF‑8 strict + retrait BOM éventuel (sans repli CP‑1252)
+function decodeUtf8(buffer: ArrayBuffer): string {
+  const text = new TextDecoder("utf-8").decode(buffer);
+  // Retire le BOM (U+FEFF) s'il est présent en tête
+  return text.charCodeAt(0) === 0xfeff ? text.slice(1) : text;
+}
+
+// Détection simple d'artefacts d'encodage (mojibake) pour aide au diagnostic
+function hasMojibake(s: string): boolean {
+  return /Ã.|â€™|Â…|Â |â€œ|â€/.test(s);
 }
 
 export async function parseCSV<T>(filePath: string): Promise<T[]> {
@@ -78,16 +74,22 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
     });
 
     const buffer = await response.arrayBuffer();
-    const textRaw = decodePreferUtf8(buffer);
+    const textRaw = decodeUtf8(buffer);
     const text = textRaw.replace(/\r\n?/g, "\n");
+
+    if (hasMojibake(text)) {
+      // Avertissement non bloquant: indique un probable mauvais encodage source
+      // (les CSV doivent être UTF‑8 sans BOM selon Q3.8)
+      console.warn(`[csvParser] Encodage suspect détecté dans ${filePath}. Vérifie que le fichier source est bien en UTF‑8 sans BOM.`);
+    }
 
     const lines = text.split("\n").filter((line) => line.trim());
     if (lines.length === 0) return [];
 
     // En-têtes: utilisés tels quels (pas de normalisation)
     const headers = parseCSVLine(lines[0]).map((h) => h.trim());
-    const data: T[] = [];
 
+    const data: T[] = [];
     for (let i = 1; i < lines.length; i++) {
       const values = parseCSVLine(lines[i]);
       const obj: any = {};
@@ -122,7 +124,7 @@ export function getOpportunitiesByCategory(
   categoryId: string
 ): Opportunity[] {
   const oppIds = oppCats.filter((oc) => oc.cat_ID === categoryId).map((oc) => oc.opp_ID);
-  return opportunities.filter((opp) => oppIds.includes(opp.opp_ID));
+  return opportunities.filter((opp) => oppIds.includes(opp._ID));
 }
 
 export function searchOpportunities(
