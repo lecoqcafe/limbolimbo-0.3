@@ -56,7 +56,7 @@ function decodeUtf8(buffer: ArrayBuffer): string {
   return text.charCodeAt(0) === 0xfeff ? text.slice(1) : text;
 }
 
-// Détection simple d'artefacts d'encodage (mojibake) pour aide au diagnostic
+// Détection simple d'artefacts d'encodage (mojibake) pour aide au diagnostic (non bloquant)
 function hasMojibake(s: string): boolean {
   return /Ã.|â€™|Â…|Â |â€œ|â€/.test(s);
 }
@@ -78,9 +78,7 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
     const text = textRaw.replace(/\r\n?/g, "\n");
 
     if (hasMojibake(text)) {
-      console.warn(
-        `[csvParser] Encodage suspect détecté dans ${filePath}. Vérifie que le fichier source est bien en UTF‑8 sans BOM.`
-      );
+      console.warn(`[csvParser] Encodage suspect détecté dans ${filePath}. Vérifie que le fichier source est bien en UTF‑8 sans BOM.`);
     }
 
     const lines = text.split("\n").filter((line) => line.trim());
