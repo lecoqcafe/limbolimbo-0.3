@@ -78,9 +78,9 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
     const text = textRaw.replace(/\r\n?/g, "\n");
 
     if (hasMojibake(text)) {
-      // Avertissement non bloquant: indique un probable mauvais encodage source
-      // (les CSV doivent être UTF‑8 sans BOM selon Q3.8)
-      console.warn(`[csvParser] Encodage suspect détecté dans ${filePath}. Vérifie que le fichier source est bien en UTF‑8 sans BOM.`);
+      console.warn(
+        `[csvParser] Encodage suspect détecté dans ${filePath}. Vérifie que le fichier source est bien en UTF‑8 sans BOM.`
+      );
     }
 
     const lines = text.split("\n").filter((line) => line.trim());
@@ -124,7 +124,7 @@ export function getOpportunitiesByCategory(
   categoryId: string
 ): Opportunity[] {
   const oppIds = oppCats.filter((oc) => oc.cat_ID === categoryId).map((oc) => oc.opp_ID);
-  return opportunities.filter((opp) => oppIds.includes(opp._ID));
+  return opportunities.filter((opp) => oppIds.includes(opp.opp_ID));
 }
 
 export function searchOpportunities(
