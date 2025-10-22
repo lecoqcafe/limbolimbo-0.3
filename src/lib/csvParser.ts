@@ -1,15 +1,18 @@
 export interface Opportunity {
   opp_ID: string;
+  Statut?: string; // "1" actif (défaut), "0" inactif
   Opportunité: string;
   Image: string;
   "Description de l'opportunité": string;
   "Lien d'affiliation": string;
+  ChroniqueURL?: string;
 }
 
 export interface Category {
   cat_ID: string;
   Catégorie: string;
   Icone: string;
+  Image?: string;
   "Description de la catégorie": string;
 }
 
@@ -45,6 +48,7 @@ function parseCSVLine(line: string): string[] {
       current += char;
     }
   }
+
   result.push(current.trim());
   return result;
 }
@@ -78,7 +82,9 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
     const text = textRaw.replace(/\r\n?/g, "\n");
 
     if (hasMojibake(text)) {
-      console.warn(`[csvParser] Encodage suspect détecté dans ${filePath}. Vérifie que le fichier source est bien en UTF‑8 sans BOM.`);
+      console.warn(
+        `[csvParser] Encodage suspect détecté dans ${filePath}. Vérifie que le fichier source est bien en UTF‑8 sans BOM.`
+      );
     }
 
     const lines = text.split("\n").filter((line) => line.trim());
@@ -86,8 +92,8 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
 
     // En-têtes: utilisés tels quels (pas de normalisation)
     const headers = parseCSVLine(lines[0]).map((h) => h.trim());
-
     const data: T[] = [];
+
     for (let i = 1; i < lines.length; i++) {
       const values = parseCSVLine(lines[i]);
       const obj: any = {};
@@ -108,6 +114,11 @@ export async function loadOpportunities(): Promise<Opportunity[]> {
   return parseCSV<Opportunity>("/data/opp_id.csv");
 }
 
+export async function loadActiveOpportunities(): Promise<Opportunity[]> {
+  const opps = await loadOpportunities();
+  return opps.filter(isActive);
+}
+
 export async function loadCategories(): Promise<Category[]> {
   return parseCSV<Category>("/data/cat_id.csv");
 }
@@ -116,12 +127,19 @@ export async function loadOpportunityCategories(): Promise<OpportunityCategory[]
   return parseCSV<OpportunityCategory>("/data/opp_cat.csv");
 }
 
+export function isActive(opp: Opportunity): boolean {
+  const s = (opp.Statut ?? "1").trim();
+  return s !== "0";
+}
+
 export function getOpportunitiesByCategory(
   opportunities: Opportunity[],
   oppCats: OpportunityCategory[],
   categoryId: string
 ): Opportunity[] {
-  const oppIds = oppCats.filter((oc) => oc.cat_ID === categoryId).map((oc) => oc.opp_ID);
+  const oppIds = oppCats
+    .filter((oc) => oc.cat_ID === categoryId)
+    .map((oc) => oc.opp_ID);
   return opportunities.filter((opp) => oppIds.includes(opp.opp_ID));
 }
 
