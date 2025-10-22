@@ -1,6 +1,19 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+/**
+ * Ouvre un lien externe de façon robuste.
+ * - Tente un nouvel onglet (_blank + noopener/noreferrer).
+ * - Si bloqué (PWA installée, bloqueur), bascule en même onglet.
+ */
+export function openExternal(url?: string): void {
+  const u = (url || "").trim();
+  if (!u) return;
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+  try {
+    const win = window.open(u, "_blank", "noopener,noreferrer");
+    if (!win) {
+      // Fallback (PWA / bloqueur)
+      window.location.assign(u);
+    }
+  } catch {
+    window.location.assign(u);
+  }
 }
