@@ -11,7 +11,6 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       const cats = await loadCategories();
-      console.log("Categories loaded:", cats);
       setCategories(cats);
     };
     fetchData();
@@ -24,21 +23,20 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       <Header />
-
-      <main className="container mx-auto px-2 sm:px-4 py-8 sm:py-12">
-        <div className="text-center mb-8 sm:mb-12 space-y-3 sm:space-y-4">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">
+      <main className="container mx-auto px-3 sm:px-4 py-8 sm:py-12">
+        <div className="text-center mb-8 sm:mb-12 space-y-3">
+          <div className="text-2xl font-bold text-foreground">LIMBOLIMBO</div>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground">
             Découvrez vos opportunités
-          </h2>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
+          </h1>
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
             Explorez nos catégories et trouvez les meilleures opportunités pour gagner de l'argent
           </p>
         </div>
 
-        {/* 5.5.b — Densité plus visible sur mobile: 2 → 3 (md) → 4 (lg) */}
         <div
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 max-w-7xl mx-auto"
-          data-grid-version="v0.2.101-5.5b"
+          className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 max-w-7xl mx-auto"
+          data-grid-version="v0.2.105"
         >
           {categories.map((category) => (
             <CategoryCard
