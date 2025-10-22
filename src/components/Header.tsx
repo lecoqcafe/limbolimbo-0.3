@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Home, Search, Info } from "lucide-react";
-import PiggyLogo from "@/assets/Piggy.png";
+import PiggyLogo from "@/assets/piggy.png";
 
 export const Header = () => {
   const location = useLocation();
@@ -15,8 +15,7 @@ export const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3" aria-label="Accueil">
-            <img src={PiggyLogo} alt="Logo" className="h-10 w-10 sm:h-12 sm:w-12" />
-            <h1 className="text-2xl font-bold text-foreground">LIMBOLIMBO</h1>
+            <img src={PiggyLogo} alt="Logo cochon" className="h-10 w-10 sm:h-12 sm:w-12" />
           </Link>
 
           <nav className="flex gap-2 sm:gap-3">
@@ -35,9 +34,7 @@ export const Header = () => {
               title="Recherche"
               aria-label="Recherche"
               aria-current={location.pathname === "/recherche" ? "page" : undefined}
-              className={`${baseBtn} ${
-                location.pathname === "/recherche" ? active : inactive
-              }`}
+              className={`${baseBtn} ${location.pathname === "/recherche" ? active : inactive}`}
             >
               <Search className="h-6 w-6" />
             </Link>
@@ -47,9 +44,7 @@ export const Header = () => {
               title="À propos"
               aria-label="À propos"
               aria-current={location.pathname === "/a-propos" ? "page" : undefined}
-              className={`${baseBtn} ${
-                location.pathname === "/a-propos" ? active : inactive
-              }`}
+              className={`${baseBtn} ${location.pathname === "/a-propos" ? active : inactive}`}
             >
               <Info className="h-6 w-6" />
             </Link>
