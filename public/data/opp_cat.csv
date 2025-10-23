@@ -1,13 +1,13 @@
 opp_cat_ID,Opportunités,opp_ID,Catégorie,cat_ID
-10115,EarnApp,101,Partage,15
+10115,EarnApp,101,Internet,15
 10111,EarnApp,101,Jeux,11
 10112,EarnApp,101,Sondages,12
-10215,Traff Monetizer,102,Partage,15
-10315,HoneyGain,103,Partage,15
-10415,PawnsApp,104,Partage,15
+10215,Traff Monetizer,102,Internet,15
+10315,HoneyGain,103,Internet,15
+10415,PawnsApp,104,Internet,15
 10411,PawnsApp,104,Jeux,11
 10412,PawnsApp,104,Sondages,12
-10515,Grass,105,Partage,15
+10515,Grass,105,Internet,15
 10614,CoinApp,106,Déplacements,14
 10611,CoinApp,106,Jeux,11
 10612,CoinApp,106,Sondages,12
