@@ -6,7 +6,7 @@ cat_ID,Catégorie,Icone,Image,Description de la catégorie
 15,Internet,Share2,internet.png,Plateformes pour gagner de l'argent en partageant votre internet inutilisé.
 16,Récompenses,ShoppingBag,recompenses.png,Plateformes de récompenses lors de vos achats.
 17,Recours,Gavel,recours.png,Les recours collectifs auxquels vous pourriez avoir droit.
-18,Achats,ShoppingCart,achats.png,Plateformes d’achats pour la maison.
-19,Entreprenariat,BriefcaseBusiness,entreprenariat.png,Plateformes pour les entrepreneurs.
-20,Handicap,Accessibility,handicap.png,Ressources pour les personnes en situations de handicap.
-99,Divers,Infinity,divers.png,Tout ce qui n’entre pas dans les autres catégories!
+18,Achats,shopping-cart,achats.png,Plateformes d’achats pour la maison.
+19,Entreprenariat,briefcase-business,entreprenariat.png,Plateformes pour les entrepreneurs.
+20,Handicap,accessibility,handicap.png,Ressources pour les personnes en situations de handicap.
+99,Divers,infinity,divers.png,Tout ce qui n’entre pas dans les autres catégories!
