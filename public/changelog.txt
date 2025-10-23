@@ -1,6 +1,27 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.2.105] - 2025-10-22
+
+### Ajouté
+- Colonne "Statut" (2e) et "ChroniqueURL" (dernière) dans `public/data/opp_id.csv`.
+- Colonne "Image" (4e) dans `public/data/cat_id.csv`.
+- Nouvelles catégories: 18 (Achats), 19 (Entreprenariat), 20 (Handicap), 99 (Divers).
+- Lien "Consulter la chronique LeCOQ.Café" sur la page Détails (icône dédiée).
+- Utilitaire d’ouverture robuste `openExternal(url)`.
+
+### Modifié
+- Catégorie 15 renommée "Internet" (dans `cat_id.csv` et `opp_cat.csv`).
+- Grilles unifiées (Accueil, Catégorie, Résultats): 3/4/5/6 colonnes + vignettes 1:1.
+- CategoryCard: affiche l’image 1:1 si présente, sinon icône Lucide.
+- OpportunityCard: vignette 1:1 avec repli propre si image absente; textes plus lisibles.
+- Page Détails: visuel 96 px à gauche du titre; héro carré 1:1; ajout du bloc Chronique.
+- Accueil: marque "LIMBOLIMBO" visible sous le header.
+
+### Corrigé
+- Gestion systématique des images manquantes (repli contrôlé).
+- Accessibilité: textes ALT FR et rôles cohérents dans les composants clés.
+
 ## [0.2.104] - 2025-10-21
 ### Changed
 - index.html: meta charset « utf-8 » en tout début du head (unique; casse normalisée).
