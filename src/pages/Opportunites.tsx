@@ -25,7 +25,6 @@ const Opportunites = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const categoryId = searchParams.get("cat") || "";
-
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [category, setCategory] = useState<Category | null>(null);
   const [oppCats, setOppCats] = useState<OpportunityCategory[]>([]);
@@ -36,7 +35,6 @@ const Opportunites = () => {
       const opps = await loadActiveOpportunities();
       const cats = await loadCategories();
       const oppCatsData = await loadOpportunityCategories();
-
       setCategories(cats);
       setOppCats(oppCatsData);
 
@@ -45,7 +43,7 @@ const Opportunites = () => {
 
       if (categoryId) {
         const filteredOpps = getOpportunitiesByCategory(opps, oppCatsData, categoryId);
-        setOpportunities(filteredOpps.slice(0, 10)); // Max 10 opportunités
+        setOpportunities(filteredOpps); // Suppression de la troncature non mandatée
       }
     };
     fetchData();
@@ -65,7 +63,6 @@ const Opportunites = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-5xl mx-auto space-y-8">
           <div className="flex items-center gap-4">
