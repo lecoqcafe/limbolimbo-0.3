@@ -18,7 +18,6 @@ const OpportunitesPersonnalisees = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const searchTerm = searchParams.get("q") || "";
-
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [filteredOpportunities, setFilteredOpportunities] = useState<Opportunity[]>([]);
   const [oppCats, setOppCats] = useState<OpportunityCategory[]>([]);
@@ -32,9 +31,10 @@ const OpportunitesPersonnalisees = () => {
       setOpportunities(opps);
       setCategories(cats);
       setOppCats(oppCatsData);
+
       if (searchTerm) {
         const filtered = searchOpportunities(opps, searchTerm);
-        setFilteredOpportunities(filtered.slice(0, 10)); // Max 10 opportunités
+        setFilteredOpportunities(filtered); // Suppression de la troncature non mandatée
       } else {
         setFilteredOpportunities([]);
       }
@@ -51,10 +51,18 @@ const OpportunitesPersonnalisees = () => {
     return undefined;
   };
 
+  const getCategoryImageForOpportunity = (oppId: string): string | undefined => {
+    const oppCat = oppCats.find((oc) => oc.opp_ID === oppId);
+    if (oppCat) {
+      const cat = categories.find((c) => c.cat_ID === oppCat.cat_ID);
+      return cat?.Image;
+    }
+    return undefined;
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-5xl mx-auto space-y-8">
           <div className="flex items-center gap-4">
@@ -83,6 +91,7 @@ const OpportunitesPersonnalisees = () => {
                   key={opportunity.opp_ID}
                   opportunity={opportunity}
                   categoryIcon={getCategoryIconForOpportunity(opportunity.opp_ID)}
+                  fallbackCategoryImage={getCategoryImageForOpportunity(opportunity.opp_ID)}
                   onClick={() => navigate(`/opportunite?id=${opportunity.opp_ID}`)}
                 />
               ))}
