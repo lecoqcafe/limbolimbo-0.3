@@ -1,6 +1,21 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.2.106] - 2025-10-23
+### Added
+- Mapping minimal des slugs d’icônes vers lucide-react: “wifi” → Wifi, “dollar-sign” → DollarSign. Icône de secours par défaut.
+
+### Changed
+- Fallback d’images uniformisé sur cartes et page Détails: Opportunité → Catégorie → Placeholder, avec gestion d’erreur sans boucle.
+
+### Fixed
+- Build restauré en rétablissant l’export nommé `cn` dans `src/lib/utils.ts` (conservation de `openExternal`).
+- Troncatures non mandatées supprimées (Opportunités, Opportunités personnalisées).
+
+### Notes
+- Aucune modification du PWA/manifest, des routes ou du fallback serveur.
+- Encodage FR/UTF‑8 et parsing CSV inchangés.
+
 ## [0.2.105] - 2025-10-22
 
 ### Ajouté
