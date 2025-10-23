@@ -3,7 +3,14 @@ import { useSearchParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { loadActiveOpportunities, type Opportunity } from "@/lib/csvParser";
+import {
+  loadActiveOpportunities,
+  loadCategories,
+  loadOpportunityCategories,
+  type Opportunity,
+  type Category,
+  type OpportunityCategory,
+} from "@/lib/csvParser";
 import { openExternal } from "@/lib/utils";
 import LeCoqCafe from "@/assets/lecoqcafe.png";
 import { ExternalLink, FileText } from "lucide-react";
@@ -15,16 +22,30 @@ const resolveImage = (file?: string, base = "/images/opps/"): string => {
   return `${base}${s}`;
 };
 
+const resolveCategoryImage = (file?: string, base = "/images/categories/"): string => {
+  if (!file || !file.trim()) return "/placeholder.svg";
+  const s = file.trim();
+  if (s.startsWith("http://") || s.startsWith("https://") || s.startsWith("/") || s.startsWith("data:")) return s;
+  return `${base}${s}`;
+};
+
 const OpportunityDetail = () => {
   const [searchParams] = useSearchParams();
   const oppId = searchParams.get("id") || "";
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
+  const [oppCats, setOppCats] = useState<OpportunityCategory[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const opps = await loadActiveOpportunities();
       const found = opps.find((o) => o.opp_ID === oppId);
       setOpportunity(found || null);
+
+      const oppCatsData = await loadOpportunityCategories();
+      const cats = await loadCategories();
+      setOppCats(oppCatsData);
+      setCategories(cats);
     };
     fetchData();
   }, [oppId]);
@@ -45,8 +66,29 @@ const OpportunityDetail = () => {
     );
   }
 
-  const headerImg = resolveImage(opportunity.Image);
-  const heroImg = resolveImage(opportunity.Image);
+  const hasOppImage = !!(opportunity.Image && opportunity.Image.trim());
+  const oppSrc = hasOppImage ? resolveImage(opportunity.Image) : undefined;
+
+  const categoryImage = (() => {
+    const oc = oppCats.find((c) => c.opp_ID === opportunity.opp_ID);
+    if (!oc) return undefined;
+    const cat = categories.find((c) => c.cat_ID === oc.cat_ID);
+    return cat?.Image;
+  })();
+  const catSrc = categoryImage ? resolveCategoryImage(categoryImage) : "/placeholder.svg";
+
+  const initialImgSrc = oppSrc ?? catSrc;
+
+  const handleImgError: React.ReactEventHandler<HTMLImageElement> = (e) => {
+    const img = e.currentTarget;
+    if (hasOppImage && categoryImage && img.src !== catSrc) {
+      img.onerror = null;
+      img.src = catSrc;
+    } else {
+      img.onerror = null;
+      img.src = "/placeholder.svg";
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -56,10 +98,10 @@ const OpportunityDetail = () => {
           {/* En-tête avec visuel 96 px */}
           <div className="flex items-center gap-4">
             <img
-              src={headerImg}
+              src={initialImgSrc}
               alt={`Image de l’opportunité ${opportunity.Opportunité}`}
               className="w-24 h-24 rounded-xl object-cover bg-muted"
-              onError={(e) => (e.currentTarget.src = "/placeholder.svg")}
+              onError={handleImgError}
             />
             <h1 className="text-4xl md:text-5xl font-bold text-foreground">
               {opportunity.Opportunité}
@@ -71,10 +113,10 @@ const OpportunityDetail = () => {
               {/* Héro image 1:1 */}
               <div className="w-full aspect-square rounded-lg overflow-hidden bg-muted">
                 <img
-                  src={heroImg}
+                  src={initialImgSrc}
                   alt={`Image de l’opportunité ${opportunity.Opportunité}`}
                   className="w-full h-full object-cover"
-                  onError={(e) => (e.currentTarget.src = "/placeholder.svg")}
+                  onError={handleImgError}
                 />
               </div>
 
