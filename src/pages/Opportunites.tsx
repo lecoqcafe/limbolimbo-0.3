@@ -96,6 +96,7 @@ const Opportunites = () => {
                   key={opportunity.opp_ID}
                   opportunity={opportunity}
                   categoryIcon={getCategoryIconForOpportunity(opportunity.opp_ID)}
+                  fallbackCategoryImage={category?.Image}
                   onClick={() => navigate(`/opportunite?id=${opportunity.opp_ID}`)}
                 />
               ))}
