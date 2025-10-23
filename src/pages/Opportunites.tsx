@@ -3,37 +3,46 @@ import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { OpportunityCard } from "@/components/OpportunityCard";
 import { Button } from "@/components/ui/button";
-import { 
-  loadOpportunities, 
-  loadCategories, 
+import {
+  loadActiveOpportunities,
+  loadCategories,
   loadOpportunityCategories,
   getOpportunitiesByCategory,
   type Opportunity,
-  type Category 
+  type Category,
+  type OpportunityCategory,
 } from "@/lib/csvParser";
-import { ArrowLeft } from "lucide-react";
+
+const resolveCategoryImage = (file?: string): string | undefined => {
+  if (!file) return undefined;
+  const s = file.trim();
+  if (!s) return undefined;
+  if (s.startsWith("http://") || s.startsWith("https://") || s.startsWith("/") || s.startsWith("data:")) return s;
+  return `/images/categories/${s}`;
+};
 
 const Opportunites = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const categoryId = searchParams.get("cat") || "";
+
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [category, setCategory] = useState<Category | null>(null);
-  const [oppCats, setOppCats] = useState<any[]>([]);
+  const [oppCats, setOppCats] = useState<OpportunityCategory[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const opps = await loadOpportunities();
+      const opps = await loadActiveOpportunities();
       const cats = await loadCategories();
       const oppCatsData = await loadOpportunityCategories();
-      
+
       setCategories(cats);
       setOppCats(oppCatsData);
-      
-      const currentCategory = cats.find(c => c.cat_ID === categoryId);
+
+      const currentCategory = cats.find((c) => c.cat_ID === categoryId);
       setCategory(currentCategory || null);
-      
+
       if (categoryId) {
         const filteredOpps = getOpportunitiesByCategory(opps, oppCatsData, categoryId);
         setOpportunities(filteredOpps.slice(0, 10)); // Max 10 opportunités
@@ -43,42 +52,48 @@ const Opportunites = () => {
   }, [categoryId]);
 
   const getCategoryIconForOpportunity = (oppId: string): string | undefined => {
-    const oppCat = oppCats.find(oc => oc.opp_ID === oppId);
+    const oppCat = oppCats.find((oc) => oc.opp_ID === oppId);
     if (oppCat) {
-      const cat = categories.find(c => c.cat_ID === oppCat.cat_ID);
+      const cat = categories.find((c) => c.cat_ID === oppCat.cat_ID);
       return cat?.Icone;
     }
     return undefined;
   };
 
+  const categoryImg = resolveCategoryImage(category?.Image);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
+
       <main className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="max-w-5xl mx-auto space-y-8">
           <div className="flex items-center gap-4">
-            <Link to="/">
-              <Button variant="outline" size="icon">
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-            </Link>
+            {categoryImg && (
+              <img
+                src={categoryImg}
+                alt={`Catégorie ${category?.Catégorie ?? ""}`}
+                className="w-24 h-24 rounded-xl object-cover bg-muted"
+                onError={(e) => (e.currentTarget.src = "/placeholder.svg")}
+              />
+            )}
             <div>
-              <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground">
                 {category?.Catégorie || "Opportunités"}
               </h2>
-              {category?.['Description de la catégorie'] && (
+              {category?.["Description de la catégorie"] && (
                 <p className="text-muted-foreground mt-1">
-                  {category['Description de la catégorie']}
+                  {category["Description de la catégorie"]}
                 </p>
               )}
             </div>
           </div>
 
           {opportunities.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+            <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
               {opportunities.map((opportunity) => (
-                <OpportunityCard 
-                  key={opportunity.opp_ID} 
+                <OpportunityCard
+                  key={opportunity.opp_ID}
                   opportunity={opportunity}
                   categoryIcon={getCategoryIconForOpportunity(opportunity.opp_ID)}
                   onClick={() => navigate(`/opportunite?id=${opportunity.opp_ID}`)}
