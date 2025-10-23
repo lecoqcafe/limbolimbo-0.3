@@ -15,12 +15,20 @@ const resolveCategoryImage = (file?: string): string | undefined => {
   return `/images/categories/${s}`;
 };
 
-export const CategoryCard = ({ category, onClick }: CategoryCardProps) => {
-  const IconComponent =
-    category.Icone && (Icons as any)[category.Icone]
-      ? ((Icons as any)[category.Icone] as React.ComponentType<any>)
-      : Icons.Sparkles;
+const resolveIconComponent = (value?: string): React.ComponentType<any> => {
+  if (!value) return Icons.Sparkles;
+  const direct = (Icons as any)[value];
+  if (direct) return direct as React.ComponentType<any>;
 
+  const slug = value.trim().toLowerCase();
+  if (slug === "wifi") return Icons.Wifi;
+  if (slug === "dollar-sign" || slug === "dollarsign" || slug === "dollar") return Icons.DollarSign;
+
+  return Icons.Sparkles;
+};
+
+export const CategoryCard = ({ category, onClick }: CategoryCardProps) => {
+  const IconComponent = resolveIconComponent(category.Icone);
   const imgSrc = resolveCategoryImage(category.Image);
 
   return (
@@ -44,7 +52,6 @@ export const CategoryCard = ({ category, onClick }: CategoryCardProps) => {
             <IconComponent className="w-12 h-12 text-primary" />
           </div>
         )}
-
         <h3 className="text-sm md:text-base font-semibold text-foreground group-hover:text-primary transition-colors break-words">
           {category.Catégorie}
         </h3>
