@@ -1,8 +1,12 @@
 cat_ID,Catégorie,Icone,Image,Description de la catégorie
-11,Jeux,Dices,,Plateformes de rémunération en jouant à des jeux.
-12,Sondages,FileCheck,,Plateformes de rémunération en répondant à des sondages.
-13,Tâches,CheckSquare,,Plateformes de rémunération contre certaines tâches.
-14,Déplacements,MapPin,,Plateformes de rémunération lors de vos déplacements.
-15,Partage,Share2,,Plateformes pour gagner de l'argent en partageant votre internet inutilisé.
-16,Récompenses,ShoppingBag,,Plateformes de récompenses lors de vos achats.
-17,Recours,Gavel,,Les recours collectifs auxquels vous pourriez avoir droit.
+11,Jeux,Dices,jeux.png,Plateformes de rémunération en jouant à des jeux.
+12,Sondages,FileCheck,sondages.png,Plateformes de rémunération en répondant à des sondages.
+13,Tâches,CheckSquare,taches.png,Plateformes de rémunération contre certaines tâches.
+14,Déplacements,MapPin,deplacements.png,Plateformes de rémunération lors de vos déplacements.
+15,Internet,Share2,internet.png,Plateformes pour gagner de l'argent en partageant votre internet inutilisé.
+16,Récompenses,ShoppingBag,recompenses.png,Plateformes de récompenses lors de vos achats.
+17,Recours,Gavel,recours.png,Les recours collectifs auxquels vous pourriez avoir droit.
+18,Achats,ShoppingCart,achats.png,Plateformes d’achats pour la maison.
+19,Entreprenariat,BriefcaseBusiness,entreprenariat.png,Plateformes pour les entrepreneurs.
+20,Handicap,Accessibility,handicap.png,Ressources pour les personnes en situations de handicap.
+99,Divers,Infinity,divers.png,Tout ce qui n’entre pas dans les autres catégories!
