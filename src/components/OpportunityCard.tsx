@@ -4,18 +4,50 @@ import type { Opportunity } from "@/lib/csvParser";
 interface OpportunityCardProps {
   opportunity: Opportunity;
   onClick: () => void;
-  categoryIcon?: string;
+  categoryIcon?: string; // compatibilité
+  fallbackCategoryImage?: string; // NOUVEAU: image catégorie en repli
 }
 
-const resolveImage = (file?: string, base = "/images/opps/"): string => {
+const resolveOppImage = (file?: string, base = "/images/opps/"): string => {
   if (!file || !file.trim()) return "/placeholder.svg";
   const s = file.trim();
   if (s.startsWith("http://") || s.startsWith("https://") || s.startsWith("/") || s.startsWith("data:")) return s;
   return `${base}${s}`;
 };
 
-export const OpportunityCard = ({ opportunity, onClick, categoryIcon: _categoryIcon }: OpportunityCardProps) => {
-  const imgSrc = resolveImage(opportunity.Image);
+const resolveCategoryImage = (file?: string, base = "/images/categories/"): string => {
+  if (!file || !file.trim()) return "/placeholder.svg";
+  const s = file.trim();
+  if (s.startsWith("http://") || s.startsWith("https://") || s.startsWith("/") || s.startsWith("data:")) return s;
+  return `${base}${s}`;
+};
+
+export const OpportunityCard = ({
+  opportunity,
+  onClick,
+  categoryIcon: _categoryIcon,
+  fallbackCategoryImage,
+}: OpportunityCardProps) => {
+  const hasOppImage = !!(opportunity.Image && opportunity.Image.trim());
+  const initialSrc = hasOppImage
+    ? resolveOppImage(opportunity.Image)
+    : fallbackCategoryImage
+    ? resolveCategoryImage(fallbackCategoryImage)
+    : "/placeholder.svg";
+
+  const handleImgError: React.ReactEventHandler<HTMLImageElement> = (e) => {
+    const img = e.currentTarget;
+    const catSrc = fallbackCategoryImage ? resolveCategoryImage(fallbackCategoryImage) : "/placeholder.svg";
+    // Si on avait l'image d'opportunité et qu'elle échoue, bascule sur l'image de catégorie.
+    // Sinon, bascule sur le placeholder (évite boucle d'erreurs).
+    if (hasOppImage && fallbackCategoryImage && img.src !== catSrc) {
+      img.onerror = null;
+      img.src = catSrc;
+    } else {
+      img.onerror = null;
+      img.src = "/placeholder.svg";
+    }
+  };
 
   return (
     <Card
@@ -26,10 +58,10 @@ export const OpportunityCard = ({ opportunity, onClick, categoryIcon: _categoryI
       <div className="relative flex flex-col items-center justify-center gap-3 text-center">
         <div className="w-full aspect-square rounded-xl overflow-hidden bg-muted">
           <img
-            src={imgSrc}
+            src={initialSrc}
             alt={`Image de l’opportunité ${opportunity.Opportunité}`}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            onError={(e) => (e.currentTarget.src = "/placeholder.svg")}
+            onError={handleImgError}
           />
         </div>
 
