@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Search, Info } from "lucide-react";
+import { Home, Search, Info, List } from "lucide-react";
 import PiggyLogo from "@/assets/piggy.png";
 
 export const Header = () => {
@@ -37,6 +37,16 @@ export const Header = () => {
               className={`${baseBtn} ${location.pathname === "/recherche" ? active : inactive}`}
             >
               <Search className="h-6 w-6" />
+            </Link>
+
+            <Link
+              to="/opportunites/toutes"
+              title="Toutes les opportunités"
+              aria-label="Toutes les opportunités"
+              aria-current={location.pathname === "/opportunites/toutes" ? "page" : undefined}
+              className={`${baseBtn} ${location.pathname === "/opportunites/toutes" ? active : inactive}`}
+            >
+              <List className="h-6 w-6" />
             </Link>
 
             <Link
