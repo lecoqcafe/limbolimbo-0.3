@@ -32,6 +32,7 @@ const resolveCategoryImage = (file?: string, base = "/images/categories/"): stri
 const OpportunityDetail = () => {
   const [searchParams] = useSearchParams();
   const oppId = searchParams.get("id") || "";
+
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [oppCats, setOppCats] = useState<OpportunityCategory[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -75,8 +76,8 @@ const OpportunityDetail = () => {
     const cat = categories.find((c) => c.cat_ID === oc.cat_ID);
     return cat?.Image;
   })();
-  const catSrc = categoryImage ? resolveCategoryImage(categoryImage) : "/placeholder.svg";
 
+  const catSrc = categoryImage ? resolveCategoryImage(categoryImage) : "/placeholder.svg";
   const initialImgSrc = oppSrc ?? catSrc;
 
   const handleImgError: React.ReactEventHandler<HTMLImageElement> = (e) => {
@@ -110,16 +111,6 @@ const OpportunityDetail = () => {
 
           <Card className="bg-gradient-card shadow-card p-8 border-border/50">
             <div className="space-y-8">
-              {/* Héro image 1:1 */}
-              <div className="w-full aspect-square rounded-lg overflow-hidden bg-muted">
-                <img
-                  src={initialImgSrc}
-                  alt={`Image de l’opportunité ${opportunity.Opportunité}`}
-                  className="w-full h-full object-cover"
-                  onError={handleImgError}
-                />
-              </div>
-
               {/* Description avec icône seule */}
               <div>
                 <div className="mb-4 flex items-center gap-2">
