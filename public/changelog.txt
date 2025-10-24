@@ -1,6 +1,23 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.2.107] - 2025-10-23
+### Ajouté
+- Page “Toutes les opportunités” (`/opportunites/toutes`) listant uniquement les opportunités actives, sans doublons, triées à partir de `opp_ID` 101. Réutilisation des cartes et fallbacks d’images (opportunité → catégorie → placeholder).
+- Lien direct dans le menu vers “Toutes les opportunités” avec l’icône `list`.
+- Page “Changelog” (`/changelog`) lisant `changelog.txt`, avec vérification `text/plain` et détection de HTML/fallback pour afficher un message propre en cas d’indisponibilité.
+
+### Modifié
+- Routes d’application mises à jour pour inclure les nouvelles pages.
+- NotFound: navigation 100% SPA via `Link` (plus de rechargement complet).
+- À propos: le lien “Changelog” pointe vers la page interne `/changelog` au lieu d’ouvrir directement le `.txt`.
+
+### Supprimé
+- Image “héro” pleine largeur de la page Détails Opportunité.
+
+### Validé
+- Fallback SPA côté serveur via `.htaccess` permettant d’ouvrir les routes profondes sans 404.
+
 ## [0.2.106] - 2025-10-23
 ### Added
 - Mapping minimal des slugs d’icônes vers lucide-react: “wifi” → Wifi, “dollar-sign” → DollarSign. Icône de secours par défaut.
