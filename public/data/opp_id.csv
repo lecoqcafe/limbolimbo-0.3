@@ -19,14 +19,15 @@ opp_ID,Statut,Opportunité,Image,Description de l'opportunité,Lien d'affiliatio
 118,1,SwagBucks,swagbucks.jpg,"Plateforme de récompenses pour les activités en ligne. Gagnez des points en regardant des vidéos, répondant à des sondages ou en faisant des achats.",https://www.swagbucks.com/profile/lecoqcafe?rp=1,
 119,1,FreeCash,freecash.jpg,"Application mobile pour gagner de l'argent en ligne. Offre des récompenses pour des tâches simples comme tester des apps ou regarder des vidéos.",https://freecash.com/r/a723ed4d4f,
 120,1,Cointiply,cointiply.jpg,"Plateforme de gain de cryptomonnaie via des activités en ligne. Accumulez des pièces en jouant à des jeux, répondant à des sondages ou en visionnant des publicités.",https://cointiply.com/r/gJkroD,
-121,1,Prolific,prolific.jpg,"Plateforme de rémunération intéressante. Recevez de l'argent pour participer à des recherches en répondant à des questionnaires.",,
-122,1,Pine Cone,pinecone.jpg,"Communauté de consommateurs rémunérés pour tester des produits. Recevez des produits gratuits et des paiements en échange de vos opinions honnêtes.",,
-123,1,Click Worker,clickworker.jpg,"Plateforme de micro-tâches rémunérées en ligne. Complétez de petits travaux de saisie de données ou de modération de contenu pour gagner de l'argent.",,
+121,0,Prolific,prolific.jpg,"Plateforme de rémunération intéressante. Recevez de l'argent pour participer à des recherches en répondant à des questionnaires.",,
+122,0,Pine Cone,pinecone.jpg,"Communauté de consommateurs rémunérés pour tester des produits. Recevez des produits gratuits et des paiements en échange de vos opinions honnêtes.",,
+123,0,Click Worker,clickworker.jpg,"Plateforme de micro-tâches rémunérées en ligne. Complétez de petits travaux de saisie de données ou de modération de contenu pour gagner de l'argent.",,
 124,1,Recours du pain,,"Site internet où vous pouvez suivre les étapes de l'action collective sur le pain emballé au Québec.",https://www.reglementpainquebec.ca/fr,
-125,1,HotJar Engage,hotjar.jpg,"C'est un outil qui permet de recruter, planifier et mener facilement des tests utilisateurs en visioconférence, afin de recueillir des retours réels sur un site ou un produit.",https://www.hotjar.com/engage/participant-pool/?r=g86V8,
+125,0,HotJar Engage,hotjar.jpg,"C'est un outil qui permet de recruter, planifier et mener facilement des tests utilisateurs en visioconférence, afin de recueillir des retours réels sur un site ou un produit.",https://www.hotjar.com/engage/participant-pool/?r=g86V8,
 126,0,Telus International,telus.jpg,"...",,
 127,0,Amazon Mechanical Turk,amazonmt.jpg,"...",,
 128,0,Google Opinion Rewards,googleor.jpg,"...",,
 129,0,Retail Me Not,retailmenot.jpg,"...",,
+
 
 
