@@ -17,7 +17,7 @@ opp_ID,Statut,Opportunité,Image,Description de l'opportunité,Lien d'affiliatio
 116,1,TopCashBack,topcashback.jpg,"Plateforme de remboursement en cashback sur les achats en ligne. Offre des pourcentages de remise chez des milliers de détaillants partout dans le monde.",https://www.topcashback.com/ref/lecoqcafe,
 117,1,Coin Miles,coinmiles.jpg,"Application transformant vos pas en récompenses. Utilise la géolocalisation pour suivre vos déplacements et les convertir en miles échangeables.",,
 118,1,SwagBucks,swagbucks.jpg,"Plateforme de récompenses pour les activités en ligne. Gagnez des points en regardant des vidéos, répondant à des sondages ou en faisant des achats.",https://www.swagbucks.com/profile/lecoqcafe?rp=1,
-119,1,FreeCash,freecash.jpg,"Application mobile pour gagner de l'argent en ligne. Offre des récompenses pour des tâches simples comme tester des apps ou regarder des vidéos.",,
+119,1,FreeCash,freecash.jpg,"Application mobile pour gagner de l'argent en ligne. Offre des récompenses pour des tâches simples comme tester des apps ou regarder des vidéos.",https://freecash.com/r/a723ed4d4f,
 120,1,Cointiply,cointiply.jpg,"Plateforme de gain de cryptomonnaie via des activités en ligne. Accumulez des pièces en jouant à des jeux, répondant à des sondages ou en visionnant des publicités.",https://cointiply.com/r/gJkroD,
 121,1,Prolific,prolific.jpg,"Plateforme de rémunération intéressante. Recevez de l'argent pour participer à des recherches en répondant à des questionnaires.",,
 122,1,Pine Cone,pinecone.jpg,"Communauté de consommateurs rémunérés pour tester des produits. Recevez des produits gratuits et des paiements en échange de vos opinions honnêtes.",,
@@ -28,4 +28,5 @@ opp_ID,Statut,Opportunité,Image,Description de l'opportunité,Lien d'affiliatio
 127,0,Amazon Mechanical Turk,amazonmt.jpg,"...",,
 128,0,Google Opinion Rewards,googleor.jpg,"...",,
 129,0,Retail Me Not,retailmenot.jpg,"...",,
+
 
