@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import { Card } from "@/components/ui/card";
 import { Info } from "lucide-react";
+import { Link } from "react-router-dom";
 
 type VersionInfo = { name?: string; version?: string; build?: string };
 
@@ -85,14 +86,9 @@ const APropos = () => {
               </p>
               {/* Lien vers le journal des versions */}
               <p>
-                <a
-                  href="/changelog.txt"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
+                <Link to="/changelog" className="text-primary hover:underline">
                   Voir le journal des versions (Changelog)
-                </a>
+                </Link>
               </p>
             </section>
           </Card>
