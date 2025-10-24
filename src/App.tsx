@@ -12,6 +12,9 @@ import OpportunityDetail from "./pages/OpportunityDetail";
 import APropos from "./pages/APropos";
 import NotFound from "./pages/NotFound";
 
+import ToutesLesOpportunites from "./pages/ToutesLesOpportunites";
+import Changelog from "./pages/Changelog";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -25,7 +28,9 @@ const App = () => (
           <Route path="/recherche" element={<Recherche />} />
           <Route path="/opportunites-personnalisees" element={<OpportunitesPersonnalisees />} />
           <Route path="/opportunites" element={<Opportunites />} />
+          <Route path="/opportunites/toutes" element={<ToutesLesOpportunites />} />
           <Route path="/opportunite" element={<OpportunityDetail />} />
+          <Route path="/changelog" element={<Changelog />} />
           <Route path="/a-propos" element={<APropos />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
