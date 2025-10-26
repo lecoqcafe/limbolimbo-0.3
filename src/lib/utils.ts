@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 /**
  * Fusionne proprement des classes Tailwind (utilisé par shadcn/ui).
  */
-export function cn(...inputs: ClassValue[]) {
+export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
