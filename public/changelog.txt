@@ -1,6 +1,18 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.2.108] - 2025-10-25
+### Added
+- Garde-fou de compilation pour `{ cn }` via sentinelle TypeScript (src/sentinel/cn.sentinel.ts).
+- Vérification de types avant build: `tsc --noEmit` exécuté avant `vite build`.
+
+### Changed
+- Signature verrouillée: ajout du type de retour `: string` à `cn` (src/lib/utils.ts).
+- Fallback SPA en production: ajout de `public/.htaccess` avec règles `!-f/!-d → index.html`; suppression du `.htaccess` à la racine du dépôt pour éviter tout conflit.
+
+### Fixed
+- Alignement test/prod des liens profonds: les routes SPA ne renvoient plus de 404 serveur.
+
 ## [0.2.107] - 2025-10-23
 ### Ajouté
 - Page “Toutes les opportunités” (`/opportunites/toutes`) listant uniquement les opportunités actives, sans doublons, triées à partir de `opp_ID` 101. Réutilisation des cartes et fallbacks d’images (opportunité → catégorie → placeholder).
