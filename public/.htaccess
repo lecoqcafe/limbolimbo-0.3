@@ -1,0 +1,11 @@
+# SPA fallback pour Apache / LiteSpeed
+RewriteEngine On
+RewriteBase /
+
+# 1) Servir les fichiers/dossiers existants
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 2) Réécrire le reste vers index.html (200)
+RewriteRule ^ index.html [L]
