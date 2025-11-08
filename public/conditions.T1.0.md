@@ -5,10 +5,12 @@ Dernière mise à jour: 7 novembre 2025.
 Bienvenue sur LimboLimbo, une application développée et exploitée par LeCOQ.Café, dont le siège social est situé à Lévis (Québec, Canada). En utilisant l’application LimboLimbo (ci-après « l’Application »), vous acceptez d’être lié(e) par les présentes Conditions d’utilisation. Si vous n’acceptez pas ces conditions, vous devez cesser immédiatement d’utiliser l’Application.
 
 1. Objet de l’Application 
+
 L’Application LimboLimbo a pour objectif de suggérer, recommander ou présenter des liens externes, contenus web, ou services tiers susceptibles d’intéresser ses utilisateurs.
 Ces suggestions sont offertes à titre informatif uniquement.
 
 2. Absence de responsabilité concernant les sites externes 
+
 L’Application peut afficher ou suggérer des liens vers des sites web, services, plateformes ou contenus exploités par des tiers indépendants. LeCOQ.Café et LimboLimbo:
 - n’exercent aucun contrôle sur le contenu, les pratiques ou les politiques de ces sites;
 - ne garantissent pas l’exactitude, la fiabilité ou la sécurité des informations qui y sont présentées;
