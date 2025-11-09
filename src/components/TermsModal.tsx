@@ -14,12 +14,15 @@ import {
   TERMS_VERSION_FALLBACK,
 } from "@/lib/terms";
 
+/**
+ * TermsModal — Modale bloquante d’acceptation des Conditions.
+ * - Bloquante: pas d’ESC, pas de clic extérieur (block=true via DialogContent).
+ * - Source unique d’acceptation (Q3.10): l’acceptation passe uniquement par ce composant.
+ * - La page /conditions est de lecture seule; ce composant fournit l’action “J’accepte”.
+ */
 type TermsModalProps = {
-  /** Ouverture contrôlée de la modale par le parent (garde globale). */
   open: boolean;
-  /** Version imposée par le parent. Si absente, la modale la lit elle‑même. */
   version?: string;
-  /** Callback après acceptation. */
   onAccepted?: (version: string) => void;
 };
 
@@ -28,14 +31,17 @@ export default function TermsModal({ open, version, onAccepted }: TermsModalProp
 
   React.useEffect(() => {
     let cancelled = false;
+
     if (version) {
       setTermsVersion(version);
       return;
     }
+
     (async () => {
       const v = await fetchTermsVersion();
       if (!cancelled) setTermsVersion(v);
     })();
+
     return () => {
       cancelled = true;
     };
@@ -46,11 +52,11 @@ export default function TermsModal({ open, version, onAccepted }: TermsModalProp
   const handleAccept = () => {
     acceptTerms(v);
     onAccepted?.(v);
-    // Option: window.dispatchEvent(new CustomEvent("terms:accepted", { detail: { version: v } }));
   };
 
   return (
     <Dialog open={open}>
+      {/* block=true empêche ESC et clic extérieur; closable=false masque la croix */}
       <DialogContent block closable={false} aria-describedby="terms-desc">
         <DialogHeader>
           <DialogTitle>Conditions d’utilisation</DialogTitle>
