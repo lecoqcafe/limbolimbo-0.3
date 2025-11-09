@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Search, Info, List } from "lucide-react";
+import { Home, Search, Info, List, ScrollText } from "lucide-react";
 import PiggyLogo from "@/assets/piggy.png";
 
 export const Header = () => {
@@ -57,6 +57,18 @@ export const Header = () => {
               className={`${baseBtn} ${location.pathname === "/a-propos" ? active : inactive}`}
             >
               <Info className="h-6 w-6" />
+            </Link>
+
+            {/* Lien Conditions */}
+            <Link
+              to="/conditions"
+              title="Conditions d’utilisation"
+              aria-label="Conditions d’utilisation"
+              aria-current={location.pathname === "/conditions" ? "page" : undefined}
+              className={`${baseBtn} ${location.pathname === "/conditions" ? active : inactive}`}
+            >
+              <ScrollText className="h-6 w-6" />
+              <span className="sr-only">Conditions d’utilisation</span>
             </Link>
           </nav>
         </div>
