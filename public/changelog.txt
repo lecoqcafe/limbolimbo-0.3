@@ -1,6 +1,22 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.3.105] - 2025-11-07
+### Added
+- Garde “Conditions” unifiée avec redirection stricte vers `/conditions` tant que la version active n’est pas acceptée, incluant `?redirect` et retour via `replace:true`.
+- Modale d’acceptation (TermsModal) bloquante (pas Échap, pas clic extérieur) et disponible aussi sur `/conditions`.
+- Lien “Conditions” dans l’en‑tête.
+- Pages placeholders: `/parametres` et `/historique` avec message et CTA “Se connecter” désactivé.
+
+### Changed
+- Déplacement du Header à l’intérieur de la garde pour anti‑FOUC (aucun élément cliquable avant verdict).
+- Page `/conditions` en lecture seule (retrait des boutons “J’accepte …”).
+
+### Fixed
+- Lecture de `terms.version.json` et du Markdown des Conditions avec anti‑cache (`no-store` + cache‑buster) et fallbacks constants pour éviter boucles/erreurs transitoires.
+- Synchronisation multi‑onglets de l’acceptation via événement `storage`.
+- Non‑régression: détection du cas où `/changelog.txt` renverrait du HTML (ex.: `index.html`) et affichage d’un message clair.
+
 ## [0.2.108] - 2025-10-25
 ### Added
 - Garde-fou de compilation pour `{ cn }` via sentinelle TypeScript (src/sentinel/cn.sentinel.ts).
