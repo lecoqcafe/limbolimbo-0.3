@@ -1,6 +1,30 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.3.106] - 2025-11-10
+### Added
+- Garde globale “Conditions” appliquée avant tout rendu interactif (anti‑FOUC) avec redirection stricte vers `/conditions` tant que la version active n’est pas acceptée (conservation `?redirect` et retour via `replace:true`).
+- Modale d’acceptation (TermsModal) bloquante (pas Échap, pas clic extérieur), rendue aussi sur `/conditions`.
+- Synchronisation multi‑onglets de l’acceptation via événement `storage` (propagation < 1 s).
+- Dépendance `@radix-ui/react-tooltip` ajoutée en `^1.1.0`.
+- Pages placeholders: `/parametres` et `/historique` (messages adaptés si non connecté).
+- Lien “Conditions” dans l’en‑tête (Header).
+
+### Changed
+- `App`: rendu de Toaster/Sonner sous la garde (après évaluation) pour garantir l’anti‑FOUC total.
+- Page `/conditions`: lecture du Markdown versionné avec anti‑cache (`cache: "no-store"` + cache‑buster), détection de contenu HTML (fallback SPA) et message lisible en cas d’échec.
+
+### Reliability
+- Persistance locale: `limbo:terms:app = { version: "T1.0", acceptedAt: "<ISO UTC>" }`.
+- Hors‑ligne: acceptation possible avec texte minimal embarqué lorsque le Markdown réseau est indisponible.
+- Redirections sûres: `?redirect` interne uniquement; usage systématique de `replace:true`.
+
+### Fixed
+- Échec de build v0.3.105: ajout de `/src/pages/Parametres.tsx`; résolution de l’erreur TS2307 liée à `@radix-ui/react-tooltip`.
+
+### Unchanged
+- `termsVersion` conservée à `T1.0`; aucun changement matériel du texte des Conditions.
+
 ## [0.3.105] - 2025-11-07
 ### Added
 - Garde “Conditions” unifiée avec redirection stricte vers `/conditions` tant que la version active n’est pas acceptée, incluant `?redirect` et retour via `replace:true`.
