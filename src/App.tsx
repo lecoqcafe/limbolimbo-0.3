@@ -3,10 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import { Header } from "@/components/Header";
 import TermsGuard from "@/components/TermsGuard";
-
 import ConditionsPage from "@/pages/Conditions";
 import Home from "@/pages/Home";
 import Recherche from "@/pages/Recherche";
@@ -17,8 +15,7 @@ import APropos from "@/pages/APropos";
 import NotFound from "@/pages/NotFound";
 import ToutesLesOpportunites from "@/pages/ToutesLesOpportunites";
 import Changelog from "@/pages/Changelog";
-
-// Placeholders à livrer en E05: Parametres.tsx et Historique.tsx
+// Placeholders livrés: Parametres.tsx et Historique.tsx
 import Parametres from "@/pages/Parametres";
 import Historique from "@/pages/Historique";
 
@@ -27,16 +24,16 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
       <BrowserRouter>
-        {/* La garde enveloppe tout le rendu cliquable (anti‑FOUC) */}
+        {/* La garde enveloppe tout le rendu cliquable (anti‑FOUC total) */}
         <TermsGuard>
+          {/* Toasters rendus APRÈS évaluation de la garde (Q3.21) */}
+          <Toaster />
+          <Sonner />
           <Header />
           <Routes>
             {/* Route publique pour lecture des Conditions */}
             <Route path="/conditions" element={<ConditionsPage />} />
-
             {/* Routes existantes de l’application */}
             <Route path="/" element={<Home />} />
             <Route path="/recherche" element={<Recherche />} />
@@ -46,11 +43,9 @@ const App = () => (
             <Route path="/opportunite" element={<OpportunityDetail />} />
             <Route path="/changelog" element={<Changelog />} />
             <Route path="/a-propos" element={<APropos />} />
-
             {/* Nouvelles routes placeholders */}
             <Route path="/parametres" element={<Parametres />} />
             <Route path="/historique" element={<Historique />} />
-
             {/* CATCH-ALL */}
             <Route path="*" element={<NotFound />} />
           </Routes>
