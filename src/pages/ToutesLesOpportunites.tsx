@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Header } from "@/components/Header";
 import { OpportunityCard } from "@/components/OpportunityCard";
 import {
   loadOpportunities,
@@ -21,7 +20,6 @@ function resolveCategoryImage(file?: string): string | undefined {
 
 const ToutesLesOpportunites = () => {
   const navigate = useNavigate();
-
   const [list, setList] = useState<Opportunity[]>([]);
   const [fallbackByOpp, setFallbackByOpp] = useState<Record<string, string | undefined>>({});
 
@@ -65,7 +63,6 @@ const ToutesLesOpportunites = () => {
       setList(sorted);
       setFallbackByOpp(fb);
     };
-
     run();
   }, []);
 
@@ -73,7 +70,6 @@ const ToutesLesOpportunites = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-5xl mx-auto space-y-8">
           <div className="flex items-center gap-4">
