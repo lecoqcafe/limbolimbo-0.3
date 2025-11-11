@@ -4,7 +4,7 @@ opp_ID,Statut,Opportunité,Image,Description de l'opportunité,Lien d'affiliatio
 103,1,HoneyGain,honeygain.jpg,"Première application permettant de gagner de l'argent en partageant votre connexion internet inutilisée. Il suffit de la télécharger sur votre appareil et elle fonctionne silencieusement en arrière-plan pendant que vous gagnez de l'argent.",https://join.honeygain.com/XRSCR5890E,
 104,1,PawnsApp,pawns.jpg,"Application de partage de bande passante internet pour gagner de l'argent. Compatible avec ordinateurs et mobiles. Paiements rapides et sécurisés via PayPal.",https://pawns.app/?r=1808419,
 105,1,Grass,grass.jpg,"Application offrant des récompenses passives, avec un tableau de bord permettant de suivre facilement vos gains, votre temps de connexion et vos parrainages.",https://app.grass.io/register?referralCode=uec2tGDHKOFPs4A,
-106,1,CoinApp,coinapp.jpg,"Application mobile pour gagner des cryptomonnaies simplement en se déplaçant. Utilise la géolocalisation pour récompenser vos déplacements physiques et explorer la ville.",,
+106,1,CoinApp,coinapp.jpg,"Application mobile pour gagner des cryptomonnaies simplement en se déplaçant. Utilise la géolocalisation pour récompenser vos déplacements physiques et explorer la ville.",https://lecoq.cafe/CoinApp-101/,
 107,1,WinWalk,winwalk.jpg,"Application de podomètre récompensant la marche. Convertis vos pas en points échangeables contre des cadeaux ou de l'argent. Idéal pour les piétons et joggers.",,
 108,1,Tip Nano,tipnano.jpg,"Plateforme de cryptomonnaie permettant de récupérer gratuitement des nano. Les utilisateurs peuvent réclamer de petites quantités de nano via des captcha.",,
 109,1,LTC Giveaway,ltcgiveaway.jpg,"Site offrant des distributions de Litecoin gratuitement. Il suffit de fournir une adresse LTC valide pour recevoir des micro-transactions régulièrement.",,
@@ -28,6 +28,7 @@ opp_ID,Statut,Opportunité,Image,Description de l'opportunité,Lien d'affiliatio
 127,0,Amazon Mechanical Turk,amazonmt.jpg,"...",,
 128,0,Google Opinion Rewards,googleor.jpg,"...",,
 129,0,Retail Me Not,retailmenot.jpg,"...",,
+
 
 
 
