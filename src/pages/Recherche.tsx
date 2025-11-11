@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Header } from "@/components/Header";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
@@ -21,7 +20,6 @@ const Recherche = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-2xl mx-auto space-y-8">
           <div className="text-center space-y-4">
@@ -60,7 +58,6 @@ const Recherche = () => {
             <p id="search-help" className="sr-only">
               Tapez un mot-clé puis appuyez sur Rechercher.
             </p>
-
             <Button
               type="submit"
               className="w-full h-12 bg-gradient-primary hover:opacity-90 transition-opacity text-lg"
@@ -93,3 +90,4 @@ const Recherche = () => {
 };
 
 export default Recherche;
+
