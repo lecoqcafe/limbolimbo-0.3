@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
-import { Header } from "@/components/Header";
 import { OpportunityCard } from "@/components/OpportunityCard";
 import { Button } from "@/components/ui/button";
 import {
@@ -62,7 +61,6 @@ const OpportunitesPersonnalisees = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-5xl mx-auto space-y-8">
           <div className="flex items-center gap-4">
