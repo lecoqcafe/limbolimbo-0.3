@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Header } from "@/components/Header";
 import { CategoryCard } from "@/components/CategoryCard";
 import { loadCategories, type Category } from "@/lib/csvParser";
 
@@ -22,7 +21,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      <Header />
       <main className="container mx-auto px-3 sm:px-4 py-8 sm:py-12">
         <div className="text-center mb-8 sm:mb-12 space-y-3">
           <div className="text-2xl font-bold text-foreground">LIMBOLIMBO</div>
