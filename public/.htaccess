@@ -9,3 +9,7 @@ RewriteRule ^ - [L]
 
 # 2) Réécrire le reste vers index.html (200)
 RewriteRule ^ index.html [L]
+
+# 3) Type MIME explicite pour les fichiers Markdown
+#    Si text/markdown n’est pas supporté par l’hébergeur, il retombera en text/plain côté client.
+AddType text/markdown .md
