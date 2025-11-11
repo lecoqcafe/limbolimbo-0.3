@@ -1,6 +1,15 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.3.109] - 2025-11-10
+### Fixed
+- Lien “Conditions” corrigé: lecture de `/conditions.T1.0.md` via URL absolue avec anti‑cache (`no-store` + cache‑buster), détection HTML (fallback SPA) et repli texte minimal si indisponible.
+- Duplication de l’en-tête (Header) éliminée: Header unique monté sous `TermsGuard` dans `App.tsx`; retraits des rendus locaux dans les pages.
+### Reliability
+- Configuration serveur: `.htaccess` met `AddType text/markdown .md` pour servir correctement les fichiers Markdown.
+### Unchanged
+- Socle consentement intact: logique centrale `TermsGuard`/`TermsModal` non modifiée; `termsVersion` inchangée à `T1.0`.
+
 ## [0.3.106] - 2025-11-10
 ### Added
 - Garde globale “Conditions” appliquée avant tout rendu interactif (anti‑FOUC) avec redirection stricte vers `/conditions` tant que la version active n’est pas acceptée (conservation `?redirect` et retour via `replace:true`).
