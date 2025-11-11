@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
-import { Header } from "@/components/Header";
 import { OpportunityCard } from "@/components/OpportunityCard";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,10 +36,8 @@ const Opportunites = () => {
       const oppCatsData = await loadOpportunityCategories();
       setCategories(cats);
       setOppCats(oppCatsData);
-
       const currentCategory = cats.find((c) => c.cat_ID === categoryId);
       setCategory(currentCategory || null);
-
       if (categoryId) {
         const filteredOpps = getOpportunitiesByCategory(opps, oppCatsData, categoryId);
         setOpportunities(filteredOpps); // Suppression de la troncature non mandatée
@@ -62,7 +59,6 @@ const Opportunites = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-5xl mx-auto space-y-8">
           <div className="flex items-center gap-4">
