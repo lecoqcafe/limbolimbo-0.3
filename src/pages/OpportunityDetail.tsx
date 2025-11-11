@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -32,7 +31,6 @@ const resolveCategoryImage = (file?: string, base = "/images/categories/"): stri
 const OpportunityDetail = () => {
   const [searchParams] = useSearchParams();
   const oppId = searchParams.get("id") || "";
-
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [oppCats, setOppCats] = useState<OpportunityCategory[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -54,7 +52,6 @@ const OpportunityDetail = () => {
   if (!opportunity) {
     return (
       <div className="min-h-screen bg-background">
-        <Header />
         <main className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto text-center">
             <p className="text-lg text-muted-foreground">Opportunité non trouvée</p>
@@ -93,7 +90,6 @@ const OpportunityDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* En-tête avec visuel 96 px */}
