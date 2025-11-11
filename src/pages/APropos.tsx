@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Header } from "@/components/Header";
 import { Card } from "@/components/ui/card";
 import { Info } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -27,7 +26,6 @@ const APropos = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       <main className="container mx-auto px-4 py-10">
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="flex items-center gap-3">
@@ -84,7 +82,6 @@ const APropos = () => {
               <p className="text-muted-foreground">
                 Version {version ?? "—"}{build ? ` — build ${build}` : ""}
               </p>
-              {/* Lien vers le journal des versions */}
               <p>
                 <Link to="/changelog" className="text-primary hover:underline">
                   Voir le journal des versions (Changelog)
