@@ -3,13 +3,6 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { fetchTermsVersion, TERMS_VERSION_FALLBACK } from "@/lib/terms";
 
-/**
- * Page /conditions — Lecture seule
- * - Affiche le Markdown versionné (conditions.{version}.md) avec repli T1.0.
- * - Aucune action d’acceptation ici: l’acceptation est gérée exclusivement par TermsModal.
- * - Anti‑cache: lecture réseau avec no-store et cache-buster.
- * - Fallback texte minimal si 404 / contenu HTML / erreur réseau.
- */
 export default function ConditionsPage() {
   const [version, setVersion] = React.useState<string>(TERMS_VERSION_FALLBACK);
   const [content, setContent] = React.useState<string>("Chargement des Conditions…");
@@ -17,43 +10,63 @@ export default function ConditionsPage() {
   React.useEffect(() => {
     let cancelled = false;
 
+    const withTimeout = <T,>(p: Promise<T>, ms: number) =>
+      new Promise<T>((resolve, reject) => {
+        const id = setTimeout(() => reject(new Error("timeout")), ms);
+        p.then(
+          (v) => {
+            clearTimeout(id);
+            resolve(v);
+          },
+          (e) => {
+            clearTimeout(id);
+            reject(e);
+          }
+        );
+      });
+
     const loadText = async (url: string) => {
       const res = await fetch(url, {
         cache: "no-store",
-        headers: { "cache-control": "no-cache", pragma: "no-cache" },
+        headers: { "cache-control": "no-store, no-cache", pragma: "no-cache" },
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const text = await res.text();
 
-      // Protection contre un fallback SPA éventuel (index.html)
       const ct = (res.headers.get("content-type") ?? "").toLowerCase();
-      const looksHtml = /^\s*<!DOCTYPE|^\s*<html[\s>]/i.test(text);
+      const body = await res.text();
+
+      const looksHtml = /^\s*<!DOCTYPE|^\s*<html[\s>]/i.test(body);
       const isMarkdownOrText = ct.includes("text/markdown") || ct.includes("text/plain");
-      if (looksHtml || !isMarkdownOrText) {
+      const isEmpty = body.trim().length === 0;
+
+      if (looksHtml || !isMarkdownOrText || isEmpty) {
         throw new Error("Invalid content");
       }
-      return text;
+      return body;
     };
 
     (async () => {
       try {
-        const v = await fetchTermsVersion();
+        const v = await withTimeout(fetchTermsVersion(), 3000).catch(() => TERMS_VERSION_FALLBACK);
         if (cancelled) return;
 
         const resolved = v || TERMS_VERSION_FALLBACK;
         setVersion(resolved);
 
-        const now = Date.now();
-        const primary = `/conditions.${resolved}.md?v=03109&t=${now}`;
-        const fallback = `/conditions.${TERMS_VERSION_FALLBACK}.md?v=03109&t=${now}`;
+        const primary = `/conditions.${resolved}.md?v=03110`;
+        const fallback = `/conditions.${TERMS_VERSION_FALLBACK}.md?v=03110`;
 
-        const md = await loadText(primary).catch(() => loadText(fallback));
+        const md = await withTimeout(loadText(primary), 3000).catch(() =>
+          withTimeout(loadText(fallback), 3000)
+        );
+
         if (!cancelled) setContent(md);
       } catch {
         if (!cancelled) {
           setContent(
             "Résumé minimal: vous devez accepter les Conditions d’utilisation pour utiliser l’application. " +
-              "Le texte détaillé est momentanément indisponible (hors ligne ou serveur). Réessayez plus tard."
+              "Le texte détaillé est momentanément indisponible (hors ligne, contenu invalide ou serveur). " +
+              "Veuillez réessayer plus tard."
           );
         }
       }
