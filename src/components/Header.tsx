@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Search, Info, List, ScrollText } from "lucide-react";
+import { Search, Info, List, LogIn, Settings, History } from "lucide-react";
 import PiggyLogo from "@/assets/piggy.png";
 
 export const Header = () => {
@@ -19,16 +19,6 @@ export const Header = () => {
           </Link>
 
           <nav className="flex gap-2 sm:gap-3">
-            <Link
-              to="/"
-              title="Accueil"
-              aria-label="Accueil"
-              aria-current={location.pathname === "/" ? "page" : undefined}
-              className={`${baseBtn} ${location.pathname === "/" ? active : inactive}`}
-            >
-              <Home className="h-6 w-6" />
-            </Link>
-
             <Link
               to="/recherche"
               title="Recherche"
@@ -59,16 +49,34 @@ export const Header = () => {
               <Info className="h-6 w-6" />
             </Link>
 
-            {/* Lien Conditions */}
             <Link
-              to="/conditions"
-              title="Conditions d’utilisation"
-              aria-label="Conditions d’utilisation"
-              aria-current={location.pathname === "/conditions" ? "page" : undefined}
-              className={`${baseBtn} ${location.pathname === "/conditions" ? active : inactive}`}
+              to="/connexion"
+              title="Connexion"
+              aria-label="Connexion"
+              aria-current={location.pathname === "/connexion" ? "page" : undefined}
+              className={`${baseBtn} ${location.pathname === "/connexion" ? active : inactive}`}
             >
-              <ScrollText className="h-6 w-6" />
-              <span className="sr-only">Conditions d’utilisation</span>
+              <LogIn className="h-6 w-6" />
+            </Link>
+
+            <Link
+              to="/parametres"
+              title="Paramètres"
+              aria-label="Paramètres"
+              aria-current={location.pathname === "/parametres" ? "page" : undefined}
+              className={`${baseBtn} ${location.pathname === "/parametres" ? active : inactive}`}
+            >
+              <Settings className="h-6 w-6" />
+            </Link>
+
+            <Link
+              to="/historique"
+              title="Historique"
+              aria-label="Historique"
+              aria-current={location.pathname === "/historique" ? "page" : undefined}
+              className={`${baseBtn} ${location.pathname === "/historique" ? active : inactive}`}
+            >
+              <History className="h-6 w-6" />
             </Link>
           </nav>
         </div>
