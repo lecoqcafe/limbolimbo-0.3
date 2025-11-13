@@ -1,6 +1,35 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.3.301] - 2025-11-13
+### Added
+- Nouveaux liens dans le menu de navigation: Connexion, Paramètres, Historique avec icônes Lucide React (LogIn, Settings, History).
+- Favicons personnalisés thématique "piggy": favicon.ico (multi-résolution), favicon-16x16.png, favicon-32x32.png, apple-touch-icon.png (180x180), android-chrome-192x192.png, android-chrome-512x512.png.
+- Fichier manifest.json pour support PWA avec icônes Android et thème rose (#FF69B4).
+- Liens favicons dans index.html: balises <link> pour tous les formats et manifest.
+
+### Changed
+- Header.tsx: Refonte complète du menu de navigation.
+  * Icône "piggy" conservée comme lien vers Accueil (/).
+  * Navigation responsive maintenue (desktop/tablette/mobile).
+  * Hauteur Header maintenue à 96px.
+  * Accessibilité préservée: aria-labels, aria-current, navigation clavier.
+
+### Removed
+- Icône "maison" (Home) retirée du menu de navigation.
+- Lien "Conditions" retiré du menu (page accessible via autres moyens).
+
+### Unchanged
+- Contenu des pages placeholders v0.3.211 (Connexion, Paramètres, Historique, Conditions) non modifié.
+- Données opportunités sous /public non modifiées.
+- Routing existant préservé.
+- Pages principales (Accueil, Recherche, Catégories, etc.) non modifiées.
+
+### Technical
+- Build réussi sans erreur (0 vulnérabilités npm audit).
+- TypeScript compilation validée.
+- Tous les assets générés correctement.
+
 ## [0.3.211] - 2025-11-12
 ### Added
 - Pages placeholders fonctionnelles: `/connexion`, `/parametres`, `/historique`, `/conditions` avec message professionnel indiquant que le contenu sera disponible prochainement.
