@@ -1,3 +1,5 @@
+import { logger } from './logger';
+
 export interface Opportunity {
   opp_ID: string;
   Statut?: string; // "1" actif (défaut), "0" inactif
@@ -82,7 +84,7 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
     const text = textRaw.replace(/\r\n?/g, "\n");
 
     if (hasMojibake(text)) {
-      console.warn(
+      logger.warn(
         `[csvParser] Encodage suspect détecté dans ${filePath}. Vérifie que le fichier source est bien en UTF‑8 sans BOM.`
       );
     }
@@ -105,7 +107,7 @@ export async function parseCSV<T>(filePath: string): Promise<T[]> {
 
     return data;
   } catch (error) {
-    console.error(`Error parsing CSV from ${filePath}:`, error);
+    logger.logError(error, `Error parsing CSV from ${filePath}`);
     return [];
   }
 }

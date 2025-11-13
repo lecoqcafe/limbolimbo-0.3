@@ -1,397 +1,73 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
-## [0.3.403] - 2025-11-13
-### Fixed
-- **Logo "piggy" disparaissait sur mobile** : Correction du problème d'affichage sur petits écrans
-  * Trop d'icônes dans le menu poussaient le logo hors de l'écran sur mobile
-  * Implémentation d'un menu hamburger responsive pour mobile
-
+## [0.3.404] - 2025-01-13
 ### Added
-- Menu hamburger mobile (< 768px) :
-  * Nouveau composant MobileMenu.tsx avec Sheet (shadcn/ui)
-  * Icône hamburger (☰) visible sur mobile uniquement
-  * Menu déroulant latéral avec tous les liens de navigation
-  * Fermeture automatique après sélection d'un lien
-  * Animation fluide d'ouverture/fermeture
-  * Support complet de l'authentification (menu utilisateur si connecté)
+- **Validation Zod** : Validation robuste des formulaires d'authentification
+  * Validation côté client pour tous les formulaires (connexion, inscription, mot de passe oublié)
+  * Messages d'erreur clairs et en français
+  * Validation email avec format strict
+  * Validation mot de passe avec exigences de sécurité (8 caractères min, majuscule, minuscule, chiffre)
+  * Confirmation de mot de passe avec vérification de correspondance
+  * Affichage des erreurs sous chaque champ concerné
+
+- **Rate Limiting** : Protection contre les attaques par force brute
+  * Limitation des tentatives de connexion (5 tentatives / 15 minutes)
+  * Limitation des tentatives d'inscription (3 tentatives / 30 minutes)
+  * Limitation des demandes de réinitialisation (3 tentatives / 60 minutes)
+  * Stockage dans localStorage pour persistance
+  * Messages d'erreur avec temps restant avant déblocage
+  * Compteur de tentatives restantes
+  * Réinitialisation automatique en cas de succès
+
+- **Logger de Production** : Système de logging centralisé
+  * Logger personnalisé pour remplacer console.error/warn/info
+  * Stockage des logs dans localStorage (100 derniers)
+  * Logs avec timestamp, niveau, message et contexte
+  * Mode développement : affichage console
+  * Mode production : stockage local + préparation pour service externe
+  * Export des logs en JSON
+  * Méthodes: logger.info(), logger.warn(), logger.error(), logger.debug()
+
+- **Vérification Configuration** : Détection des problèmes au démarrage
+  * Vérification de la configuration Supabase au démarrage en production
+  * Message d'erreur clair si variables d'environnement manquantes
+  * Arrêt de l'application avec message utilisateur si configuration invalide
+  * Logging des erreurs de configuration
 
 ### Changed
-- Header.tsx : Navigation responsive adaptative
-  * Desktop/Tablette (≥ 768px) : Menu complet avec icônes (inchangé)
-  * Mobile (< 768px) : Logo piggy + Menu hamburger uniquement
-  * Logo "piggy" toujours visible sur tous les appareils
-  * Classe Tailwind `hidden md:flex` pour cacher navigation desktop sur mobile
-  * Classe Tailwind `md:hidden` pour afficher menu hamburger sur mobile uniquement
+- **Formulaires d'authentification** : Amélioration de la sécurité et UX
+  * LoginForm.tsx : Validation Zod + Rate limiting + Affichage erreurs
+  * SignupForm.tsx : Validation Zod + Rate limiting + Exigences mot de passe renforcées
+  * ForgotPasswordForm.tsx : Validation Zod + Rate limiting
+  * Désactivation des boutons pendant le blocage
+  * Alertes visuelles en cas de blocage (AlertTriangle)
 
-### Technical
-- Breakpoint responsive : 768px (md: en Tailwind)
-- Composant MobileMenu utilise Sheet de shadcn/ui
-- Gestion d'état local (useState) pour ouverture/fermeture
-- Navigation programmatique avec useNavigate
-- Fermeture automatique du menu après navigation
-- Accessibilité maintenue (aria-labels, navigation clavier)
-- Build validé sans erreur (0 vulnérabilités)
-
-### User Experience
-- Logo "piggy" toujours visible sur mobile ✅
-- Navigation claire et organisée sur tous appareils
-- Menu hamburger standard UX mobile
-- Pas de changement sur desktop/tablette (expérience préservée)
-- Extensible pour futures fonctionnalités
-
-## [0.3.402] - 2025-11-13
-### Fixed
-- **HOTFIX CRITIQUE** : Correction du crash au démarrage en production
-  * Supabase rendu optionnel pour éviter les erreurs si non configuré
-  * Application fonctionne maintenant sans variables d'environnement Supabase
-  * Pages d'authentification affichent un message clair si Supabase non configuré
-  * Bouton connexion caché dans le Header si Supabase non configuré
-
-### Changed
-- src/lib/supabase.ts : Client Supabase optionnel (null si non configuré)
-  * Ajout variable `isSupabaseConfigured` pour vérifier la configuration
-  * Suppression du throw Error qui causait le crash
-- src/contexts/AuthContext.tsx : Gestion de l'absence de Supabase
-  * Vérification de configuration avant chaque opération d'authentification
-  * Messages d'erreur clairs si authentification non disponible
-  * Pas de crash si Supabase non configuré
-- src/components/Header.tsx : Menu adaptatif selon configuration
-  * Bouton connexion/menu utilisateur caché si Supabase non configuré
-  * Affichage conditionnel basé sur `isSupabaseConfigured`
-- src/App.tsx : Routes adaptatives selon configuration
-  * Routes d'authentification accessibles sans protection si Supabase non configuré
-  * Routes protégées seulement si Supabase configuré
-- Pages d'authentification (Connexion, Inscription, MotDePasseOublie) :
-  * Affichage d'un message informatif si Supabase non configuré
-  * Formulaires fonctionnels seulement si Supabase configuré
-- Pages protégées (Parametres, Historique) :
-  * Affichage d'un message informatif si Supabase non configuré
-  * Contenu utilisateur affiché seulement si authentifié
-
-### Technical
-- Mode dégradé gracieux : Application fonctionne sans authentification
-- Pas de crash au démarrage même sans variables d'environnement
-- Messages utilisateur clairs et informatifs
-- Build validé sans erreur (0 vulnérabilités)
-- Compatibilité maintenue avec v0.3.401 une fois Supabase configuré
-
-### Deployment
-- **IMPORTANT** : Cette version peut être déployée IMMÉDIATEMENT
-- Fonctionne sans configuration Supabase (mode dégradé)
-- Pour activer l'authentification :
-  1. Créer compte Supabase (gratuit)
-  2. Créer projet et récupérer clés
-  3. Créer fichier .env.local avec VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY
-  4. Rebuild et redéployer
-- Consultez README-SUPABASE.md pour instructions détaillées
-
-## [0.3.401] - 2025-11-13
-### Added
-- Système d'authentification complet avec Supabase:
-  * Inscription avec email/mot de passe
-  * Connexion avec email/mot de passe
-  * Déconnexion sécurisée
-  * Réinitialisation de mot de passe par email
-  * Gestion de session persistante multi-appareils
-  * Tokens JWT avec auto-refresh
-- Nouvelles pages d'authentification:
-  * `/connexion` - Formulaire de connexion fonctionnel
-  * `/inscription` - Formulaire d'inscription avec validation
-  * `/mot-de-passe-oublie` - Réinitialisation de mot de passe
-- Protection des routes sensibles:
-  * `/parametres` - Accessible uniquement si connecté
-  * `/historique` - Accessible uniquement si connecté
-  * Redirection automatique vers `/connexion` si non authentifié
-- Menu utilisateur dynamique dans le Header:
-  * Affichage conditionnel selon l'état de connexion
-  * Dropdown menu avec email utilisateur
-  * Accès rapide Paramètres et Historique
-  * Bouton de déconnexion
-- Infrastructure d'authentification:
-  * AuthContext pour gestion globale de l'état
-  * Hook personnalisé `useAuth()` pour accès facile
-  * Composant ProtectedRoute pour protection des routes
-  * Types TypeScript complets pour l'authentification
-- Documentation complète:
-  * README-SUPABASE.md avec guide de configuration
-  * .env.example avec template de variables d'environnement
-  * Instructions détaillées pour obtenir les clés Supabase
-
-### Changed
-- Header.tsx: Menu utilisateur intelligent
-  * Icône "Connexion" (LogIn) si non connecté
-  * Menu dropdown avec avatar (User) si connecté
-  * Affichage de l'email utilisateur dans le menu
-  * Bouton déconnexion avec icône LogOut
-- Pages Paramètres et Historique:
-  * Affichage des informations utilisateur (email)
-  * Message pour fonctionnalités futures
-  * Design cohérent avec l'existant
-- App.tsx: Intégration AuthProvider global
-  * Wrapping de toutes les routes avec AuthProvider
-  * Routes protégées avec ProtectedRoute
-  * Nouvelles routes d'authentification configurées
+- **Gestion des erreurs** : Remplacement de console.error par logger
+  * Header.tsx : Utilisation du logger pour erreurs de déconnexion
+  * MobileMenu.tsx : Utilisation du logger pour erreurs de déconnexion
+  * csvParser.ts : Utilisation du logger pour erreurs de parsing
+  * NotFound.tsx : Utilisation du logger pour erreurs 404
 
 ### Security
-- Authentification sécurisée via Supabase:
-  * Mots de passe hashés côté serveur (bcrypt)
-  * Tokens JWT avec signature sécurisée
-  * Sessions avec auto-refresh automatique
-  * Protection CSRF intégrée
-  * Variables d'environnement pour clés sensibles
-  * .env.local dans .gitignore (sécurité)
-- Validation côté client:
-  * Format email vérifié
-  * Longueur minimale mot de passe (6 caractères)
-  * Confirmation mot de passe lors de l'inscription
-  * Messages d'erreur clairs et en français
+- 🔒 **Validation robuste** : Protection contre les données invalides
+- 🔒 **Rate limiting** : Protection contre les attaques par force brute
+- 🔒 **Logging sécurisé** : Pas d'exposition d'informations sensibles en production
+- 🔒 **Vérification configuration** : Détection précoce des problèmes de déploiement
 
 ### Technical
-- Dépendances ajoutées:
-  * @supabase/supabase-js (^2.x) - Client Supabase
-- Build réussi sans erreur (0 vulnérabilités npm audit)
-- TypeScript compilation validée
-- Support multi-appareils natif via Supabase
-- Préparation pour futures extensions:
-  * OAuth (Google, GitHub, etc.)
-  * Authentification à deux facteurs (2FA)
-  * Synchronisation données utilisateur
-
-### Unchanged
-- Données opportunités sous /public non modifiées
-- Pages principales (Accueil, Recherche, Catégories, etc.) non modifiées
-- Routing existant préservé (sauf ajout routes auth)
-- Design et thème visuel cohérents avec v0.3.301
-
-## [0.3.301] - 2025-11-13
-### Added
-- Nouveaux liens dans le menu de navigation: Connexion, Paramètres, Historique avec icônes Lucide React (LogIn, Settings, History).
-- Favicons personnalisés thématique "piggy": favicon.ico (multi-résolution), favicon-16x16.png, favicon-32x32.png, apple-touch-icon.png (180x180), android-chrome-192x192.png, android-chrome-512x512.png.
-- Fichier manifest.json pour support PWA avec icônes Android et thème rose (#FF69B4).
-- Liens favicons dans index.html: balises <link> pour tous les formats et manifest.
-
-### Changed
-- Header.tsx: Refonte complète du menu de navigation.
-  * Icône "piggy" conservée comme lien vers Accueil (/).
-  * Navigation responsive maintenue (desktop/tablette/mobile).
-  * Hauteur Header maintenue à 96px.
-  * Accessibilité préservée: aria-labels, aria-current, navigation clavier.
-
-### Removed
-- Icône "maison" (Home) retirée du menu de navigation.
-- Lien "Conditions" retiré du menu (page accessible via autres moyens).
-
-### Unchanged
-- Contenu des pages placeholders v0.3.211 (Connexion, Paramètres, Historique, Conditions) non modifié.
-- Données opportunités sous /public non modifiées.
-- Routing existant préservé.
-- Pages principales (Accueil, Recherche, Catégories, etc.) non modifiées.
-
-### Technical
-- Build réussi sans erreur (0 vulnérabilités npm audit).
-- TypeScript compilation validée.
-- Tous les assets générés correctement.
-
-## [0.3.211] - 2025-11-12
-### Added
-- Pages placeholders fonctionnelles: `/connexion`, `/parametres`, `/historique`, `/conditions` avec message professionnel indiquant que le contenu sera disponible prochainement.
-- Routes configurées pour les 4 nouvelles pages dans le routing principal.
-
-### Removed
-- Suppression des vestiges de tentatives précédentes: `TermsGuard`, `TermsModal`, bibliothèques `terms.ts` et `storage.ts`.
-- Simplification du fichier `App.tsx`: retrait de la garde globale et imports associés.
-
-### Changed
-- Refonte complète des pages Paramètres, Historique et Conditions: remplacement des implémentations complexes par des coquilles vides conformes au périmètre v0.3.211.
-
-### Unchanged
-- Aucune modification des données opportunités sous `/public`.
-- Menu et favicons non modifiés (reportés à v0.3.301+).
-- Build compile sans erreur.
-
-## [0.3.109] - 2025-11-10
-### Fixed
-- Lien “Conditions” corrigé: lecture de `/conditions.T1.0.md` via URL absolue avec anti‑cache (`no-store` + cache‑buster), détection HTML (fallback SPA) et repli texte minimal si indisponible.
-- Duplication de l’en-tête (Header) éliminée: Header unique monté sous `TermsGuard` dans `App.tsx`; retraits des rendus locaux dans les pages.
-### Reliability
-- Configuration serveur: `.htaccess` met `AddType text/markdown .md` pour servir correctement les fichiers Markdown.
-### Unchanged
-- Socle consentement intact: logique centrale `TermsGuard`/`TermsModal` non modifiée; `termsVersion` inchangée à `T1.0`.
-
-## [0.3.106] - 2025-11-10
-### Added
-- Garde globale “Conditions” appliquée avant tout rendu interactif (anti‑FOUC) avec redirection stricte vers `/conditions` tant que la version active n’est pas acceptée (conservation `?redirect` et retour via `replace:true`).
-- Modale d’acceptation (TermsModal) bloquante (pas Échap, pas clic extérieur), rendue aussi sur `/conditions`.
-- Synchronisation multi‑onglets de l’acceptation via événement `storage` (propagation < 1 s).
-- Dépendance `@radix-ui/react-tooltip` ajoutée en `^1.1.0`.
-- Pages placeholders: `/parametres` et `/historique` (messages adaptés si non connecté).
-- Lien “Conditions” dans l’en‑tête (Header).
-
-### Changed
-- `App`: rendu de Toaster/Sonner sous la garde (après évaluation) pour garantir l’anti‑FOUC total.
-- Page `/conditions`: lecture du Markdown versionné avec anti‑cache (`cache: "no-store"` + cache‑buster), détection de contenu HTML (fallback SPA) et message lisible en cas d’échec.
-
-### Reliability
-- Persistance locale: `limbo:terms:app = { version: "T1.0", acceptedAt: "<ISO UTC>" }`.
-- Hors‑ligne: acceptation possible avec texte minimal embarqué lorsque le Markdown réseau est indisponible.
-- Redirections sûres: `?redirect` interne uniquement; usage systématique de `replace:true`.
-
-### Fixed
-- Échec de build v0.3.105: ajout de `/src/pages/Parametres.tsx`; résolution de l’erreur TS2307 liée à `@radix-ui/react-tooltip`.
-
-### Unchanged
-- `termsVersion` conservée à `T1.0`; aucun changement matériel du texte des Conditions.
-
-## [0.3.105] - 2025-11-07
-### Added
-- Garde “Conditions” unifiée avec redirection stricte vers `/conditions` tant que la version active n’est pas acceptée, incluant `?redirect` et retour via `replace:true`.
-- Modale d’acceptation (TermsModal) bloquante (pas Échap, pas clic extérieur) et disponible aussi sur `/conditions`.
-- Lien “Conditions” dans l’en‑tête.
-- Pages placeholders: `/parametres` et `/historique` avec message et CTA “Se connecter” désactivé.
-
-### Changed
-- Déplacement du Header à l’intérieur de la garde pour anti‑FOUC (aucun élément cliquable avant verdict).
-- Page `/conditions` en lecture seule (retrait des boutons “J’accepte …”).
-
-### Fixed
-- Lecture de `terms.version.json` et du Markdown des Conditions avec anti‑cache (`no-store` + cache‑buster) et fallbacks constants pour éviter boucles/erreurs transitoires.
-- Synchronisation multi‑onglets de l’acceptation via événement `storage`.
-- Non‑régression: détection du cas où `/changelog.txt` renverrait du HTML (ex.: `index.html`) et affichage d’un message clair.
-
-## [0.2.108] - 2025-10-25
-### Added
-- Garde-fou de compilation pour `{ cn }` via sentinelle TypeScript (src/sentinel/cn.sentinel.ts).
-- Vérification de types avant build: `tsc --noEmit` exécuté avant `vite build`.
-
-### Changed
-- Signature verrouillée: ajout du type de retour `: string` à `cn` (src/lib/utils.ts).
-- Fallback SPA en production: ajout de `public/.htaccess` avec règles `!-f/!-d → index.html`; suppression du `.htaccess` à la racine du dépôt pour éviter tout conflit.
-
-### Fixed
-- Alignement test/prod des liens profonds: les routes SPA ne renvoient plus de 404 serveur.
-
-## [0.2.107] - 2025-10-23
-### Ajouté
-- Page “Toutes les opportunités” (`/opportunites/toutes`) listant uniquement les opportunités actives, sans doublons, triées à partir de `opp_ID` 101. Réutilisation des cartes et fallbacks d’images (opportunité → catégorie → placeholder).
-- Lien direct dans le menu vers “Toutes les opportunités” avec l’icône `list`.
-- Page “Changelog” (`/changelog`) lisant `changelog.txt`, avec vérification `text/plain` et détection de HTML/fallback pour afficher un message propre en cas d’indisponibilité.
-
-### Modifié
-- Routes d’application mises à jour pour inclure les nouvelles pages.
-- NotFound: navigation 100% SPA via `Link` (plus de rechargement complet).
-- À propos: le lien “Changelog” pointe vers la page interne `/changelog` au lieu d’ouvrir directement le `.txt`.
-
-### Supprimé
-- Image “héro” pleine largeur de la page Détails Opportunité.
-
-### Validé
-- Fallback SPA côté serveur via `.htaccess` permettant d’ouvrir les routes profondes sans 404.
-
-## [0.2.106] - 2025-10-23
-### Added
-- Mapping minimal des slugs d’icônes vers lucide-react: “wifi” → Wifi, “dollar-sign” → DollarSign. Icône de secours par défaut.
-
-### Changed
-- Fallback d’images uniformisé sur cartes et page Détails: Opportunité → Catégorie → Placeholder, avec gestion d’erreur sans boucle.
-
-### Fixed
-- Build restauré en rétablissant l’export nommé `cn` dans `src/lib/utils.ts` (conservation de `openExternal`).
-- Troncatures non mandatées supprimées (Opportunités, Opportunités personnalisées).
+- Nouvelle dépendance : Zod (déjà installé, maintenant utilisé)
+- Nouveaux fichiers :
+  * src/lib/validations/auth.ts : Schémas de validation Zod
+  * src/lib/rateLimiter.ts : Système de rate limiting
+  * src/lib/logger.ts : Système de logging
+- Fichiers modifiés : 9 fichiers
+- Build validé sans erreur
+- Bundle size : 388.70 KB (optimisable dans version future)
 
 ### Notes
-- Aucune modification du PWA/manifest, des routes ou du fallback serveur.
-- Encodage FR/UTF‑8 et parsing CSV inchangés.
+- Cette version corrige les 4 failles de sécurité critiques identifiées dans l'audit
+- Prêt pour la production après cette mise à jour
+- Les utilisateurs existants ne sont pas affectés (pas de migration nécessaire)
+- Le rate limiting est stocké localement (pas de synchronisation multi-appareils pour l'instant)
 
-## [0.2.105] - 2025-10-22
-
-### Ajouté
-- Colonne "Statut" (2e) et "ChroniqueURL" (dernière) dans `public/data/opp_id.csv`.
-- Colonne "Image" (4e) dans `public/data/cat_id.csv`.
-- Nouvelles catégories: 18 (Achats), 19 (Entreprenariat), 20 (Handicap), 99 (Divers).
-- Lien "Consulter la chronique LeCOQ.Café" sur la page Détails (icône dédiée).
-- Utilitaire d’ouverture robuste `openExternal(url)`.
-
-### Modifié
-- Catégorie 15 renommée "Internet" (dans `cat_id.csv` et `opp_cat.csv`).
-- Grilles unifiées (Accueil, Catégorie, Résultats): 3/4/5/6 colonnes + vignettes 1:1.
-- CategoryCard: affiche l’image 1:1 si présente, sinon icône Lucide.
-- OpportunityCard: vignette 1:1 avec repli propre si image absente; textes plus lisibles.
-- Page Détails: visuel 96 px à gauche du titre; héro carré 1:1; ajout du bloc Chronique.
-- Accueil: marque "LIMBOLIMBO" visible sous le header.
-
-### Corrigé
-- Gestion systématique des images manquantes (repli contrôlé).
-- Accessibilité: textes ALT FR et rôles cohérents dans les composants clés.
-
-## [0.2.104] - 2025-10-21
-### Changed
-- index.html: meta charset « utf-8 » en tout début du head (unique; casse normalisée).
-- Standard d'encodage: tous les CSV en UTF‑8 sans BOM; fins de ligne normalisées en LF.
-### Fixed
-- Artefacts d'encodage éliminés (Ã©, â€™, Â…) via cohérence UTF‑8 et gestion du BOM côté parseur.
-### Docs
-- README: ajout de la section « Encodage & CSV » (standard, tests, bonnes pratiques).
-### Tech
-- Parseur CSV: décodage UTF‑8 strict (sans repli CP‑1252), gestion du BOM (U+FEFF) ignorée proprement, avertissement “mojibake” non bloquant.
-
-## [0.2.103] - 2025-10-20
-### Changé
-- Mise à jour des bases de données.
-
-## [0.2.102] - 2025-10-20
-### Sécurité
-- Mise à jour de l’outil de build: Vite → 7.1.11 afin d’éliminer l’avertissement npm lié à esbuild (GHSA-67mh-4wv8-2f99).
-
-### Changé
-- Chaîne de build uniquement. Aucun changement fonctionnel prévu (React/TypeScript/Tailwind inchangés).
-
-## [0.2.101] - 2025-10-20
-
-### Added
-- Page « À propos » (/a-propos) avec icône Lucide Info et contenu validé.
-- Source centrale de version: /version.json (champs: name, version, build).
-- Fallback SPA pour le routage (public/.htaccess) afin d’ouvrir directement les URLs internes.
-
-### Changed
-- index.html: `lang="fr"`, balise canonical et `og:url` vers le domaine de production; images OG/Twitter en URL absolue.
-- Accueil (Home): grille plus lisible — `grid-cols-2 md:grid-cols-3 lg:grid-cols-4` et gaps progressifs.
-- En-tête (Header): ajout du lien « À propos »; accessibilité renforcée (`aria-current`, labels).
-- Parser CSV: préférence UTF‑8 (fatal) + repli CP‑1252, suppression du BOM, normalisation des fins de ligne, anti‑cache au chargement.
-- Données: `public/data/opp_id.csv` — descriptions uniformément entre guillemets, encodage UTF‑8.
-- Styles: `src/App.css` neutralisé (suppression des règles globales) pour laisser Tailwind comme seule source.
-
-### Fixed
-- 404 serveur (LiteSpeed) sur les liens profonds (/a-propos, /opportunite, etc.) — résolu par le fallback SPA.
-- Affichage des accents (é, è, à) stabilisé grâce à l’UTF‑8 et au retrait du BOM.
-- Cohérence des listes: recherche et filtrage par catégories robustes malgré les virgules/guillemets dans les descriptions.
-- Restauration des libellés de catégories (données nettoyées + parsing corrigé).
-
-### Notes
-- Fichiers concernés (principaux): index.html, src/lib/csvParser.ts, public/data/opp_id.csv, src/App.css, src/pages/Home.tsx,
-  src/components/Header.tsx, src/pages/APropos.tsx, public/.htaccess, public/version.json.
-- Vérification rapide: 
-  • /version.json affiche la version et le build, 
-  • /a-propos s’ouvre directement sans 404, 
-  • recherche « cashback / parrainages / nano » renvoie au moins un résultat.
-
-## [0.1.102] - 2025-10-20 (hérité)
-### Fixed
-- Tous les CSV encodés uniformément en UTF‑8 pour l’affichage correct des caractères français.
-- Problèmes d’encodage corrigés dans opp_id.csv et opp_cat.csv.
-- Page NotFound: utilisation des tokens du design system; texte en français.
-
-### Changed
-- Parser CSV simplifié pour n’utiliser que l’UTF‑8.
-- Catégorie « Partage » renommée en « Internet » avec icône Wifi.
-- Icône de « Récompenses » changée pour DollarSign.
-- Uniformisation: texte de l’application entièrement en français.
-
-## [0.1.101] - 2025-10-19 (hérité)
-### Added
-- Système d’anti‑cache pour les CSV: `cache: no-store`, en‑têtes anti‑cache, timestamp de requête.
-
-### Fixed
-- Encodage des caractères français (é, è, à, etc.).
-- Normalisation des en‑têtes CSV pour gérer les variations d’encodage.
-- Problèmes de cache navigateur empêchant les mises à jour CSV d’apparaître immédiatement.

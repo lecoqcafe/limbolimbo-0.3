@@ -5,24 +5,82 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, Mail, Lock } from 'lucide-react';
+import { Loader2, Mail, Lock, AlertTriangle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { loginSchema, type LoginFormData } from '@/lib/validations/auth';
+import { loginRateLimiter } from '@/lib/rateLimiter';
+import { toast } from 'sonner';
 
 export function LoginForm() {
   const navigate = useNavigate();
   const { signIn, loading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState<Partial<LoginFormData>>({});
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [remainingTime, setRemainingTime] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
+
+    // Vérifier le rate limiting
+    const rateLimitKey = email || 'anonymous';
+    if (loginRateLimiter.isBlocked(rateLimitKey)) {
+      const timeLeft = loginRateLimiter.formatRemainingTime(rateLimitKey);
+      setIsBlocked(true);
+      setRemainingTime(timeLeft);
+      toast.error('Trop de tentatives', {
+        description: `Veuillez réessayer dans ${timeLeft}`,
+      });
+      return;
+    }
+
+    // Validation avec Zod
+    const result = loginSchema.safeParse({ email, password });
+
+    if (!result.success) {
+      // Extraire les erreurs de validation
+      const fieldErrors: Partial<LoginFormData> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          fieldErrors[err.path[0] as keyof LoginFormData] = err.message;
+        }
+      });
+      setErrors(fieldErrors);
+      
+      // Afficher le premier message d'erreur
+      const firstError = result.error.errors[0];
+      toast.error('Validation échouée', {
+        description: firstError.message,
+      });
+      return;
+    }
 
     try {
       await signIn({ email, password });
+      // Réinitialiser le rate limiter en cas de succès
+      loginRateLimiter.reset(rateLimitKey);
       // Redirection vers la page d'accueil après connexion réussie
       navigate('/');
     } catch (error) {
-      // L'erreur est déjà gérée par le contexte (toast)
-      console.error('Erreur de connexion:', error);
+      // Enregistrer la tentative échouée
+      loginRateLimiter.recordAttempt(rateLimitKey);
+      
+      // Vérifier si on est maintenant bloqué
+      if (loginRateLimiter.isBlocked(rateLimitKey)) {
+        const timeLeft = loginRateLimiter.formatRemainingTime(rateLimitKey);
+        setIsBlocked(true);
+        setRemainingTime(timeLeft);
+      } else {
+        // Afficher le nombre de tentatives restantes
+        const remaining = loginRateLimiter.getRemainingAttempts(rateLimitKey);
+        if (remaining <= 2) {
+          toast.warning('Attention', {
+            description: `Il vous reste ${remaining} tentative${remaining > 1 ? 's' : ''}`,
+          });
+        }
+      }
     }
   };
 
@@ -36,6 +94,17 @@ export function LoginForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {isBlocked && (
+            <Alert variant="destructive">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertTitle>Trop de tentatives</AlertTitle>
+              <AlertDescription>
+                Vous avez dépassé le nombre maximum de tentatives de connexion.
+                Veuillez réessayer dans {remainingTime}.
+              </AlertDescription>
+            </Alert>
+          )}
+
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
@@ -46,11 +115,13 @@ export function LoginForm() {
                 placeholder="votre@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
                 disabled={loading}
-                className="pl-10"
+                className={`pl-10 ${errors.email ? 'border-red-500' : ''}`}
               />
             </div>
+            {errors.email && (
+              <p className="text-sm text-red-500">{errors.email}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -63,12 +134,13 @@ export function LoginForm() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
                 disabled={loading}
-                minLength={6}
-                className="pl-10"
+                className={`pl-10 ${errors.password ? 'border-red-500' : ''}`}
               />
             </div>
+            {errors.password && (
+              <p className="text-sm text-red-500">{errors.password}</p>
+            )}
           </div>
 
           <div className="flex items-center justify-end">
@@ -80,12 +152,14 @@ export function LoginForm() {
             </Link>
           </div>
 
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full" disabled={loading || isBlocked}>
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Connexion en cours...
               </>
+            ) : isBlocked ? (
+              'Trop de tentatives'
             ) : (
               'Se connecter'
             )}
