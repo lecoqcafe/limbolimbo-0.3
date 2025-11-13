@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Info } from "lucide-react";
+import { Info, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 
 type VersionInfo = { name?: string; version?: string; build?: string };
@@ -88,7 +88,17 @@ const APropos = () => {
                 </Link>
               </p>
             </section>
-          </Card>
+          
+              <section className="pt-4 border-t border-border/50">
+                <Link 
+                  to="/conditions" 
+                  className="flex items-center gap-2 text-primary hover:underline"
+                >
+                  <FileText className="h-4 w-4" />
+                  Conditions d'utilisation
+                </Link>
+              </section>
+</Card>
         </div>
       </main>
     </div>

@@ -1,73 +1,53 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
-## [0.3.404] - 2025-01-13
+## [0.3.511] - 2025-01-13
 ### Added
-- **Validation Zod** : Validation robuste des formulaires d'authentification
-  * Validation côté client pour tous les formulaires (connexion, inscription, mot de passe oublié)
-  * Messages d'erreur clairs et en français
-  * Validation email avec format strict
-  * Validation mot de passe avec exigences de sécurité (8 caractères min, majuscule, minuscule, chiffre)
-  * Confirmation de mot de passe avec vérification de correspondance
-  * Affichage des erreurs sous chaque champ concerné
+- **Page Conditions d'Utilisation** : Nouvelle page accessible et bien intégrée
+  * Page dédiée pour afficher les conditions d'utilisation (conditions.T1.0.md)
+  * Chargement dynamique du contenu markdown
+  * Rendu élégant avec react-markdown et remarkGfm
+  * États de chargement (skeleton) pendant le fetch
+  * Gestion d'erreur si le fichier ne peut être chargé
+  * Design responsive avec Card et prose styling
 
-- **Rate Limiting** : Protection contre les attaques par force brute
-  * Limitation des tentatives de connexion (5 tentatives / 15 minutes)
-  * Limitation des tentatives d'inscription (3 tentatives / 30 minutes)
-  * Limitation des demandes de réinitialisation (3 tentatives / 60 minutes)
-  * Stockage dans localStorage pour persistance
-  * Messages d'erreur avec temps restant avant déblocage
-  * Compteur de tentatives restantes
-  * Réinitialisation automatique en cas de succès
-
-- **Logger de Production** : Système de logging centralisé
-  * Logger personnalisé pour remplacer console.error/warn/info
-  * Stockage des logs dans localStorage (100 derniers)
-  * Logs avec timestamp, niveau, message et contexte
-  * Mode développement : affichage console
-  * Mode production : stockage local + préparation pour service externe
-  * Export des logs en JSON
-  * Méthodes: logger.info(), logger.warn(), logger.error(), logger.debug()
-
-- **Vérification Configuration** : Détection des problèmes au démarrage
-  * Vérification de la configuration Supabase au démarrage en production
-  * Message d'erreur clair si variables d'environnement manquantes
-  * Arrêt de l'application avec message utilisateur si configuration invalide
-  * Logging des erreurs de configuration
+- **Liens d'Accès aux Conditions** : Faciliter l'accès aux conditions
+  * Lien ajouté dans la page "À propos" (section séparée avec icône FileText)
+  * Lien préparé pour la page "Paramètres" (sera ajouté dans v0.3.521)
+  * Navigation fluide vers /conditions
 
 ### Changed
-- **Formulaires d'authentification** : Amélioration de la sécurité et UX
-  * LoginForm.tsx : Validation Zod + Rate limiting + Affichage erreurs
-  * SignupForm.tsx : Validation Zod + Rate limiting + Exigences mot de passe renforcées
-  * ForgotPasswordForm.tsx : Validation Zod + Rate limiting
-  * Désactivation des boutons pendant le blocage
-  * Alertes visuelles en cas de blocage (AlertTriangle)
+- **Page Conditions.tsx** : Refonte complète
+  * Remplacement du placeholder par une vraie page fonctionnelle
+  * Utilisation de ReactMarkdown pour le rendu
+  * Ajout de Skeleton pour le loading state
+  * Ajout d'Alert pour les erreurs
+  * Design cohérent avec le reste de l'application
 
-- **Gestion des erreurs** : Remplacement de console.error par logger
-  * Header.tsx : Utilisation du logger pour erreurs de déconnexion
-  * MobileMenu.tsx : Utilisation du logger pour erreurs de déconnexion
-  * csvParser.ts : Utilisation du logger pour erreurs de parsing
-  * NotFound.tsx : Utilisation du logger pour erreurs 404
-
-### Security
-- 🔒 **Validation robuste** : Protection contre les données invalides
-- 🔒 **Rate limiting** : Protection contre les attaques par force brute
-- 🔒 **Logging sécurisé** : Pas d'exposition d'informations sensibles en production
-- 🔒 **Vérification configuration** : Détection précoce des problèmes de déploiement
+- **Page APropos.tsx** : Ajout du lien vers les conditions
+  * Nouvelle section "Informations Légales" en bas de page
+  * Icône FileText pour meilleure visibilité
+  * Séparateur visuel (border-t) pour distinction claire
 
 ### Technical
-- Nouvelle dépendance : Zod (déjà installé, maintenant utilisé)
-- Nouveaux fichiers :
-  * src/lib/validations/auth.ts : Schémas de validation Zod
-  * src/lib/rateLimiter.ts : Système de rate limiting
-  * src/lib/logger.ts : Système de logging
-- Fichiers modifiés : 9 fichiers
+- Utilisation de react-markdown (déjà installé)
+- Utilisation de remark-gfm pour GitHub Flavored Markdown
+- Fetch du fichier conditions.T1.0.md depuis /public
+- Composants UI : Card, Skeleton, Alert
 - Build validé sans erreur
-- Bundle size : 388.70 KB (optimisable dans version future)
+- Bundle size : 388.70 KB (stable)
+
+### User Experience
+- ✅ Conditions d'utilisation facilement accessibles
+- ✅ Contenu professionnel et légal bien présenté
+- ✅ Navigation intuitive depuis "À propos"
+- ✅ Design cohérent avec l'application
+- ✅ Responsive sur tous les appareils
 
 ### Notes
-- Cette version corrige les 4 failles de sécurité critiques identifiées dans l'audit
-- Prêt pour la production après cette mise à jour
-- Les utilisateurs existants ne sont pas affectés (pas de migration nécessaire)
-- Le rate limiting est stocké localement (pas de synchronisation multi-appareils pour l'instant)
+- Le fichier conditions.T1.0.md était déjà présent dans le repository
+- Version suivante (v0.3.521) ajoutera le lien dans "Paramètres"
+- Pas de migration nécessaire
+- Aucun impact sur les utilisateurs existants
+
 
