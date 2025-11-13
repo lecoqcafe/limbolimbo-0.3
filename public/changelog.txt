@@ -1,6 +1,23 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.3.211] - 2025-11-12
+### Added
+- Pages placeholders fonctionnelles: `/connexion`, `/parametres`, `/historique`, `/conditions` avec message professionnel indiquant que le contenu sera disponible prochainement.
+- Routes configurées pour les 4 nouvelles pages dans le routing principal.
+
+### Removed
+- Suppression des vestiges de tentatives précédentes: `TermsGuard`, `TermsModal`, bibliothèques `terms.ts` et `storage.ts`.
+- Simplification du fichier `App.tsx`: retrait de la garde globale et imports associés.
+
+### Changed
+- Refonte complète des pages Paramètres, Historique et Conditions: remplacement des implémentations complexes par des coquilles vides conformes au périmètre v0.3.211.
+
+### Unchanged
+- Aucune modification des données opportunités sous `/public`.
+- Menu et favicons non modifiés (reportés à v0.3.301+).
+- Build compile sans erreur.
+
 ## [0.3.109] - 2025-11-10
 ### Fixed
 - Lien “Conditions” corrigé: lecture de `/conditions.T1.0.md` via URL absolue avec anti‑cache (`no-store` + cache‑buster), détection HTML (fallback SPA) et repli texte minimal si indisponible.
