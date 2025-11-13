@@ -1,9 +1,44 @@
 import { useAuth } from '@/hooks/useAuth';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { History, Clock } from 'lucide-react';
+import { History, Clock, AlertCircle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function Historique() {
   const { user } = useAuth();
+
+  if (!isSupabaseConfigured) {
+    return (
+      <main className="container mx-auto px-4 py-6">
+        <h1 className="text-2xl font-semibold mb-6">Historique</h1>
+        
+        <div className="grid gap-6 max-w-2xl">
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Authentification non configurée</AlertTitle>
+            <AlertDescription>
+              L'authentification n'est pas encore activée sur ce site. 
+              Cette page sera fonctionnelle une fois l'authentification configurée.
+            </AlertDescription>
+          </Alert>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Fonctionnalités à venir</CardTitle>
+              <CardDescription>
+                Cette page sera enrichie prochainement
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                L'historique de vos activités sera disponible dans une prochaine version.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="container mx-auto px-4 py-6">
