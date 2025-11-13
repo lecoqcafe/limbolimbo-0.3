@@ -1,7 +1,96 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
-## [0.3.404] - 2025-01-13
+## [0.3.611] - 2025-01-13
+   ### Added
+   - **Page Paramètres Complète** : Refonte complète de la page des paramètres utilisateur
+     * 5 sections organisées : Profil, Préférences, Sécurité, Données, À propos
+     * Interface moderne avec cartes et icônes lucide-react
+     * Responsive design avec grille adaptative
+     
+   - **Section Profil** : Informations utilisateur de base
+     * Affichage du nom (dérivé de l'email)
+     * Email de l'utilisateur connecté
+     * Statut du compte avec indicateur visuel vert
+     * Pas de photo de profil (conformément aux spécifications)
+     
+   - **Section Préférences** : Personnalisation de l'expérience
+     * Sélection langue (Français/English) avec sauvegarde automatique
+     * Sélection thème (Clair/Sombre) avec application immédiate
+     * Gestion notifications par email avec interrupteur
+     * Stockage des préférences dans localStorage
+     * Toast de confirmation lors de la sauvegarde
+     
+   - **Section Sécurité** : Gestion de la sécurité du compte
+     * Affichage des connexions actives avec appareils et localisation
+     * Bouton de déconnexion par appareil
+     * Changement de mot de passe avec 3 champs (actuel, nouveau, confirmation)
+     * Validation de correspondance des mots de passe
+     * Indicateur de chargement pendant le traitement
+     
+   - **Section Données** : Contrôle total des données utilisateur
+     * Export des données au format JSON ou CSV
+     * Inclusion du profil, préférences et timestamp d'export
+     * Boutons d'export avec icônes distinctives (FileJson, FileSpreadsheet)
+     * Suppression de compte avec confirmation en 2 étapes
+     * Alerte de warning avant la suppression finale
+     
+   - **Section À propos** : Informations sur l'application
+     * Numéro de version dynamique (v0.3.611)
+     * Liens vers Conditions d'utilisation et Politique de confidentialité
+     * Informations de copyright et mention développeur
+     
+   - **Gestion des Préférences** : Système complet de préférences utilisateur
+     * Classe PreferencesManager pour la gestion centralisée
+     * Interface UserPreferences typée avec TypeScript
+     * Support du thème sombre/clair avec application CSS automatique
+     * Gestion d'erreurs robuste avec fallback valeurs par défaut
+     * Reset des préférences possible
+     
+   - **Export de Données** : Hook spécialisé pour l'export utilisateur
+     * Hook useDataExport avec export structuré
+     * Support JSON et CSV avec formatage approprié
+     * Métadonnées complètes (timestamps, profil, préférences)
+     * Nom de fichier avec date automatique
+     * Gestion des erreurs et toast de confirmation
+     
+   ### Changed
+   - **Page Paramètres** : Refonte complète de l'interface
+     * Remplacement de l'ancienne page basique par nouvelle interface riche
+     * Structure modulaire avec 5 composants séparés
+     * Utilisation des composants UI shadcn/ui pour cohérence visuelle
+     * Intégration du système de toast pour les retours utilisateur
+     
+   - **Expérience Utilisateur** : Améliorations significatives
+     * Feedback visuel pour toutes les actions
+     * États de chargement pour les opérations asynchrones
+     * Confirmations pour les actions critiques
+     * Messages d'erreur clairs et informatifs
+     
+   ### Technical
+   - Nouveaux fichiers créés :
+     * src/components/settings/ProfileSection.tsx
+     * src/components/settings/PreferencesSection.tsx
+     * src/components/settings/SecuritySection.tsx
+     * src/components/settings/DataSection.tsx
+     * src/components/settings/AboutSection.tsx
+     * src/lib/preferences.ts (gestion des préférences)
+     * src/hooks/useDataExport.ts (export des données)
+   - Fichiers modifiés :
+     * src/pages/Parametres.tsx (refonte complète)
+     * public/version.json (mise à jour version)
+     * public/changelog.txt (documentation)
+   - Build validé : 1848 modules transformés
+   - Bundle size : 410.66 KB (gzip: 126.44 KB)
+   - Zéro vulnerability détectée (npm audit)
+   
+   ### Design
+   - 🎨 **Interface moderne** : Utilisation de cartes, icônes et espacements cohérents
+   - 📱 **Responsive** : Adaptation parfaite mobile/desktop
+   - 🌗 **Thème supporté** : Prêt pour thème sombre/clair
+   - ♿ **Accessible** : Structure sémantique et navigation clavier
+   
+   ## [0.3.404] - 2025-01-13
 ### Added
 - **Validation Zod** : Validation robuste des formulaires d'authentification
   * Validation côté client pour tous les formulaires (connexion, inscription, mot de passe oublié)
