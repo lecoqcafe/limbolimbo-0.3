@@ -1,6 +1,84 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.3.401] - 2025-11-13
+### Added
+- Système d'authentification complet avec Supabase:
+  * Inscription avec email/mot de passe
+  * Connexion avec email/mot de passe
+  * Déconnexion sécurisée
+  * Réinitialisation de mot de passe par email
+  * Gestion de session persistante multi-appareils
+  * Tokens JWT avec auto-refresh
+- Nouvelles pages d'authentification:
+  * `/connexion` - Formulaire de connexion fonctionnel
+  * `/inscription` - Formulaire d'inscription avec validation
+  * `/mot-de-passe-oublie` - Réinitialisation de mot de passe
+- Protection des routes sensibles:
+  * `/parametres` - Accessible uniquement si connecté
+  * `/historique` - Accessible uniquement si connecté
+  * Redirection automatique vers `/connexion` si non authentifié
+- Menu utilisateur dynamique dans le Header:
+  * Affichage conditionnel selon l'état de connexion
+  * Dropdown menu avec email utilisateur
+  * Accès rapide Paramètres et Historique
+  * Bouton de déconnexion
+- Infrastructure d'authentification:
+  * AuthContext pour gestion globale de l'état
+  * Hook personnalisé `useAuth()` pour accès facile
+  * Composant ProtectedRoute pour protection des routes
+  * Types TypeScript complets pour l'authentification
+- Documentation complète:
+  * README-SUPABASE.md avec guide de configuration
+  * .env.example avec template de variables d'environnement
+  * Instructions détaillées pour obtenir les clés Supabase
+
+### Changed
+- Header.tsx: Menu utilisateur intelligent
+  * Icône "Connexion" (LogIn) si non connecté
+  * Menu dropdown avec avatar (User) si connecté
+  * Affichage de l'email utilisateur dans le menu
+  * Bouton déconnexion avec icône LogOut
+- Pages Paramètres et Historique:
+  * Affichage des informations utilisateur (email)
+  * Message pour fonctionnalités futures
+  * Design cohérent avec l'existant
+- App.tsx: Intégration AuthProvider global
+  * Wrapping de toutes les routes avec AuthProvider
+  * Routes protégées avec ProtectedRoute
+  * Nouvelles routes d'authentification configurées
+
+### Security
+- Authentification sécurisée via Supabase:
+  * Mots de passe hashés côté serveur (bcrypt)
+  * Tokens JWT avec signature sécurisée
+  * Sessions avec auto-refresh automatique
+  * Protection CSRF intégrée
+  * Variables d'environnement pour clés sensibles
+  * .env.local dans .gitignore (sécurité)
+- Validation côté client:
+  * Format email vérifié
+  * Longueur minimale mot de passe (6 caractères)
+  * Confirmation mot de passe lors de l'inscription
+  * Messages d'erreur clairs et en français
+
+### Technical
+- Dépendances ajoutées:
+  * @supabase/supabase-js (^2.x) - Client Supabase
+- Build réussi sans erreur (0 vulnérabilités npm audit)
+- TypeScript compilation validée
+- Support multi-appareils natif via Supabase
+- Préparation pour futures extensions:
+  * OAuth (Google, GitHub, etc.)
+  * Authentification à deux facteurs (2FA)
+  * Synchronisation données utilisateur
+
+### Unchanged
+- Données opportunités sous /public non modifiées
+- Pages principales (Accueil, Recherche, Catégories, etc.) non modifiées
+- Routing existant préservé (sauf ajout routes auth)
+- Design et thème visuel cohérents avec v0.3.301
+
 ## [0.3.301] - 2025-11-13
 ### Added
 - Nouveaux liens dans le menu de navigation: Connexion, Paramètres, Historique avec icônes Lucide React (LogIn, Settings, History).
