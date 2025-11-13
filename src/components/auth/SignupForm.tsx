@@ -5,8 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, Mail, Lock, AlertCircle } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Loader2, Mail, Lock, AlertTriangle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { signupSchema, type SignupFormData } from '@/lib/validations/auth';
+import { signupRateLimiter } from '@/lib/rateLimiter';
+import { toast } from 'sonner';
 
 export function SignupForm() {
   const navigate = useNavigate();
@@ -14,30 +17,63 @@ export function SignupForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [errors, setErrors] = useState<Partial<SignupFormData>>({});
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [remainingTime, setRemainingTime] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setPasswordError('');
+    setErrors({});
 
-    // Validation des mots de passe
-    if (password !== confirmPassword) {
-      setPasswordError('Les mots de passe ne correspondent pas.');
+    // Vérifier le rate limiting
+    const rateLimitKey = email || 'anonymous';
+    if (signupRateLimiter.isBlocked(rateLimitKey)) {
+      const timeLeft = signupRateLimiter.formatRemainingTime(rateLimitKey);
+      setIsBlocked(true);
+      setRemainingTime(timeLeft);
+      toast.error('Trop de tentatives', {
+        description: `Veuillez réessayer dans ${timeLeft}`,
+      });
       return;
     }
 
-    if (password.length < 6) {
-      setPasswordError('Le mot de passe doit contenir au moins 6 caractères.');
+    // Validation avec Zod
+    const result = signupSchema.safeParse({ email, password, confirmPassword });
+
+    if (!result.success) {
+      // Extraire les erreurs de validation
+      const fieldErrors: Partial<SignupFormData> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          fieldErrors[err.path[0] as keyof SignupFormData] = err.message;
+        }
+      });
+      setErrors(fieldErrors);
+      
+      // Afficher le premier message d'erreur
+      const firstError = result.error.errors[0];
+      toast.error('Validation échouée', {
+        description: firstError.message,
+      });
       return;
     }
 
     try {
       await signUp({ email, password });
+      // Réinitialiser le rate limiter en cas de succès
+      signupRateLimiter.reset(rateLimitKey);
       // Redirection vers la page de connexion après inscription réussie
       navigate('/connexion');
     } catch (error) {
-      // L'erreur est déjà gérée par le contexte (toast)
-      console.error('Erreur d\'inscription:', error);
+      // Enregistrer la tentative échouée
+      signupRateLimiter.recordAttempt(rateLimitKey);
+      
+      // Vérifier si on est maintenant bloqué
+      if (signupRateLimiter.isBlocked(rateLimitKey)) {
+        const timeLeft = signupRateLimiter.formatRemainingTime(rateLimitKey);
+        setIsBlocked(true);
+        setRemainingTime(timeLeft);
+      }
     }
   };
 
@@ -51,10 +87,14 @@ export function SignupForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {passwordError && (
+          {isBlocked && (
             <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{passwordError}</AlertDescription>
+              <AlertTriangle className="h-4 w-4" />
+              <AlertTitle>Trop de tentatives</AlertTitle>
+              <AlertDescription>
+                Vous avez dépassé le nombre maximum de tentatives d'inscription.
+                Veuillez réessayer dans {remainingTime}.
+              </AlertDescription>
             </Alert>
           )}
 
@@ -68,11 +108,13 @@ export function SignupForm() {
                 placeholder="votre@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
                 disabled={loading}
-                className="pl-10"
+                className={`pl-10 ${errors.email ? 'border-red-500' : ''}`}
               />
             </div>
+            {errors.email && (
+              <p className="text-sm text-red-500">{errors.email}</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -85,14 +127,15 @@ export function SignupForm() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
                 disabled={loading}
-                minLength={6}
-                className="pl-10"
+                className={`pl-10 ${errors.password ? 'border-red-500' : ''}`}
               />
             </div>
+            {errors.password && (
+              <p className="text-sm text-red-500">{errors.password}</p>
+            )}
             <p className="text-xs text-muted-foreground">
-              Minimum 6 caractères
+              Minimum 8 caractères avec majuscule, minuscule et chiffre
             </p>
           </div>
 
@@ -106,20 +149,23 @@ export function SignupForm() {
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                required
                 disabled={loading}
-                minLength={6}
-                className="pl-10"
+                className={`pl-10 ${errors.confirmPassword ? 'border-red-500' : ''}`}
               />
             </div>
+            {errors.confirmPassword && (
+              <p className="text-sm text-red-500">{errors.confirmPassword}</p>
+            )}
           </div>
 
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full" disabled={loading || isBlocked}>
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Création en cours...
               </>
+            ) : isBlocked ? (
+              'Trop de tentatives'
             ) : (
               'Créer mon compte'
             )}

@@ -5,22 +5,72 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, Mail, ArrowLeft } from 'lucide-react';
+import { Loader2, Mail, ArrowLeft, AlertTriangle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { resetPasswordSchema, type ResetPasswordFormData } from '@/lib/validations/auth';
+import { resetPasswordRateLimiter } from '@/lib/rateLimiter';
+import { toast } from 'sonner';
 
 export function ForgotPasswordForm() {
   const { resetPassword, loading } = useAuth();
   const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
+  const [errors, setErrors] = useState<Partial<ResetPasswordFormData>>({});
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [remainingTime, setRemainingTime] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
+
+    // Vérifier le rate limiting
+    const rateLimitKey = email || 'anonymous';
+    if (resetPasswordRateLimiter.isBlocked(rateLimitKey)) {
+      const timeLeft = resetPasswordRateLimiter.formatRemainingTime(rateLimitKey);
+      setIsBlocked(true);
+      setRemainingTime(timeLeft);
+      toast.error('Trop de tentatives', {
+        description: `Veuillez réessayer dans ${timeLeft}`,
+      });
+      return;
+    }
+
+    // Validation avec Zod
+    const result = resetPasswordSchema.safeParse({ email });
+
+    if (!result.success) {
+      // Extraire les erreurs de validation
+      const fieldErrors: Partial<ResetPasswordFormData> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          fieldErrors[err.path[0] as keyof ResetPasswordFormData] = err.message;
+        }
+      });
+      setErrors(fieldErrors);
+      
+      // Afficher le premier message d'erreur
+      const firstError = result.error.errors[0];
+      toast.error('Validation échouée', {
+        description: firstError.message,
+      });
+      return;
+    }
 
     try {
       await resetPassword({ email });
+      // Réinitialiser le rate limiter en cas de succès
+      resetPasswordRateLimiter.reset(rateLimitKey);
       setEmailSent(true);
     } catch (error) {
-      // L'erreur est déjà gérée par le contexte (toast)
-      console.error('Erreur de réinitialisation:', error);
+      // Enregistrer la tentative échouée
+      resetPasswordRateLimiter.recordAttempt(rateLimitKey);
+      
+      // Vérifier si on est maintenant bloqué
+      if (resetPasswordRateLimiter.isBlocked(rateLimitKey)) {
+        const timeLeft = resetPasswordRateLimiter.formatRemainingTime(rateLimitKey);
+        setIsBlocked(true);
+        setRemainingTime(timeLeft);
+      }
     }
   };
 
@@ -66,6 +116,17 @@ export function ForgotPasswordForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {isBlocked && (
+            <Alert variant="destructive">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertTitle>Trop de tentatives</AlertTitle>
+              <AlertDescription>
+                Vous avez dépassé le nombre maximum de demandes de réinitialisation.
+                Veuillez réessayer dans {remainingTime}.
+              </AlertDescription>
+            </Alert>
+          )}
+
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
@@ -76,19 +137,23 @@ export function ForgotPasswordForm() {
                 placeholder="votre@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
                 disabled={loading}
-                className="pl-10"
+                className={`pl-10 ${errors.email ? 'border-red-500' : ''}`}
               />
             </div>
+            {errors.email && (
+              <p className="text-sm text-red-500">{errors.email}</p>
+            )}
           </div>
 
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full" disabled={loading || isBlocked}>
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Envoi en cours...
               </>
+            ) : isBlocked ? (
+              'Trop de tentatives'
             ) : (
               'Envoyer le lien'
             )}

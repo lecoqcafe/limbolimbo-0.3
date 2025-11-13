@@ -4,6 +4,7 @@ import { Menu, X, Search, List, Info, LogIn, Settings, History, LogOut, User } f
 import { useAuth } from '@/hooks/useAuth';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
+import { logger } from '@/lib/logger';
 import {
   Sheet,
   SheetContent,
@@ -25,7 +26,7 @@ export function MobileMenu() {
       setOpen(false);
       navigate('/');
     } catch (error) {
-      console.error('Erreur de déconnexion:', error);
+      logger.logError(error, 'Erreur de déconnexion');
     }
   };
 

@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { MobileMenu } from "@/components/MobileMenu";
+import { logger } from "@/lib/logger";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,7 +30,7 @@ export const Header = () => {
       await signOut();
       navigate("/");
     } catch (error) {
-      console.error("Erreur de déconnexion:", error);
+      logger.logError(error, "Erreur de déconnexion");
     }
   };
 
