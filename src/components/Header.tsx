@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, Info, List, LogIn, Settings, History, LogOut, User } from "lucide-react";
 import PiggyLogo from "@/assets/piggy.png";
 import { useAuth } from "@/hooks/useAuth";
+import { isSupabaseConfigured } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -70,57 +71,60 @@ export const Header = () => {
               <Info className="h-6 w-6" />
             </Link>
 
-            {/* Affichage conditionnel selon l'état de connexion */}
-            {user ? (
-              // Menu utilisateur connecté
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className={`${baseBtn} ${
-                      ["/parametres", "/historique"].includes(location.pathname) ? active : inactive
-                    }`}
-                    title="Mon compte"
-                    aria-label="Mon compte"
-                  >
-                    <User className="h-6 w-6" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuLabel>
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium">Mon compte</p>
-                      <p className="text-xs text-muted-foreground truncate">{user.email}</p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate("/parametres")}>
-                    <Settings className="mr-2 h-4 w-4" />
-                    Paramètres
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/historique")}>
-                    <History className="mr-2 h-4 w-4" />
-                    Historique
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Déconnexion
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              // Bouton connexion pour utilisateur non connecté
-              <Link
-                to="/connexion"
-                title="Connexion"
-                aria-label="Connexion"
-                aria-current={location.pathname === "/connexion" ? "page" : undefined}
-                className={`${baseBtn} ${location.pathname === "/connexion" ? active : inactive}`}
-              >
-                <LogIn className="h-6 w-6" />
-              </Link>
-            )}
+            {/* Affichage conditionnel selon configuration Supabase et état de connexion */}
+            {isSupabaseConfigured ? (
+              user ? (
+                // Menu utilisateur connecté
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className={`${baseBtn} ${
+                        ["/parametres", "/historique"].includes(location.pathname) ? active : inactive
+                      }`}
+                      title="Mon compte"
+                      aria-label="Mon compte"
+                    >
+                      <User className="h-6 w-6" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel>
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium">Mon compte</p>
+                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => navigate("/parametres")}>
+                      <Settings className="mr-2 h-4 w-4" />
+                      Paramètres
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate("/historique")}>
+                      <History className="mr-2 h-4 w-4" />
+                      Historique
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Déconnexion
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                // Bouton connexion pour utilisateur non connecté
+                <Link
+                  to="/connexion"
+                  title="Connexion"
+                  aria-label="Connexion"
+                  aria-current={location.pathname === "/connexion" ? "page" : undefined}
+                  className={`${baseBtn} ${location.pathname === "/connexion" ? active : inactive}`}
+                >
+                  <LogIn className="h-6 w-6" />
+                </Link>
+              )
+            ) : null}
+            {/* Si Supabase n'est pas configuré, on n'affiche rien (pas de bouton connexion) */}
           </nav>
         </div>
       </div>

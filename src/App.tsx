@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { isSupabaseConfigured } from "@/lib/supabase";
 import { Header } from "@/components/Header";
 import Home from "@/pages/Home";
 import Recherche from "@/pages/Recherche";
@@ -42,28 +43,41 @@ const App = () => (
             <Route path="/changelog" element={<Changelog />} />
             <Route path="/a-propos" element={<APropos />} />
             
-            {/* Routes d'authentification */}
-            <Route path="/connexion" element={<Connexion />} />
-            <Route path="/inscription" element={<Inscription />} />
-            <Route path="/mot-de-passe-oublie" element={<MotDePasseOublie />} />
-            
-            {/* Routes protégées */}
-            <Route
-              path="/parametres"
-              element={
-                <ProtectedRoute>
-                  <Parametres />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/historique"
-              element={
-                <ProtectedRoute>
-                  <Historique />
-                </ProtectedRoute>
-              }
-            />
+            {/* Routes d'authentification - Seulement si Supabase est configuré */}
+            {isSupabaseConfigured ? (
+              <>
+                <Route path="/connexion" element={<Connexion />} />
+                <Route path="/inscription" element={<Inscription />} />
+                <Route path="/mot-de-passe-oublie" element={<MotDePasseOublie />} />
+                
+                {/* Routes protégées */}
+                <Route
+                  path="/parametres"
+                  element={
+                    <ProtectedRoute>
+                      <Parametres />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/historique"
+                  element={
+                    <ProtectedRoute>
+                      <Historique />
+                    </ProtectedRoute>
+                  }
+                />
+              </>
+            ) : (
+              <>
+                {/* Si Supabase n'est pas configuré, pages accessibles sans auth */}
+                <Route path="/connexion" element={<Connexion />} />
+                <Route path="/inscription" element={<Inscription />} />
+                <Route path="/mot-de-passe-oublie" element={<MotDePasseOublie />} />
+                <Route path="/parametres" element={<Parametres />} />
+                <Route path="/historique" element={<Historique />} />
+              </>
+            )}
             
             <Route path="/conditions" element={<Conditions />} />
             <Route path="*" element={<NotFound />} />

@@ -1,6 +1,52 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.3.402] - 2025-11-13
+### Fixed
+- **HOTFIX CRITIQUE** : Correction du crash au démarrage en production
+  * Supabase rendu optionnel pour éviter les erreurs si non configuré
+  * Application fonctionne maintenant sans variables d'environnement Supabase
+  * Pages d'authentification affichent un message clair si Supabase non configuré
+  * Bouton connexion caché dans le Header si Supabase non configuré
+
+### Changed
+- src/lib/supabase.ts : Client Supabase optionnel (null si non configuré)
+  * Ajout variable `isSupabaseConfigured` pour vérifier la configuration
+  * Suppression du throw Error qui causait le crash
+- src/contexts/AuthContext.tsx : Gestion de l'absence de Supabase
+  * Vérification de configuration avant chaque opération d'authentification
+  * Messages d'erreur clairs si authentification non disponible
+  * Pas de crash si Supabase non configuré
+- src/components/Header.tsx : Menu adaptatif selon configuration
+  * Bouton connexion/menu utilisateur caché si Supabase non configuré
+  * Affichage conditionnel basé sur `isSupabaseConfigured`
+- src/App.tsx : Routes adaptatives selon configuration
+  * Routes d'authentification accessibles sans protection si Supabase non configuré
+  * Routes protégées seulement si Supabase configuré
+- Pages d'authentification (Connexion, Inscription, MotDePasseOublie) :
+  * Affichage d'un message informatif si Supabase non configuré
+  * Formulaires fonctionnels seulement si Supabase configuré
+- Pages protégées (Parametres, Historique) :
+  * Affichage d'un message informatif si Supabase non configuré
+  * Contenu utilisateur affiché seulement si authentifié
+
+### Technical
+- Mode dégradé gracieux : Application fonctionne sans authentification
+- Pas de crash au démarrage même sans variables d'environnement
+- Messages utilisateur clairs et informatifs
+- Build validé sans erreur (0 vulnérabilités)
+- Compatibilité maintenue avec v0.3.401 une fois Supabase configuré
+
+### Deployment
+- **IMPORTANT** : Cette version peut être déployée IMMÉDIATEMENT
+- Fonctionne sans configuration Supabase (mode dégradé)
+- Pour activer l'authentification :
+  1. Créer compte Supabase (gratuit)
+  2. Créer projet et récupérer clés
+  3. Créer fichier .env.local avec VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY
+  4. Rebuild et redéployer
+- Consultez README-SUPABASE.md pour instructions détaillées
+
 ## [0.3.401] - 2025-11-13
 ### Added
 - Système d'authentification complet avec Supabase:

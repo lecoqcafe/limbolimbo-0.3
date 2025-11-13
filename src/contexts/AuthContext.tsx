@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { User } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { AuthContextType, SignUpData, SignInData, ResetPasswordData } from '@/types/auth';
 import { toast } from 'sonner';
 
@@ -15,6 +15,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Vérification de la session au chargement
   useEffect(() => {
+    // Si Supabase n'est pas configuré, on arrête le chargement
+    if (!isSupabaseConfigured || !supabase) {
+      setLoading(false);
+      return;
+    }
+
     // Récupérer la session actuelle
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
@@ -35,6 +41,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Fonction d'inscription
   const signUp = async ({ email, password }: SignUpData) => {
+    if (!isSupabaseConfigured || !supabase) {
+      const errorMessage = 'L\'authentification n\'est pas configurée. Veuillez contacter l\'administrateur.';
+      setError(errorMessage);
+      toast.error('Authentification non disponible', {
+        description: errorMessage,
+      });
+      throw new Error(errorMessage);
+    }
+
     try {
       setLoading(true);
       setError(null);
@@ -65,6 +80,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Fonction de connexion
   const signIn = async ({ email, password }: SignInData) => {
+    if (!isSupabaseConfigured || !supabase) {
+      const errorMessage = 'L\'authentification n\'est pas configurée. Veuillez contacter l\'administrateur.';
+      setError(errorMessage);
+      toast.error('Authentification non disponible', {
+        description: errorMessage,
+      });
+      throw new Error(errorMessage);
+    }
+
     try {
       setLoading(true);
       setError(null);
@@ -95,6 +119,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Fonction de déconnexion
   const signOut = async () => {
+    if (!isSupabaseConfigured || !supabase) {
+      const errorMessage = 'L\'authentification n\'est pas configurée.';
+      setError(errorMessage);
+      toast.error('Erreur', {
+        description: errorMessage,
+      });
+      throw new Error(errorMessage);
+    }
+
     try {
       setLoading(true);
       setError(null);
@@ -120,6 +153,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Fonction de réinitialisation de mot de passe
   const resetPassword = async ({ email }: ResetPasswordData) => {
+    if (!isSupabaseConfigured || !supabase) {
+      const errorMessage = 'L\'authentification n\'est pas configurée. Veuillez contacter l\'administrateur.';
+      setError(errorMessage);
+      toast.error('Authentification non disponible', {
+        description: errorMessage,
+      });
+      throw new Error(errorMessage);
+    }
+
     try {
       setLoading(true);
       setError(null);
