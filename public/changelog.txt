@@ -1,6 +1,45 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.3.403] - 2025-11-13
+### Fixed
+- **Logo "piggy" disparaissait sur mobile** : Correction du problème d'affichage sur petits écrans
+  * Trop d'icônes dans le menu poussaient le logo hors de l'écran sur mobile
+  * Implémentation d'un menu hamburger responsive pour mobile
+
+### Added
+- Menu hamburger mobile (< 768px) :
+  * Nouveau composant MobileMenu.tsx avec Sheet (shadcn/ui)
+  * Icône hamburger (☰) visible sur mobile uniquement
+  * Menu déroulant latéral avec tous les liens de navigation
+  * Fermeture automatique après sélection d'un lien
+  * Animation fluide d'ouverture/fermeture
+  * Support complet de l'authentification (menu utilisateur si connecté)
+
+### Changed
+- Header.tsx : Navigation responsive adaptative
+  * Desktop/Tablette (≥ 768px) : Menu complet avec icônes (inchangé)
+  * Mobile (< 768px) : Logo piggy + Menu hamburger uniquement
+  * Logo "piggy" toujours visible sur tous les appareils
+  * Classe Tailwind `hidden md:flex` pour cacher navigation desktop sur mobile
+  * Classe Tailwind `md:hidden` pour afficher menu hamburger sur mobile uniquement
+
+### Technical
+- Breakpoint responsive : 768px (md: en Tailwind)
+- Composant MobileMenu utilise Sheet de shadcn/ui
+- Gestion d'état local (useState) pour ouverture/fermeture
+- Navigation programmatique avec useNavigate
+- Fermeture automatique du menu après navigation
+- Accessibilité maintenue (aria-labels, navigation clavier)
+- Build validé sans erreur (0 vulnérabilités)
+
+### User Experience
+- Logo "piggy" toujours visible sur mobile ✅
+- Navigation claire et organisée sur tous appareils
+- Menu hamburger standard UX mobile
+- Pas de changement sur desktop/tablette (expérience préservée)
+- Extensible pour futures fonctionnalités
+
 ## [0.3.402] - 2025-11-13
 ### Fixed
 - **HOTFIX CRITIQUE** : Correction du crash au démarrage en production

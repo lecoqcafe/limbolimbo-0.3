@@ -4,6 +4,7 @@ import PiggyLogo from "@/assets/piggy.png";
 import { useAuth } from "@/hooks/useAuth";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
+import { MobileMenu } from "@/components/MobileMenu";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,7 +41,8 @@ export const Header = () => {
             <img src={PiggyLogo} alt="Logo cochon" className="h-10 w-10 sm:h-12 sm:w-12" />
           </Link>
 
-          <nav className="flex gap-2 sm:gap-3 items-center">
+          {/* Navigation Desktop/Tablette (≥ 768px) */}
+          <nav className="hidden md:flex gap-2 sm:gap-3 items-center">
             <Link
               to="/recherche"
               title="Recherche"
@@ -126,6 +128,9 @@ export const Header = () => {
             ) : null}
             {/* Si Supabase n'est pas configuré, on n'affiche rien (pas de bouton connexion) */}
           </nav>
+
+          {/* Menu Mobile (< 768px) */}
+          <MobileMenu />
         </div>
       </div>
     </header>
