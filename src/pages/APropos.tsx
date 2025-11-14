@@ -82,11 +82,23 @@ const APropos = () => {
               <p className="text-muted-foreground">
                 Version {version ?? "—"}{build ? ` — build ${build}` : ""}
               </p>
-              <p>
-                <Link to="/changelog" className="text-primary hover:underline">
-                  Voir le journal des versions (Changelog)
-                </Link>
-              </p>
+              <div className="space-y-2">
+                <p>
+                  <Link to="/changelog" className="text-primary hover:underline">
+                    Voir le journal des versions (Changelog)
+                  </Link>
+                </p>
+                <p>
+                  <Link to="/conditions" className="text-primary hover:underline">
+                    Conditions d'utilisation
+                  </Link>
+                </p>
+                <p>
+                  <Link to="/politique-confidentialite" className="text-primary hover:underline">
+                    Politique de confidentialité
+                  </Link>
+                </p>
+              </div>
             </section>
           </Card>
         </div>

@@ -22,6 +22,7 @@ import MotDePasseOublie from "@/pages/MotDePasseOublie";
 import Parametres from "@/pages/Parametres";
 import Historique from "@/pages/Historique";
 import Conditions from "@/pages/Conditions";
+  import PolitiqueConfidentialite from "@/pages/PolitiqueConfidentialite";
 
 const queryClient = new QueryClient();
 
@@ -80,6 +81,7 @@ const App = () => (
             )}
             
             <Route path="/conditions" element={<Conditions />} />
+              <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
