@@ -3,6 +3,7 @@ import { isSupabaseConfigured } from '@/lib/supabase';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { User, Mail, AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Link } from 'react-router-dom';
 
 export default function Parametres() {
   const { user } = useAuth();
@@ -21,6 +22,23 @@ export default function Parametres() {
               Cette page sera fonctionnelle une fois l'authentification configurée.
             </AlertDescription>
           </Alert>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Pages légales</CardTitle>
+              <CardDescription>
+                Informations importantes sur l'utilisation de l'application
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/conditions" className="block text-sm text-primary hover:underline">
+                Conditions d'utilisation
+              </Link>
+              <Link to="/politique-confidentialite" className="block text-sm text-primary hover:underline">
+                Politique de confidentialité
+              </Link>
+            </CardContent>
+          </Card>
 
           <Card>
             <CardHeader>
@@ -63,6 +81,23 @@ export default function Parametres() {
                 <p className="text-sm text-muted-foreground">{user?.email}</p>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Pages légales</CardTitle>
+            <CardDescription>
+              Informations importantes sur l'utilisation de l'application
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Link to="/conditions" className="block text-sm text-primary hover:underline">
+              Conditions d'utilisation
+            </Link>
+            <Link to="/politique-confidentialite" className="block text-sm text-primary hover:underline">
+              Politique de confidentialité
+            </Link>
           </CardContent>
         </Card>
 
