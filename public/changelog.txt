@@ -1,6 +1,7 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+   ## [0.3.621] - 2025-01-14\n   ### Fixed\n   - **Copyright** : Ajout de "Tous droits réservés" dans la page À propos\n     * Modification de src/pages/APropos.tsx\n     * Copyright maintenant affiche "© 2024–2025 LeCOQ.Café - Tous droits réservés"\n   - **Version** : Mise à jour du numéro de version vers 0.3.621\n     * Correction du format de numérotation pour suivre la logique v0.X.YYZ\n     * Mise à jour de public/version.json
 ## [0.3.404] - 2025-01-13
 ### Added
 - **Validation Zod** : Validation robuste des formulaires d'authentification
