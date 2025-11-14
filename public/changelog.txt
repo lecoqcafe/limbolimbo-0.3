@@ -1,6 +1,44 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+   ## [0.3.711] - 2025-01-14
+   ### Added
+   - **Historique Complet** : Implémentation complète du système d'historique utilisateur
+     * Création de src/lib/userActivity.ts avec tracking localStorage
+     * Tracking automatique des visites d'opportunités dans OpportunityDetail.tsx
+     * Tracking automatique des clics sur liens d'affiliation
+     * Refonte complète de src/pages/Historique.tsx avec interface moderne
+   - **Composant ActivityCard** : Affichage élégant des activités utilisateur
+     * Design cohérent avec le reste de l'application
+     * Temps relatif et formatage des dates
+     * Boutons d'action pour chaque activité
+     * Icônes distinctes pour visites et clics
+   - **Fonctionnalités Avancées** : Outils complets de gestion d'historique
+     * Recherche par nom d'opportunité
+     * Filtres par type (visites/clics/tout)
+     * Export des données en JSON et CSV
+     * Fonction "Vider l'historique" avec confirmation
+     * Statistiques en temps réel (total/visites/clics)
+   - **Performances** : Optimisation du système de tracking
+     * Limitation à 500 activités maximum par utilisateur
+     * Utilisation efficace de localStorage
+     * Pas d'impact sur les performances de l'application
+
+   ### Technical
+   - Nouveau fichier : src/lib/userActivity.ts (système complet de tracking)
+   - Nouveau composant : src/components/ActivityCard.tsx
+   - Fichiers modifiés : src/pages/Historique.tsx, src/pages/OpportunityDetail.tsx
+   - Build valide : 388.70 kB (119.05 kB gzipped)
+   - Aucune erreur TypeScript
+   - Compatible avec authentification Supabase
+
+   ### User Experience
+   - Historique disponible uniquement pour utilisateurs authentifiés
+   - Interface intuitive avec filtres et recherche
+   - Export de données pour analyse personnelle
+   - Temps relatif pour meilleure lisibilité
+   - Design responsive et cohérent
+
    ## [0.3.631] - 2025-01-14
    ### Added
    - **Pages Légales** : Ajout complet des pages légales avec design cohérent

@@ -11,6 +11,7 @@ import {
   type OpportunityCategory,
 } from "@/lib/csvParser";
 import { openExternal } from "@/lib/utils";
+import { useUserActivity } from "@/lib/userActivity";
 import LeCoqCafe from "@/assets/lecoqcafe.png";
 import { ExternalLink, FileText } from "lucide-react";
 
@@ -35,6 +36,7 @@ const OpportunityDetail = () => {
   const [oppCats, setOppCats] = useState<OpportunityCategory[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
+  const { trackVisit, trackClick } = useUserActivity();
   useEffect(() => {
     const fetchData = async () => {
       const opps = await loadActiveOpportunities();
@@ -48,6 +50,13 @@ const OpportunityDetail = () => {
     };
     fetchData();
   }, [oppId]);
+
+  // Tracker la visite de l'opportunité
+  useEffect(() => {
+    if (opportunity) {
+      trackVisit(opportunity);
+    }
+  }, [opportunity, trackVisit]);
 
   if (!opportunity) {
     return (
@@ -142,19 +151,15 @@ const OpportunityDetail = () => {
               {/* CTA principal */}
               <div className="pt-4">
                 <Button
-                  asChild
                   size="lg"
                   className="w-full bg-gradient-primary hover:opacity-90 transition-opacity text-lg py-6"
+                  onClick={() => {
+                    trackClick(opportunity);
+                    window.open(opportunity["Lien d'affiliation"] || "#", "_blank", "noopener noreferrer");
+                  }}
                 >
-                  <a
-                    href={opportunity["Lien d'affiliation"] || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2"
-                  >
-                    Découvrir l'opportunité
-                    <ExternalLink className="h-5 w-5" />
-                  </a>
+                  Découvrir l'opportunité
+                  <ExternalLink className="h-5 w-5" />
                 </Button>
               </div>
             </div>
