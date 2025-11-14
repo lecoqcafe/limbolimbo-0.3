@@ -1,7 +1,14 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
-## [0.3.404] - 2025-01-13
+## [0.3.6.211] - 2025-11-13
+   ### Fixed
+   - **Copyright** : Ajout de "Tous droits réservés" dans la page A Propos
+     * Modification du copyright de "© 2024–2025 LeCOQ.Café" vers "© 2024–2025 LeCOQ.Café - Tous droits réservés"
+     * Correction appliquée uniquement dans src/pages/APropos.tsx
+     * Respect exact de la demande utilisateur
+
+   ## [0.3.404] - 2025-01-13
 ### Added
 - **Validation Zod** : Validation robuste des formulaires d'authentification
   * Validation côté client pour tous les formulaires (connexion, inscription, mot de passe oublié)

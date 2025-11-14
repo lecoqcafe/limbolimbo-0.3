@@ -78,7 +78,7 @@ const APropos = () => {
             </section>
 
             <section className="pt-2 space-y-2 text-sm md:text-base">
-              <p className="text-foreground">© 2024–2025 LeCOQ.Café</p>
+              <p className="text-foreground">© 2024–2025 LeCOQ.Café - Tous droits réservés</p>
               <p className="text-muted-foreground">
                 Version {version ?? "—"}{build ? ` — build ${build}` : ""}
               </p>
