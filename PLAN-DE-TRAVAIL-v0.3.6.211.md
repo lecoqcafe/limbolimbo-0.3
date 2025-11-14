@@ -1,4 +1,4 @@
-# PLAN DE TRAVAIL - v0.3.6.212 - Pages Légales
+# PLAN DE TRAVAIL - v0.3.6.211 - Pages Légales
 
 ## 🎯 OBJECTIF PRINCIPAL
 Créer les pages légales manquantes avec un design cohérent identique à la page `/a-propos`.
