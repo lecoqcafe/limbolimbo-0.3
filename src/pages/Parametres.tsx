@@ -1,12 +1,28 @@
 import { useAuth } from '@/hooks/useAuth';
-import { isSupabaseConfigured } from '@/lib/supabase';
+import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { User, Mail, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { User, Mail, AlertCircle, Shield, Trash2, Calendar, Clock, Star, Crown, Zap } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Parametres() {
   const { user } = useAuth();
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [notifications, setNotifications] = useState({
+    newOpportunities: true,
+    statusChanges: true,
+    newsletter: false
+  });
+  const [userStatus, setUserStatus] = useState('Actif'); // Sera récupéré depuis la base de données
 
   if (!isSupabaseConfigured) {
     return (
@@ -25,6 +41,136 @@ export default function Parametres() {
 
           <Card>
             <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                Sécurité
+              </CardTitle>
+              <CardDescription>
+                Gérez la sécurité de votre compte
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Button 
+                variant="outline" 
+                onClick={() => setShowPasswordForm(!showPasswordForm)}
+                className="w-full justify-start"
+              >
+                Modifier le mot de passe
+              </Button>
+              
+              {showPasswordForm && (
+                <div className="space-y-3 p-4 border rounded-lg">
+                  <div>
+                    <Label htmlFor="current-password">Mot de passe actuel</Label>
+                    <Input
+                      id="current-password"
+                      type="password"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="new-password">Nouveau mot de passe</Label>
+                    <Input
+                      id="new-password"
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="confirm-password">Confirmer le mot de passe</Label>
+                    <Input
+                      id="confirm-password"
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button onClick={() => setShowPasswordForm(false)} variant="outline">
+                      Annuler
+                    </Button>
+                    <Button onClick={() => {
+                      // TODO: Implémenter la logique de changement de mot de passe
+                      alert('Fonctionnalité à implémenter');
+                      setShowPasswordForm(false);
+                    }}>
+                      Confirmer
+                    </Button>
+                  </div>
+                </div>
+              )}
+              
+              <Button 
+                variant="destructive" 
+                className="w-full justify-start"
+                onClick={() => {
+                  if (window.confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.')) {
+                    if (window.confirm('CONFIRMATION FINALE : Toutes vos données seront perdues. Continuer ?')) {
+                      // TODO: Implémenter la logique de suppression
+                      alert('Fonctionnalité à implémenter');
+                    }
+                  }
+                }}
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                Supprimer mon compte
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Préférences</CardTitle>
+              <CardDescription>
+                Gérez vos préférences de notification
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium">Nouvelles opportunités</p>
+                  <p className="text-sm text-muted-foreground">Recevoir une alerte pour de nouvelles opportunités</p>
+                </div>
+                <Switch
+                  checked={notifications.newOpportunities}
+                  onCheckedChange={(checked) => 
+                    setNotifications(prev => ({ ...prev, newOpportunities: checked }))
+                  }
+                />
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium">Changements de statut</p>
+                  <p className="text-sm text-muted-foreground">Notifications sur les changements de vos opportunités</p>
+                </div>
+                <Switch
+                  checked={notifications.statusChanges}
+                  onCheckedChange={(checked) => 
+                    setNotifications(prev => ({ ...prev, statusChanges: checked }))
+                  }
+                />
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium">Infolettre mensuelle</p>
+                  <p className="text-sm text-muted-foreground">Résumé mensuel des nouvelles opportunités</p>
+                </div>
+                <Switch
+                  checked={notifications.newsletter}
+                  onCheckedChange={(checked) => 
+                    setNotifications(prev => ({ ...prev, newsletter: checked }))
+                  }
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
               <CardTitle>Pages légales</CardTitle>
               <CardDescription>
                 Informations importantes sur l'utilisation de l'application
@@ -37,20 +183,6 @@ export default function Parametres() {
               <Link to="/politique-confidentialite" className="block text-sm text-primary hover:underline">
                 Politique de confidentialité
               </Link>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Fonctionnalités à venir</CardTitle>
-              <CardDescription>
-                Cette page sera enrichie prochainement
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Les paramètres avancés seront disponibles dans une prochaine version.
-              </p>
             </CardContent>
           </Card>
         </div>
