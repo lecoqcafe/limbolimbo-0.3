@@ -76,9 +76,9 @@ export function trackVisit(opportunity: Opportunity, userId: string): void {
   const userData = getUserData(userId) || { userId, activities: [] };
   userData.activities.unshift(activity); // Ajouter au début (plus récent)
   
-  // Limiter à 500 activités maximum pour éviter la surcharge
-  if (userData.activities.length > 500) {
-    userData.activities = userData.activities.slice(0, 500);
+  // Limiter à 100 activités maximum pour éviter la surcharge
+  if (userData.activities.length > 100) {
+    userData.activities = userData.activities.slice(0, 100);
   }
   
   updateUserData(userData);
@@ -99,9 +99,9 @@ export function trackClick(opportunity: Opportunity, userId: string): void {
   const userData = getUserData(userId) || { userId, activities: [] };
   userData.activities.unshift(activity); // Ajouter au début (plus récent)
   
-  // Limiter à 500 activités maximum
-  if (userData.activities.length > 500) {
-    userData.activities = userData.activities.slice(0, 500);
+  // Limiter à 100 activités maximum
+  if (userData.activities.length > 100) {
+    userData.activities = userData.activities.slice(0, 100);
   }
   
   updateUserData(userData);
