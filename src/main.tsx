@@ -3,6 +3,7 @@ import App from "./App.tsx";
 import "./index.css";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { logger } from "@/lib/logger";
+import { registerServiceWorker } from "./serviceWorkerRegistration";
 
 // Vérifier la configuration au démarrage en production
 if (import.meta.env.PROD && !isSupabaseConfigured) {
@@ -42,5 +43,10 @@ logger.info('Application démarrée', {
   mode: import.meta.env.MODE,
   supabaseConfigured: isSupabaseConfigured,
 });
+
+// Enregistrer le Service Worker en production
+if (import.meta.env.PROD) {
+  registerServiceWorker();
+}
 
 createRoot(document.getElementById("root")!).render(<App />);
