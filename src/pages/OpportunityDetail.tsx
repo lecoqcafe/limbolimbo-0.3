@@ -13,6 +13,8 @@ import {
 import { openExternal } from "@/lib/utils";
 import LeCoqCafe from "@/assets/lecoqcafe.png";
 import { ExternalLink, FileText } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { upsertView, upsertClick } from "@/lib/history";
 
 const resolveImage = (file?: string, base = "/images/opps/"): string => {
   if (!file || !file.trim()) return "/placeholder.svg";
@@ -29,8 +31,12 @@ const resolveCategoryImage = (file?: string, base = "/images/categories/"): stri
 };
 
 const OpportunityDetail = () => {
+  const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const oppId = searchParams.get("id") || "";
+  const oppIdNum = Number(oppId);
+  const route = `/opportunite?id=${oppId}`;
+
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [oppCats, setOppCats] = useState<OpportunityCategory[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -48,6 +54,20 @@ const OpportunityDetail = () => {
     };
     fetchData();
   }, [oppId]);
+
+  // Instrumentation "Vu" (utilisateur connecté uniquement)
+  useEffect(() => {
+    if (!opportunity) return;
+    if (!user?.id) return;
+    if (!Number.isFinite(oppIdNum)) return;
+
+    upsertView(user.id, {
+      id: oppIdNum,
+      route,
+      title: opportunity.Opportunité,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [opportunity, user?.id, oppIdNum, route]);
 
   if (!opportunity) {
     return (
@@ -86,6 +106,17 @@ const OpportunityDetail = () => {
       img.onerror = null;
       img.src = "/placeholder.svg";
     }
+  };
+
+  // Instrumentation "Cliqué" au clic sur le lien d'affiliation
+  const handleAffiliateClick = () => {
+    if (!user?.id) return;
+    if (!Number.isFinite(oppIdNum)) return;
+    upsertClick(user.id, {
+      id: oppIdNum,
+      route,
+      title: opportunity.Opportunité,
+    });
   };
 
   return (
@@ -151,6 +182,9 @@ const OpportunityDetail = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2"
+                    data-role="affiliate-link"
+                    onClick={handleAffiliateClick}
+                    aria-label="Ouvrir le lien d'affiliation"
                   >
                     Découvrir l'opportunité
                     <ExternalLink className="h-5 w-5" />
