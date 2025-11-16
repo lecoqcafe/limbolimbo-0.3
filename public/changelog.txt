@@ -1,6 +1,14 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.3.812] - 2025-11-16
+### Fixed
+- TypeScript : correction de l'erreur de build dans /src/pages/Historique.tsx (attribut title invalide sur les composants SVG EyeIcon et ClickIcon remplacé par label, avec ajout d'un élément title enfant pour l'accessibilité).
+- Accessibilité : ajout des tooltips sur les conteneurs parents des icônes œil et clic pour maintenir l'infobulle au survol.
+### Notes
+- Build confirmé sans erreur : npm ci && npm run build.
+- Aucune modification de la logique métier ou des fonctionnalités existantes.
+
 ## [0.3.811] - 2025-11-16
 ### Added
 - Instrumentation locale sur /opportunite?id=… : événements « Vu » (à l’arrivée) et « Cliqué » (lien d’affiliation), persistés dans le stockage local par utilisateur (clé ll_history_v2::<user.id>).
