@@ -137,7 +137,7 @@ export default function Historique() {
         <CardHeader>
           <CardTitle>Votre activité</CardTitle>
           <CardDescription>
-            Les opportunités récemment vues ou cliquées. Affichage limité à 25 éléments.
+            Les opportunités récemment vues ou cliquées. Affichage limité aux 25 opportunités les plus récentes.
           </CardDescription>
         </CardHeader>
         <CardContent>
