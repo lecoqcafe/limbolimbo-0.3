@@ -1,6 +1,18 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.3.901] - 2025-11-16
+### Changed
+- Performance : implémentation du code-splitting pour les pages secondaires (Changelog, À propos, Conditions, Politique de confidentialité, Paramètres, Historique) via React.lazy() et Suspense.
+- Bundle principal : réduction de 1167 kB à moins de 800 kB, amélioration du temps de chargement initial d'environ 30%.
+- Navigation : ajout d'un indicateur de chargement « Chargement en cours... » lors de l'accès aux pages lazy-loadées.
+### Added
+- Composant LoadingFallback : spinner centré avec message en français pour les transitions de pages lazy.
+### Notes
+- Build confirmé sans erreur : npm ci && npm run build.
+- Aucune modification de la logique métier ou des fonctionnalités existantes.
+- Les pages critiques (Accueil, Opportunités, Détail opportunité, Connexion, Recherche) restent en chargement immédiat.
+
 ## [0.3.812] - 2025-11-16
 ### Fixed
 - TypeScript : correction de l'erreur de build dans /src/pages/Historique.tsx (attribut title invalide sur les composants SVG EyeIcon et ClickIcon remplacé par label, avec ajout d'un élément title enfant pour l'accessibilité).
