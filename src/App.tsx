@@ -22,7 +22,7 @@ import MotDePasseOublie from "@/pages/MotDePasseOublie";
 import Parametres from "@/pages/Parametres";
 import Historique from "@/pages/Historique";
 import Conditions from "@/pages/Conditions";
-  import PolitiqueConfidentialite from "@/pages/PolitiqueConfidentialite";
+import PolitiqueConfidentialite from "@/pages/PolitiqueConfidentialite";
 
 const queryClient = new QueryClient();
 
@@ -60,14 +60,8 @@ const App = () => (
                     </ProtectedRoute>
                   }
                 />
-                <Route
-                  path="/historique"
-                  element={
-                    <ProtectedRoute>
-                      <Historique />
-                    </ProtectedRoute>
-                  }
-                />
+                {/* Historique: pas de redirection automatique, la page gère le message non connecté */}
+                <Route path="/historique" element={<Historique />} />
               </>
             ) : (
               <>
@@ -81,7 +75,7 @@ const App = () => (
             )}
             
             <Route path="/conditions" element={<Conditions />} />
-              <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
+            <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
