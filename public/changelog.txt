@@ -1,23 +1,55 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
-   ## [0.3.631] - 2025-01-14
-   ### Added
-   - **Pages Légales** : Ajout complet des pages légales avec design cohérent
-     * Création de src/pages/PolitiqueConfidentialite.tsx avec contenu complet
-     * Mise à jour de src/pages/Conditions.tsx avec le contenu existant
-     * Design identique à la page APropos.tsx pour cohérence visuelle
-     * Ajout des routes /conditions et /politique-confidentialite dans App.tsx
-   - **Navigation Légale** : Ajout des liens vers pages légales
-     * Liens ajoutés dans la page APropos.tsx
-     * Liens ajoutés dans la page Parametres.tsx (avec et sans authentification)
-     * Navigation cohérente entre toutes les pages légales
-   - **Contenu Légal** : Rédaction de la Politique de Confidentialité
-     * Contenu adapté aux standards canadiens/québécois
-     * Informations sur collecte, utilisation et protection des données
-     * Droits des utilisateurs et coordonnées de contact
+## [0.3.812] - 2025-11-16
+### Fixed
+- TypeScript : correction de l'erreur de build dans /src/pages/Historique.tsx (attribut title invalide sur les composants SVG EyeIcon et ClickIcon remplacé par label, avec ajout d'un élément title enfant pour l'accessibilité).
+- Accessibilité : ajout des tooltips sur les conteneurs parents des icônes œil et clic pour maintenir l'infobulle au survol.
+### Notes
+- Build confirmé sans erreur : npm ci && npm run build.
+- Aucune modification de la logique métier ou des fonctionnalités existantes.
 
-   ## [0.3.621] - 2025-01-14\n   ### Fixed\n   - **Copyright** : Ajout de "Tous droits réservés" dans la page À propos\n     * Modification de src/pages/APropos.tsx\n     * Copyright maintenant affiche "© 2024–2025 LeCOQ.Café - Tous droits réservés"\n   - **Version** : Mise à jour du numéro de version vers 0.3.621\n     * Correction du format de numérotation pour suivre la logique v0.X.YYZ\n     * Mise à jour de public/version.json
+## [0.3.811] - 2025-11-16
+### Added
+- Instrumentation locale sur /opportunite?id=… : événements « Vu » (à l’arrivée) et « Cliqué » (lien d’affiliation), persistés dans le stockage local par utilisateur (clé ll_history_v2::<user.id>).
+- Service d’historique /src/lib/history.ts : upsert, statut monotone (0<1<2), tri par lastActivityTs décroissant, purge automatique à 200 éléments.
+### Changed
+- Page /historique : refonte en liste unique 4 colonnes [Titre][piggy][œil][clic], affichage limité à 25 éléments, icônes SVG inline, tooltips et libellés aria explicites.
+- Routage : /historique ne redirige plus automatiquement si non connecté ; un message avec bouton « Se connecter » est affiché.
+### Fixed
+- Titre : repli en lecture seule depuis public/data/opp_id.csv lorsque le titre n’est pas disponible depuis la page opportunité.
+- PWA : l’icône « piggy » ouvre l’opportunité dans le même onglet (navigation cohérente).
+### Security
+- Aucune dépendance externe ajoutée ; aucune modification sous /public.
+### Notes
+- Build attendu sans erreur : npm ci && npm run build.
+- Aucune migration de données : l’historique est local au navigateur et isolé par utilisateur.
+
+## [0.3.631] - 2025-01-14
+### Added
+- **Pages Légales** : Ajout complet des pages légales avec design cohérent
+  * Création de src/pages/PolitiqueConfidentialite.tsx avec contenu complet
+  * Mise à jour de src/pages/Conditions.tsx avec le contenu existant
+  * Design identique à la page APropos.tsx pour cohérence visuelle
+  * Ajout des routes /conditions et /politique-confidentialite dans App.tsx
+- **Navigation Légale** : Ajout des liens vers pages légales
+  * Liens ajoutés dans la page APropos.tsx
+  * Liens ajoutés dans la page Parametres.tsx (avec et sans authentification)
+  * Navigation cohérente entre toutes les pages légales
+- **Contenu Légal** : Rédaction de la Politique de Confidentialité
+  * Contenu adapté aux standards canadiens/québécois
+  * Informations sur collecte, utilisation et protection des données
+  * Droits des utilisateurs et coordonnées de contact
+
+## [0.3.621] - 2025-01-14
+### Fixed
+- **Copyright** : Ajout de "Tous droits réservés" dans la page À propos
+  * Modification de src/pages/APropos.tsx
+  * Copyright maintenant affiche "© 2024–2025 LeCOQ.Café - Tous droits réservés"
+- **Version** : Mise à jour du numéro de version vers 0.3.621
+  * Correction du format de numérotation pour suivre la logique v0.X.YYZ
+  * Mise à jour de public/version.json
+
 ## [0.3.404] - 2025-01-13
 ### Added
 - **Validation Zod** : Validation robuste des formulaires d'authentification
