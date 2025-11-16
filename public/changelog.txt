@@ -1,6 +1,10 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.3.902] - 2025-11-16
+### Changed
+- Formulation sur la page Historique
+
 ## [0.3.901] - 2025-11-16
 ### Changed
 - Performance : implémentation du code-splitting pour les pages secondaires (Changelog, À propos, Conditions, Politique de confidentialité, Paramètres, Historique) via React.lazy() et Suspense.
