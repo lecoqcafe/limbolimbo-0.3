@@ -6,7 +6,57 @@ import { loadOpportunities } from '@/lib/csvParser';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Piggy from '@/assets/piggy.png';
-import { Eye, MousePointerClick } from 'lucide-react';
+
+// Icône Lucide "Eye" inline
+function EyeIcon({ className, title = 'Vu' }: { className?: string; title?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      role="img"
+      aria-label={title}
+      title={title}
+    >
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+      <circle cx="12" cy="12" r="3"></circle>
+    </svg>
+  );
+}
+
+// Icône "Mouse Pointer Click" inline (style Lucide)
+function ClickIcon({ className, title = 'Cliqué' }: { className?: string; title?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      role="img"
+      aria-label={title}
+      title={title}
+    >
+      {/* Pointeur */}
+      <path d="M3 3l7 18 2-7 7-2L3 3z"></path>
+      {/* Lignes de clic */}
+      <path d="M14 14l7 7"></path>
+      <path d="M16 8l4-4"></path>
+      <path d="M12 6V2"></path>
+      <path d="M6 12H2"></path>
+    </svg>
+  );
+}
 
 export default function Historique() {
   const { user } = useAuth();
@@ -33,7 +83,7 @@ export default function Historique() {
         }
         setTitleMap(map);
       } catch {
-        // Silencieux: le fallback est optionnel, on ne casse pas l'UI
+        // Silencieux
       }
     };
     run();
@@ -127,22 +177,12 @@ export default function Historique() {
 
                     {/* Colonne 3: Icône “œil” (toujours clair, statut ≥ 1) */}
                     <div className="flex items-center justify-center">
-                      <Eye
-                        className="w-6 h-6 text-foreground"
-                        aria-hidden="true"
-                        aria-label="Vu"
-                        title="Vu"
-                      />
+                      <EyeIcon className="w-6 h-6 text-foreground" title="Vu" />
                     </div>
 
                     {/* Colonne 4: Icône “clic” (gris si jamais cliqué, clair si déjà cliqué) */}
                     <div className="flex items-center justify-center">
-                      <MousePointerClick
-                        className={`w-6 h-6 ${clickClasses}`}
-                        aria-hidden="true"
-                        aria-label={clicked ? 'Cliqué' : 'Jamais cliqué'}
-                        title={clicked ? 'Cliqué' : 'Jamais cliqué'}
-                      />
+                      <ClickIcon className={`w-6 h-6 ${clickClasses}`} title={clicked ? 'Cliqué' : 'Jamais cliqué'} />
                     </div>
                   </div>
                 );
