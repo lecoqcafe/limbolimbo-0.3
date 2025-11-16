@@ -1,6 +1,14 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.4.003] - 2025-11-16
+### Changed
+- Icônes des catégories avec un fond gris pâle.
+
+## [0.4.002] - 2025-11-16
+### Changed
+- Fichier package-lock.json : Causait des problèmes durant npm.
+
 ## [0.4.001] - 2025-11-16
 ### Added
 - **Progressive Web App (PWA)** : Transformation de LIMBOLIMBO en application installable sur mobile et desktop
