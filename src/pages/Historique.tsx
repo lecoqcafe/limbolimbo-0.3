@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import Piggy from '@/assets/piggy.png';
 
 // Icône Lucide "Eye" inline
-function EyeIcon({ className, title = 'Vu' }: { className?: string; title?: string }) {
+function EyeIcon({ className, label = 'Vu' }: { className?: string; label?: string }) {
   return (
     <svg
       className={className}
@@ -21,9 +21,9 @@ function EyeIcon({ className, title = 'Vu' }: { className?: string; title?: stri
       strokeLinecap="round"
       strokeLinejoin="round"
       role="img"
-      aria-label={title}
-      title={title}
+      aria-label={label}
     >
+      <title>{label}</title>
       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
       <circle cx="12" cy="12" r="3"></circle>
     </svg>
@@ -31,7 +31,7 @@ function EyeIcon({ className, title = 'Vu' }: { className?: string; title?: stri
 }
 
 // Icône "Mouse Pointer Click" inline (style Lucide)
-function ClickIcon({ className, title = 'Cliqué' }: { className?: string; title?: string }) {
+function ClickIcon({ className, label = 'Cliqué' }: { className?: string; label?: string }) {
   return (
     <svg
       className={className}
@@ -44,9 +44,9 @@ function ClickIcon({ className, title = 'Cliqué' }: { className?: string; title
       strokeLinecap="round"
       strokeLinejoin="round"
       role="img"
-      aria-label={title}
-      title={title}
+      aria-label={label}
     >
+      <title>{label}</title>
       {/* Pointeur */}
       <path d="M3 3l7 18 2-7 7-2L3 3z"></path>
       {/* Lignes de clic */}
@@ -108,7 +108,7 @@ export default function Historique() {
           <Card>
             <CardHeader>
               <CardTitle>Veuillez vous connecter</CardTitle>
-              <CardDescription>Connectez-vous pour voir votre historique d’opportunités.</CardDescription>
+              <CardDescription>Connectez-vous pour voir votre historique d'opportunités.</CardDescription>
             </CardHeader>
             <CardContent className="flex items-center gap-3">
               <Button asChild>
@@ -117,8 +117,8 @@ export default function Historique() {
                 </Link>
               </Button>
               <Button asChild variant="secondary">
-                <Link to="/" aria-label="Retour à l’accueil" title="Retour à l’accueil">
-                  Retour à l’accueil
+                <Link to="/" aria-label="Retour à l'accueil" title="Retour à l'accueil">
+                  Retour à l'accueil
                 </Link>
               </Button>
             </CardContent>
@@ -158,12 +158,12 @@ export default function Historique() {
                       {row.displayTitle}
                     </div>
 
-                    {/* Colonne 2: Icône “piggy” (ouvre l’opportunité dans le même onglet) */}
+                    {/* Colonne 2: Icône "piggy" (ouvre l'opportunité dans le même onglet) */}
                     <div className="flex items-center justify-center">
                       <Link
                         to={row.route || `/opportunite?id=${row.id}`}
-                        aria-label="Ouvrir l’opportunité"
-                        title="Ouvrir l’opportunité"
+                        aria-label="Ouvrir l'opportunité"
+                        title="Ouvrir l'opportunité"
                         className="inline-flex"
                       >
                         <img
@@ -175,14 +175,14 @@ export default function Historique() {
                       </Link>
                     </div>
 
-                    {/* Colonne 3: Icône “œil” (toujours clair, statut ≥ 1) */}
-                    <div className="flex items-center justify-center">
-                      <EyeIcon className="w-6 h-6 text-foreground" title="Vu" />
+                    {/* Colonne 3: Icône "œil" (toujours clair, statut ≥ 1) */}
+                    <div className="flex items-center justify-center" title="Vu">
+                      <EyeIcon className="w-6 h-6 text-foreground" label="Vu" />
                     </div>
 
-                    {/* Colonne 4: Icône “clic” (gris si jamais cliqué, clair si déjà cliqué) */}
-                    <div className="flex items-center justify-center">
-                      <ClickIcon className={`w-6 h-6 ${clickClasses}`} title={clicked ? 'Cliqué' : 'Jamais cliqué'} />
+                    {/* Colonne 4: Icône "clic" (gris si jamais cliqué, clair si déjà cliqué) */}
+                    <div className="flex items-center justify-center" title={clicked ? 'Cliqué' : 'Jamais cliqué'}>
+                      <ClickIcon className={`w-6 h-6 ${clickClasses}`} label={clicked ? 'Cliqué' : 'Jamais cliqué'} />
                     </div>
                   </div>
                 );
