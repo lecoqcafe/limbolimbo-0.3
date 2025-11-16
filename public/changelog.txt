@@ -1,6 +1,47 @@
 # Changelog
 Format: Keep a Changelog. Versioning: SemVer.
 
+## [0.4.001] - 2025-11-16
+### Added
+- **Progressive Web App (PWA)** : Transformation de LIMBOLIMBO en application installable sur mobile et desktop
+  * Fichier manifest.json configuré avec nom, description, icônes et paramètres PWA
+  * Service Worker basique avec cache des assets statiques pour amélioration des performances
+  * Icônes maskable 192x192 et 512x512 pour Android avec safe zone de 40%
+  * Balises meta PWA pour iOS (apple-mobile-web-app-capable, apple-mobile-web-app-status-bar-style)
+  * Module serviceWorkerRegistration.ts pour enregistrement automatique du Service Worker en production
+- **Installabilité** : Application peut maintenant être installée sur écran d'accueil mobile et desktop
+  * Bouton "Installer" disponible sur Chrome Android
+  * Option "Ajouter à l'écran d'accueil" disponible sur iOS Safari
+  * Mode standalone : application s'ouvre sans barre d'adresse du navigateur
+  * Splash screen au démarrage sur Android avec icône et couleurs de marque
+
+### Changed
+- Manifest : mise à jour du short_name vers "LIMBO", description vers "Découvrez des opportunités exceptionnelles", theme_color vers "#8B5CF6" (violet primary)
+- Manifest : ajout des propriétés orientation "portrait", scope "/", lang "fr"
+- Manifest : séparation des icônes avec purpose "any" et "maskable" pour compatibilité Android optimale
+- Index HTML : correction meta theme-color vers "#8B5CF6" pour cohérence avec la charte graphique
+- Main : ajout de l'enregistrement automatique du Service Worker en mode production uniquement
+
+### Technical
+- Nouveaux fichiers :
+  * /public/sw.js : Service Worker avec stratégie cache-first pour assets statiques
+  * /src/serviceWorkerRegistration.ts : Module TypeScript pour enregistrement du Service Worker
+  * /public/icon-maskable-192x192.png : Icône maskable 192px pour Android
+  * /public/icon-maskable-512x512.png : Icône maskable 512px pour Android
+- Fichiers modifiés :
+  * /public/manifest.json : Configuration PWA complète
+  * /index.html : Ajout balises meta PWA et iOS
+  * /src/main.tsx : Intégration enregistrement Service Worker
+- Build validé sans erreur : npm ci && npm run build
+- Score Lighthouse PWA attendu : supérieur à 80
+
+### Notes
+- Aucune modification de la logique métier ou des fonctionnalités existantes
+- L'application reste accessible via navigateur sans installation obligatoire
+- Le Service Worker ne modifie pas le comportement de l'application, il améliore uniquement les performances de chargement
+- Compatibilité maintenue avec le code-splitting de la version 0.3.901
+- Préparation pour futures fonctionnalités offline dans versions ultérieures
+
 ## [0.3.902] - 2025-11-16
 ### Changed
 - Formulation sur la page Historique
